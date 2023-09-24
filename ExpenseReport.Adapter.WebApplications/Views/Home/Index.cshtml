@@ -1,0 +1,10 @@
+﻿<div class="text-center">
+    <p>@ViewData.Model.reportTitle()</p>
+    @foreach (var individualExpense in @ViewData.Model.displayIndividualExpenses())
+    {
+        <p>@individualExpense</p>
+    }
+    <p>@ViewData.Model.mealExpenseTotal()</p>
+    <p>@ViewData.Model.TotalExpenses()</p>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>

@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpenseReport.Domain", "Exp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpenseReport.Application", "ExpenseReport.Application\ExpenseReport.Application.csproj", "{D9494816-128C-4782-B89D-EFC9CA560B56}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpenseReport.Adapter.WebApplications", "ExpenseReport.Adapter.WebApplications\ExpenseReport.Adapter.WebApplications.csproj", "{19BE254C-BC49-496E-89BE-EDD1E9E4CA05}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{D9494816-128C-4782-B89D-EFC9CA560B56}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D9494816-128C-4782-B89D-EFC9CA560B56}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D9494816-128C-4782-B89D-EFC9CA560B56}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19BE254C-BC49-496E-89BE-EDD1E9E4CA05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19BE254C-BC49-496E-89BE-EDD1E9E4CA05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19BE254C-BC49-496E-89BE-EDD1E9E4CA05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19BE254C-BC49-496E-89BE-EDD1E9E4CA05}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
