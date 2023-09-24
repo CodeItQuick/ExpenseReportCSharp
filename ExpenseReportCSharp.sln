@@ -1,8 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpenseReportCSharp", "ExpenseReportCSharp\ExpenseReportCSharp.csproj", "{2EA6351B-5B8E-4035-BBAA-AA9C4F4B0FC8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adapter.ConsoleApp", "Adapter.ConsoleApp\Adapter.ConsoleApp.csproj", "{2EA6351B-5B8E-4035-BBAA-AA9C4F4B0FC8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{61909A7D-6AD2-4D4E-90E2-5AC70B17CAA8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{7C760423-7F58-4CE1-8CFE-009E68F6FB40}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{D9494816-128C-4782-B89D-EFC9CA560B56}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,5 +22,13 @@ Global
 		{61909A7D-6AD2-4D4E-90E2-5AC70B17CAA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{61909A7D-6AD2-4D4E-90E2-5AC70B17CAA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{61909A7D-6AD2-4D4E-90E2-5AC70B17CAA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C760423-7F58-4CE1-8CFE-009E68F6FB40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C760423-7F58-4CE1-8CFE-009E68F6FB40}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C760423-7F58-4CE1-8CFE-009E68F6FB40}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C760423-7F58-4CE1-8CFE-009E68F6FB40}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9494816-128C-4782-B89D-EFC9CA560B56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9494816-128C-4782-B89D-EFC9CA560B56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9494816-128C-4782-B89D-EFC9CA560B56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9494816-128C-4782-B89D-EFC9CA560B56}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

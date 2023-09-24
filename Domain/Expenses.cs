@@ -1,4 +1,4 @@
-namespace ExpenseReportCSharp.Domain;
+namespace Domain;
 
 public class Expenses
 {

@@ -1,7 +1,6 @@
-using ExpenseReportCSharp.Adapter;
-using ExpenseReportCSharp.Domain;
+using Domain;
 
-namespace ExpenseReportCSharp.Services;
+namespace Application.Services;
 
 public class ExpensesService
 {

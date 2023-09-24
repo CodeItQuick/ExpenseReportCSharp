@@ -1,9 +1,10 @@
-using ExpenseReportCSharp.Adapter;
-using ExpenseReportCSharp.Services;
+ using Application.Services;
+ using Domain;
+ using ExpenseReportCSharp.Adapter;
 
 namespace Tests;
 
-public class Tests
+public class AcceptanceTests
 {
     [Fact]
     public void EmptyExpenseReportShowsEmptyReceipt()

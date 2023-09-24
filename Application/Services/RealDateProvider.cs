@@ -1,4 +1,4 @@
-namespace ExpenseReportCSharp.Services;
+namespace Application.Services;
 
 public class RealDateProvider : DateProvider
 {

@@ -1,4 +1,4 @@
-namespace ExpenseReportCSharp.Services;
+namespace Domain;
 
 public enum ExpenseType
 {
