@@ -16,8 +16,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Application\Application.csproj" />
-      <ProjectReference Include="..\Domain\Domain.csproj" />
+      <ProjectReference Include="..\ExpenseReport.Application\ExpenseReport.Application.csproj" />
+      <ProjectReference Include="..\ExpenseReport.Domain\ExpenseReport.Domain.csproj" />
     </ItemGroup>
 
 </Project>

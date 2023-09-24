@@ -22,7 +22,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Adapter.ConsoleApp\Adapter.ConsoleApp.csproj" />
+      <ProjectReference Include="..\ExpenseReport.Adapter.ConsoleApp\ExpenseReport.Adapter.ConsoleApp.csproj" />
     </ItemGroup>
 
 </Project>

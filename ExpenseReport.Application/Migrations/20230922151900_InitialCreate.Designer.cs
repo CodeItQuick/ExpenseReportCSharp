@@ -6,18 +6,21 @@
 using Application.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ExpenseReportCSharp.Migrations
 {
     [DbContext(typeof(ExpensesContext))]
-    partial class BloggingContextModelSnapshot : ModelSnapshot
+    [Migration("20230922151900_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.11");
 
-            modelBuilder.Entity("Adapter.ConsoleApp.Services.ExpenseDto", b =>
+            modelBuilder.Entity("ExpenseReport.Adapter.ConsoleApp.Services.ExpenseDto", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
