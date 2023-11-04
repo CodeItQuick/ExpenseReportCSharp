@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
 using WebApplication1.Models;
 using Application.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace WebApplication1.Controllers;
 

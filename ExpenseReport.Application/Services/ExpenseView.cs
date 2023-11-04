@@ -3,15 +3,15 @@ namespace Application.Services;
 public class ExpenseView
 {
     private int mealExpenses;
-    private int totalExpense;
+    private int totalExpenses;
     private String expenseDate;
     private List<String> individualExpenses;
 
-    public ExpenseView(int mealExpenses, int total, String expenseDate, List<String> individualExpensesTwo) {
+    public ExpenseView(int mealExpenses, int totalExpenses, String expenseDate, List<String> individualExpenses) {
         this.mealExpenses = mealExpenses;
-        this.totalExpense = total;
+        this.totalExpenses = totalExpenses;
         this.expenseDate = expenseDate;
-        this.individualExpenses = individualExpensesTwo;
+        this.individualExpenses = individualExpenses;
     }
 
     public List<string> displayIndividualExpenses() {
@@ -32,7 +32,7 @@ public class ExpenseView
     }
 
     public string TotalExpenses() {
-        return "Total expenses: " + this.totalExpense;
+        return "Total expenses: " + this.totalExpenses;
     }
     
 }
