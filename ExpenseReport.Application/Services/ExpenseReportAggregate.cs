@@ -4,12 +4,13 @@ namespace Application.Services;
 
 public class ExpensesReportAggregate
 {
-    private readonly List<Expenses> expenses;
     public int Id { get; set; }
+    private readonly List<Expenses> expenses;
     
-    public ExpensesReportAggregate(List<Expenses> expenses)
+    public ExpensesReportAggregate(List<Expenses> expenses, int id)
     {
         this.expenses = expenses;
+        Id = id;
     }
 
     public List<Expense> RetrieveExpenseList()

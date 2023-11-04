@@ -15,7 +15,7 @@ public class ExistingExpensesRepository
     {
         var expensesList = expensesContext.Expenses.ToList();
         var expenseList = expensesList;
-        var expensesReportAggregate = new ExpensesReportAggregate(expenseList);
+        var expensesReportAggregate = new ExpensesReportAggregate(expenseList, id);
         return expensesReportAggregate;
     }
 

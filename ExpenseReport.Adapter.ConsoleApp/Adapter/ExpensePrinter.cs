@@ -24,7 +24,7 @@ public class ExpensePrinter
     }
 
     public void PrintExistingReport() {
-        ExpenseView expenseView = expensesService.viewExpenses();
+        ExpenseView expenseView = expensesService.ViewExpenses();
 
         this.systemOutProvider.ServicePrint(expenseView.reportTitle());
         foreach(string expenseMessage in expenseView.displayIndividualExpenses()) {

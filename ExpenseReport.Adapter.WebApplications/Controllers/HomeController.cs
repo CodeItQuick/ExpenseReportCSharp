@@ -18,7 +18,7 @@ public class HomeController : Controller
 
     public ActionResult<ExpenseView> Index()
     {
-        var viewExpenses = _expenseService.viewExpenses();
+        var viewExpenses = _expenseService.ViewExpenses();
         return View(viewExpenses);
     }
 

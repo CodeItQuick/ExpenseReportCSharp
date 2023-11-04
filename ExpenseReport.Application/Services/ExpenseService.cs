@@ -16,10 +16,10 @@ public class ExpensesService
         expenseRepository = new ExistingExpensesRepository();
     }
 
-    public ExpenseView viewExpenses() {
+    public ExpenseView ViewExpenses() {
         var expensesReportAggregate = expenseRepository.GetExpenseReport(1);
 
-        Domain.ExpenseReport expenseReport = new Domain.ExpenseReport(expensesReportAggregate.RetrieveExpenseList());
+        ExpenseReport expenseReport = new ExpenseReport(expensesReportAggregate.RetrieveExpenseList());
         int mealExpenses = expenseReport.CalculateMealExpenses();
         int total = expenseReport.CalculateTotalExpenses();
         List<String> individualExpenses = expenseReport.CalculateIndividualExpenses();
