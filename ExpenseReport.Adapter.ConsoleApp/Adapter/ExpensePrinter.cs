@@ -9,7 +9,7 @@ public class ExpensePrinter
     private SystemOutProvider systemOutProvider;
     private ExpensesService expensesService;
 
-    public ExpensePrinter(DateProvider dateProvider, List<ExpenseDto> expenseList, SystemOutProvider systemOutProvider) {
+    public ExpensePrinter(DateProvider dateProvider, List<Expenses> expenseList, SystemOutProvider systemOutProvider) {
         this.systemOutProvider = systemOutProvider;
         this.expensesService = new ExpensesService(dateProvider, expenseList);
     }

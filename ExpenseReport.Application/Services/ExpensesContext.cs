@@ -4,7 +4,7 @@ namespace Application.Services;
 
 public class ExpensesContext : DbContext
 {
-    public DbSet<ExpenseDto> Expenses { get; set; }
+    public DbSet<Expenses> Expenses { get; set; }
     public string DbPath { get; }
 
     public ExpensesContext()

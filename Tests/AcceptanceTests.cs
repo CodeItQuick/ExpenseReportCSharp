@@ -1,8 +1,9 @@
  using Application.Services;
  using Domain;
  using ExpenseReportCSharp.Adapter;
+ using Expenses = Application.Services.Expenses;
 
-namespace Tests;
+ namespace Tests;
 
 public class AcceptanceTests
 {
@@ -11,7 +12,7 @@ public class AcceptanceTests
     {
         FakeSystemOutProvider systemOutProvider = new FakeSystemOutProvider();
         ExpensePrinter expensePrinter = new ExpensePrinter(
-            new FakeDateProvider(DateTimeOffset.Parse("2023-04-05")), new List<ExpenseDto>(),
+            new FakeDateProvider(DateTimeOffset.Parse("2023-04-05")), new List<Expenses>(),
             systemOutProvider);
 
         expensePrinter.PrintExistingReport();
@@ -27,11 +28,11 @@ public class AcceptanceTests
     [Fact]
     public void OneBreakfastExpenseReportShowsMealExpense()
     {
-        ExpenseDto expense = new ExpenseDto(ExpenseType.BREAKFAST, 10);
+        Expenses expense = new Expenses(ExpenseType.BREAKFAST, 10);
         FakeSystemOutProvider systemOutProvider = new FakeSystemOutProvider();
         ExpensePrinter expensePrinter = new ExpensePrinter(
             new FakeDateProvider(DateTimeOffset.Parse("2023-04-05")),
-            new List<ExpenseDto>() { expense },
+            new List<Expenses>() { expense },
             systemOutProvider);
 
         expensePrinter.PrintExistingReport();
@@ -48,11 +49,11 @@ public class AcceptanceTests
     [Fact]
     public void OneDinnerExpenseReportShowsMealExpense()
     {
-        ExpenseDto expense = new ExpenseDto(ExpenseType.DINNER, 10);
+        Expenses expense = new Expenses(ExpenseType.DINNER, 10);
         FakeSystemOutProvider systemOutProvider = new FakeSystemOutProvider();
         ExpensePrinter expensePrinter = new ExpensePrinter(
             new FakeDateProvider(DateTimeOffset.Parse("2023-04-05")),
-            new List<ExpenseDto>() { expense },
+            new List<Expenses>() { expense },
             systemOutProvider);
 
         expensePrinter.PrintExistingReport();
@@ -69,11 +70,11 @@ public class AcceptanceTests
     [Fact]
     public void OneCarRentalExpenseReportShowsMealExpense()
     {
-        ExpenseDto expense = new ExpenseDto(ExpenseType.CAR_RENTAL, 10);
+        Expenses expense = new Expenses(ExpenseType.CAR_RENTAL, 10);
         FakeSystemOutProvider systemOutProvider = new FakeSystemOutProvider();
         ExpensePrinter expensePrinter = new ExpensePrinter(
             new FakeDateProvider(DateTimeOffset.Parse("2023-04-05")),
-            new List<ExpenseDto>() { expense },
+            new List<Expenses>() { expense },
             systemOutProvider);
 
         expensePrinter.PrintExistingReport();
@@ -90,11 +91,11 @@ public class AcceptanceTests
     [Fact]
     public void OneDinnerExpenseOverMaximumReportShowsMealExpenseAndMarker()
     {
-        ExpenseDto expense = new ExpenseDto(ExpenseType.DINNER, 5010);
+        Expenses expense = new Expenses(ExpenseType.DINNER, 5010);
         FakeSystemOutProvider systemOutProvider = new FakeSystemOutProvider();
         ExpensePrinter expensePrinter = new ExpensePrinter(
             new FakeDateProvider(DateTimeOffset.Parse("2023-04-05")),
-            new List<ExpenseDto>() { expense },
+            new List<Expenses>() { expense },
             systemOutProvider);
 
         expensePrinter.PrintExistingReport();
@@ -111,11 +112,11 @@ public class AcceptanceTests
     [Fact]
     public void OneBreakfastExpenseOverMaximumReportShowsMealExpenseAndMarker()
     {
-        ExpenseDto expense = new ExpenseDto(ExpenseType.BREAKFAST, 1010);
+        Expenses expense = new Expenses(ExpenseType.BREAKFAST, 1010);
         FakeSystemOutProvider systemOutProvider = new FakeSystemOutProvider();
         ExpensePrinter expensePrinter = new ExpensePrinter(
             new FakeDateProvider(DateTimeOffset.Parse("2023-04-05")),
-            new List<ExpenseDto>() { expense },
+            new List<Expenses>() { expense },
             systemOutProvider);
 
         expensePrinter.PrintExistingReport();
@@ -132,13 +133,13 @@ public class AcceptanceTests
     [Fact]
     public void MultipleMealsReportShowsAllExpenses()
     {
-        ExpenseDto firstExpense = new ExpenseDto(ExpenseType.BREAKFAST, 500);
-        ExpenseDto secondExpense = new ExpenseDto(ExpenseType.DINNER, 5010);
-        ExpenseDto thirdExpense = new ExpenseDto(ExpenseType.CAR_RENTAL, 1010);
+        Expenses firstExpense = new Expenses(ExpenseType.BREAKFAST, 500);
+        Expenses secondExpense = new Expenses(ExpenseType.DINNER, 5010);
+        Expenses thirdExpense = new Expenses(ExpenseType.CAR_RENTAL, 1010);
         FakeSystemOutProvider fakeSystemOutProvider = new FakeSystemOutProvider();
         ExpensePrinter expensePrinter = new ExpensePrinter(
             new FakeDateProvider(DateTimeOffset.Parse("2023-04-05")),
-            new List<ExpenseDto>() { firstExpense, secondExpense, thirdExpense },
+            new List<Expenses>() { firstExpense, secondExpense, thirdExpense },
             fakeSystemOutProvider);
 
         expensePrinter.PrintExistingReport();

@@ -4,29 +4,26 @@ namespace Application.Services;
 
 public class ExpensesService
 {
-    private ExistingExpensesRepository expenseRepository;
-    private DateProvider dateProvider;
+    private readonly ExistingExpensesRepository expenseRepository;
+    private readonly DateProvider dateProvider;
 
-    public ExpensesService(DateProvider dateProvider, List<ExpenseDto> expenseList) : this(dateProvider) {
-        this.expenseRepository.ReplaceAllExpenses(expenseList);
+    public ExpensesService(DateProvider dateProvider, List<Expenses> expenseList) : this(dateProvider) {
+        expenseRepository.ReplaceAllExpenses(expenseList);
     }
 
     public ExpensesService(DateProvider? dateProvider) {
         this.dateProvider = dateProvider ?? new RealDateProvider();
-        this.expenseRepository = new ExistingExpensesRepository();
+        expenseRepository = new ExistingExpensesRepository();
     }
 
     public ExpenseView viewExpenses() {
-        List<ExpenseDto> allExpenses = this.expenseRepository.AllExpenses();
-        List<Expense> transformToDomain = allExpenses
-            .Select(x => new Expense(x.ExpenseType, x.Amount))
-            .ToList();
+        var expensesReportAggregate = expenseRepository.GetExpenseReport(1);
 
-        Expenses expenses = new Expenses(transformToDomain);
+        Domain.Expenses expenses = new Domain.Expenses(expensesReportAggregate.RetrieveExpenseList());
         int mealExpenses = expenses.calculateMealExpenses();
         int total = expenses.calculateTotalExpenses();
         List<String> individualExpenses = expenses.calculateIndividualExpenses();
 
-        return new ExpenseView(mealExpenses, total, this.dateProvider.CurrentDate().ToString(), individualExpenses);
+        return new ExpenseView(mealExpenses, total, dateProvider.CurrentDate().ToString(), individualExpenses);
     }
 }
