@@ -32,4 +32,9 @@ public class ExpenseReport
         }
         return mealExpenses;
     }
+
+    public void AddExpense(Expense firstExpense)
+    {
+        expenses.Add(firstExpense);
+    }
 }
