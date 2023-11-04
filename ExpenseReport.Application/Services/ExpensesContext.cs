@@ -5,6 +5,7 @@ namespace Application.Services;
 public class ExpensesContext : DbContext
 {
     public DbSet<Expenses> Expenses { get; set; }
+    public DbSet<ExpensesReportAggregate> ExpenseReportAggregates { get; set; }
     public string DbPath { get; }
 
     public ExpensesContext()

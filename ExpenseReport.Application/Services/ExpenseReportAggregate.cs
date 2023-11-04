@@ -1,21 +1,31 @@
+using System.ComponentModel.DataAnnotations;
 using Domain;
 
 namespace Application.Services;
 
-public class ExpensesReportAggregate
+public sealed class ExpensesReportAggregate
 {
+    [Key]
     public int Id { get; set; }
-    private readonly List<Expenses> expenses;
-    
+
+    public List<Expenses> Expenses { get; set; }
+
+    public ExpensesReportAggregate()
+    {
+        var expensesContext = new ExpensesContext();
+        Expenses = expensesContext.Expenses.ToList();
+        Id = 1;
+    }
+
     public ExpensesReportAggregate(List<Expenses> expenses, int id)
     {
-        this.expenses = expenses;
+        this.Expenses = expenses;
         Id = id;
     }
 
     public List<Expense> RetrieveExpenseList()
     {
-        return expenses
+        return Expenses
             .Select(x => new Expense(x.ExpenseType, x.Amount))
             .ToList();
     }
