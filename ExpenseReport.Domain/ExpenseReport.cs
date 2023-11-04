@@ -1,14 +1,14 @@
 namespace Domain;
 
-public class Expenses
+public class ExpenseReport
 {
     private List<Expense> expenses;
 
-    public Expenses(List<Expense> expenses) {
+    public ExpenseReport(List<Expense> expenses) {
         this.expenses = expenses;
     }
 
-    public List<String> calculateIndividualExpenses() {
+    public List<String> CalculateIndividualExpenses() {
         List<string> displayExpenses = new List<string>();
         foreach (Expense expense in this.expenses) {
             String label = expense.expenseType() + "\t" + expense.Amount() + "\t" + expense.isOverExpensedMeal();
@@ -17,17 +17,17 @@ public class Expenses
         return displayExpenses;
     }
 
-    public int calculateTotalExpenses() {
+    public int CalculateTotalExpenses() {
         int total = 0;
-        foreach (Expense expense in this.expenses) {
+        foreach (Expense expense in expenses) {
             total += expense.Amount();
         }
         return total;
     }
 
-    public int calculateMealExpenses() {
+    public int CalculateMealExpenses() {
         int mealExpenses = 0;
-        foreach (Expense expense in this.expenses) {
+        foreach (Expense expense in expenses) {
             mealExpenses += expense.calculateMealExpenses();
         }
         return mealExpenses;

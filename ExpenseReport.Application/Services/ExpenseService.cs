@@ -19,10 +19,10 @@ public class ExpensesService
     public ExpenseView viewExpenses() {
         var expensesReportAggregate = expenseRepository.GetExpenseReport(1);
 
-        Domain.Expenses expenses = new Domain.Expenses(expensesReportAggregate.RetrieveExpenseList());
-        int mealExpenses = expenses.calculateMealExpenses();
-        int total = expenses.calculateTotalExpenses();
-        List<String> individualExpenses = expenses.calculateIndividualExpenses();
+        Domain.ExpenseReport expenseReport = new Domain.ExpenseReport(expensesReportAggregate.RetrieveExpenseList());
+        int mealExpenses = expenseReport.CalculateMealExpenses();
+        int total = expenseReport.CalculateTotalExpenses();
+        List<String> individualExpenses = expenseReport.CalculateIndividualExpenses();
 
         return new ExpenseView(mealExpenses, total, dateProvider.CurrentDate().ToString(), individualExpenses);
     }
