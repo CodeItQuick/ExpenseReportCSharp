@@ -4,7 +4,7 @@
 
  namespace Tests;
 
-public class ExistingExpensesRepository
+public class ExistingExpensesRepositoryTests
 {
     private static ExpensesContext TestDbContextFactory(int id)
     {
