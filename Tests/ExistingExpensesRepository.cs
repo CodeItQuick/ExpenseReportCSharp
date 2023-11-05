@@ -8,28 +8,30 @@
 
 public class ExistingExpensesRepository
 {
-    // Unit Tests on Domain
-    [Fact]
-    public void CanRetrieveAnEmptyExpenseReport()
+    private static ExpensesContext TestDbContextFactory()
     {
         var dbContextOptionsBuilder = new DbContextOptionsBuilder<ExpensesContext>()
             .UseInMemoryDatabase(databaseName: "TestDb-" + Guid.NewGuid())
             .Options;
         var expensesContext = new ExpensesContext(dbContextOptionsBuilder);
+        return expensesContext;
+    }
+
+    [Fact]
+    public void CanRetrieveAnEmptyExpenseReport()
+    {
+        var expensesContext = TestDbContextFactory();
         var existingExpensesRepository = new Application.Services.ExistingExpensesRepository(expensesContext);
 
         var expenseReportAggregate = existingExpensesRepository.GetLastExpenseReport();
         
         Assert.Null(expenseReportAggregate);
     }
-    // Unit Tests on Domain
+
     [Fact]
     public void CanRetrieveAFilledExpenseReport()
     {
-        var dbContextOptionsBuilder = new DbContextOptionsBuilder<ExpensesContext>()
-            .UseInMemoryDatabase(databaseName: "TestDb-" + Guid.NewGuid())
-            .Options;
-        var expensesContext = new ExpensesContext(dbContextOptionsBuilder);
+        var expensesContext = TestDbContextFactory();
         expensesContext.ExpenseReportAggregates.Add(new ExpenseReportAggregate());
         expensesContext.SaveChanges();
         var existingExpensesRepository = new Application.Services.ExistingExpensesRepository(expensesContext);
@@ -37,5 +39,23 @@ public class ExistingExpensesRepository
         var expenseReportAggregate = existingExpensesRepository.GetLastExpenseReport();
         
         Assert.NotNull(expenseReportAggregate);
+    }
+    [Fact]
+    public void CanRetrieveAFilledExpenseReportWithExpenses()
+    {
+        var expensesContext = TestDbContextFactory();
+        expensesContext.ExpenseReportAggregates.Add(new ExpenseReportAggregate()
+        {
+            Expenses = new List<Expenses>()
+            {
+                new(ExpenseType.DINNER, 100)
+            }
+        });
+        expensesContext.SaveChanges();
+        var existingExpensesRepository = new Application.Services.ExistingExpensesRepository(expensesContext);
+
+        var expenseReportAggregate = existingExpensesRepository.GetLastExpenseReport();
+        
+        Assert.Single(expenseReportAggregate.Expenses);
     }
 }
