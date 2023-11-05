@@ -1,8 +1,6 @@
  using Application.Services;
  using Domain;
- using ExpenseReportCSharp.Adapter;
  using Microsoft.EntityFrameworkCore;
- using Expenses = Application.Services.Expenses;
 
  namespace Tests;
 
