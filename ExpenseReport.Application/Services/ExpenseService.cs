@@ -18,7 +18,7 @@ public class ExpensesService
     }
 
     public ExpenseView ViewExpenses() {
-        var expensesReportAggregate = expenseRepository.GetExpenseReport();
+        var expensesReportAggregate = expenseRepository.GetLastExpenseReport();
 
         ExpenseReport expenseReport = new ExpenseReport(expensesReportAggregate?.RetrieveExpenseList() ?? new List<Expense>());
         int mealExpenses = expenseReport.CalculateMealExpenses();
