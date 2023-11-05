@@ -2,8 +2,7 @@
 
 I redid this kata mostly to explore how hexagonal architecture _should_ look. For the most part the solution
 is much too verbose for what the code justifies, but it did help solidify where each part of the project
-belongs in a hex-arch codebase.
-
+belongs in a hex-arch codebase. I ported the project from Java to C#.
 
 # Expense Report Kata
 
