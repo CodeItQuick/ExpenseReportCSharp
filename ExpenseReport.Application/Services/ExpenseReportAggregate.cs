@@ -3,29 +3,16 @@ using Domain;
 
 namespace Application.Services;
 
-public sealed class ExpensesReportAggregate
+public sealed class ExpenseReportAggregate
 {
     [Key]
     public int Id { get; set; }
 
-    public List<Expenses> Expenses { get; set; }
+    public List<Expenses>? Expenses { get; set; }
 
-    public ExpensesReportAggregate()
+    public List<Expense>? RetrieveExpenseList()
     {
-        var expensesContext = new ExpensesContext();
-        Expenses = expensesContext.Expenses.ToList();
-        Id = 1;
-    }
-
-    public ExpensesReportAggregate(List<Expenses> expenses, int id)
-    {
-        this.Expenses = expenses;
-        Id = id;
-    }
-
-    public List<Expense> RetrieveExpenseList()
-    {
-        return Expenses
+        return Expenses?
             .Select(x => new Expense(x.ExpenseType, x.Amount))
             .ToList();
     }

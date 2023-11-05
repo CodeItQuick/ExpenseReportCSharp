@@ -12,7 +12,8 @@ public class AcceptanceTests
     {
         FakeSystemOutProvider systemOutProvider = new FakeSystemOutProvider();
         ExpensePrinter expensePrinter = new ExpensePrinter(
-            new FakeDateProvider(DateTimeOffset.Parse("2023-04-05")), new List<Expenses>(),
+            new FakeDateProvider(DateTimeOffset.Parse("2023-04-05")), 
+            new List<Expenses>(),
             systemOutProvider);
 
         expensePrinter.PrintExistingReport();

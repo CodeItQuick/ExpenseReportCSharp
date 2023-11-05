@@ -3,6 +3,7 @@ using System;
 using Application.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ExpenseReportCSharp.Migrations
 {
     [DbContext(typeof(ExpensesContext))]
-    partial class BloggingContextModelSnapshot : ModelSnapshot
+    [Migration("20231105002937_DropExpenseReportAggregateIdReference")]
+    partial class DropExpenseReportAggregateIdReference
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.13");
@@ -32,17 +35,12 @@ namespace ExpenseReportCSharp.Migrations
                     b.Property<int>("ExpenseType")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("ExpensesReportAggregateId")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("ExpensesReportAggregateId");
-
+                    
                     b.ToTable("Expenses");
                 });
 
-            modelBuilder.Entity("Application.Services.ExpensesReportAggregate", b =>
+            modelBuilder.Entity("Application.Services.ExpenseReportAggregate", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -55,12 +53,12 @@ namespace ExpenseReportCSharp.Migrations
 
             modelBuilder.Entity("Application.Services.Expenses", b =>
                 {
-                    b.HasOne("Application.Services.ExpensesReportAggregate", null)
+                    b.HasOne("Application.Services.ExpenseReportAggregate", null)
                         .WithMany("Expenses")
-                        .HasForeignKey("ExpensesReportAggregateId");
+                        .HasForeignKey("ExpenseReportAggregateId");
                 });
 
-            modelBuilder.Entity("Application.Services.ExpensesReportAggregate", b =>
+            modelBuilder.Entity("Application.Services.ExpenseReportAggregate", b =>
                 {
                     b.Navigation("Expenses");
                 });

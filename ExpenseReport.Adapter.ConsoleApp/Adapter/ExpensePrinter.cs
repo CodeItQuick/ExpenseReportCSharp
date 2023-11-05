@@ -11,12 +11,12 @@ public class ExpensePrinter
 
     public ExpensePrinter(DateProvider dateProvider, List<Expenses> expenseList, SystemOutProvider systemOutProvider) {
         this.systemOutProvider = systemOutProvider;
-        this.expensesService = new ExpensesService(dateProvider, expenseList);
+        expensesService = new ExpensesService(dateProvider, expenseList);
     }
 
     public ExpensePrinter(DateProvider dateProvider) {
-        this.systemOutProvider = new SystemOutProvider();
-        this.expensesService = new ExpensesService(dateProvider);
+        systemOutProvider = new SystemOutProvider();
+        expensesService = new ExpensesService(dateProvider);
     }
 
     public static ExpensePrinter Create() {
@@ -26,11 +26,11 @@ public class ExpensePrinter
     public void PrintExistingReport() {
         ExpenseView expenseView = expensesService.ViewExpenses();
 
-        this.systemOutProvider.ServicePrint(expenseView.reportTitle());
+        systemOutProvider.ServicePrint(expenseView.reportTitle());
         foreach(string expenseMessage in expenseView.displayIndividualExpenses()) {
-            this.systemOutProvider.ServicePrint(expenseMessage);
+            systemOutProvider.ServicePrint(expenseMessage);
         }
-        this.systemOutProvider.ServicePrint(expenseView.mealExpenseTotal());
-        this.systemOutProvider.ServicePrint(expenseView.TotalExpenses());
+        systemOutProvider.ServicePrint(expenseView.mealExpenseTotal());
+        systemOutProvider.ServicePrint(expenseView.TotalExpenses());
     }
 }

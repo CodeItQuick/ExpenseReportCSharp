@@ -4,10 +4,11 @@ namespace Application.Services;
 
 public class ExpensesService
 {
-    private readonly ExistingExpensesRepository expenseRepository;
+    private ExistingExpensesRepository expenseRepository;
     private readonly DateProvider dateProvider;
 
     public ExpensesService(DateProvider dateProvider, List<Expenses> expenseList) : this(dateProvider) {
+        expenseRepository = new ExistingExpensesRepository();
         expenseRepository.ReplaceAllExpenses(expenseList);
     }
 
@@ -17,9 +18,9 @@ public class ExpensesService
     }
 
     public ExpenseView ViewExpenses() {
-        var expensesReportAggregate = expenseRepository.GetExpenseReport(1);
+        var expensesReportAggregate = expenseRepository.GetExpenseReport();
 
-        ExpenseReport expenseReport = new ExpenseReport(expensesReportAggregate.RetrieveExpenseList());
+        ExpenseReport expenseReport = new ExpenseReport(expensesReportAggregate?.RetrieveExpenseList() ?? new List<Expense>());
         int mealExpenses = expenseReport.CalculateMealExpenses();
         int total = expenseReport.CalculateTotalExpenses();
         List<String> individualExpenses = expenseReport.CalculateIndividualExpenses();

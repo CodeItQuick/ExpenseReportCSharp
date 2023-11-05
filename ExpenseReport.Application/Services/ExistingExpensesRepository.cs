@@ -2,28 +2,28 @@ namespace Application.Services;
 
 public class ExistingExpensesRepository
 {
-    private ExpensesContext expensesContext;
-
-    public ExistingExpensesRepository() {
-        expensesContext = new ExpensesContext();
-    }
+    private readonly ExpensesContext expensesContext = new();
 
     public List<Expenses> GetAllExpenses() {
         return expensesContext.Expenses.ToList();
     }
-    public ExpensesReportAggregate GetExpenseReport(int id)
+    public ExpenseReportAggregate? GetExpenseReport()
     {
-        var expensesList = expensesContext.Expenses.ToList();
-        var expenseList = expensesList;
-        var expensesReportAggregate = new ExpensesReportAggregate();
-        return expensesReportAggregate;
+        return expensesContext.ExpenseReportAggregates.ToList().LastOrDefault();
     }
 
-    public void ReplaceAllExpenses(List<Expenses> expenseList) {
-        var expenseDtos = expensesContext.Expenses.ToList();
-        expensesContext.Expenses.RemoveRange(expenseDtos);
+    public void ReplaceAllExpenses(List<Expenses> expenseList)
+    {
+        var expenses = expensesContext.Expenses.ToList();
+        expensesContext.Expenses.RemoveRange(expenses);
         expensesContext.SaveChanges();
-        expensesContext.Expenses.AddRange(expenseList);
+
+        var expenseReportAggregate = new ExpenseReportAggregate();
+        if (expenseList.Any())
+        {
+            expenseReportAggregate.Expenses = expenseList;
+        }
+        expensesContext.ExpenseReportAggregates.Add(expenseReportAggregate);
         expensesContext.SaveChanges();
     }
 }

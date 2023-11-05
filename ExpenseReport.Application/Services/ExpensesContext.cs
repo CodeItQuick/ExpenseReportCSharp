@@ -5,18 +5,9 @@ namespace Application.Services;
 public class ExpensesContext : DbContext
 {
     public DbSet<Expenses> Expenses { get; set; }
-    public DbSet<ExpensesReportAggregate> ExpenseReportAggregates { get; set; }
-    public string DbPath { get; }
+    public DbSet<ExpenseReportAggregate?> ExpenseReportAggregates { get; set; }
+    private string DbPath { get; } = Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "blogging.db");
 
-    public ExpensesContext()
-    {
-        var folder = Environment.SpecialFolder.LocalApplicationData;
-        var path = Environment.GetFolderPath(folder);
-        DbPath = System.IO.Path.Join(path, "blogging.db");
-    }
-
-    // The following configures EF to create a Sqlite database file in the
-    // special "local" folder for your platform.
     protected override void OnConfiguring(DbContextOptionsBuilder options)
         => options.UseSqlite($"Data Source={DbPath}");
 }
