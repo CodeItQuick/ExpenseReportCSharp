@@ -20,9 +20,6 @@ public class ExistingExpensesRepository
         this.expensesContext = expensesContext;
     }
 
-    public List<Expenses> GetAllExpenses() {
-        return expensesContext.Expenses.ToList();
-    }
     public ExpenseReportAggregate? GetLastExpenseReport()
     {
         return expensesContext.ExpenseReportAggregates.ToList().LastOrDefault();
@@ -30,12 +27,15 @@ public class ExistingExpensesRepository
 
     public void ReplaceAllExpenses(List<Expenses> expenseList)
     {
-        var expenseReportAggregate = new ExpenseReportAggregate();
+        var expenseReportAggregates = expensesContext.ExpenseReportAggregates.ToList();
+        expensesContext.ExpenseReportAggregates.RemoveRange(expenseReportAggregates);
+        expensesContext.SaveChanges();
         if (expenseList.Any())
         {
+            var expenseReportAggregate = new ExpenseReportAggregate();
             expenseReportAggregate.Expenses = expenseList;
-        }
-        expensesContext.ExpenseReportAggregates.Add(expenseReportAggregate);
-        expensesContext.SaveChanges();
+            expensesContext.ExpenseReportAggregates.Add(expenseReportAggregate);
+            expensesContext.SaveChanges();
+        };
     }
 }
