@@ -32,10 +32,12 @@ public class ExistingExpensesRepository
         expensesContext.SaveChanges();
         if (expenseList.Any())
         {
-            var expenseReportAggregate = new ExpenseReportAggregate();
-            expenseReportAggregate.Expenses = expenseList;
+            var expenseReportAggregate = new ExpenseReportAggregate
+            {
+                Expenses = expenseList
+            };
             expensesContext.ExpenseReportAggregates.Add(expenseReportAggregate);
             expensesContext.SaveChanges();
-        };
+        }
     }
 }

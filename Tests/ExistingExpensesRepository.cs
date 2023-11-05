@@ -77,6 +77,5 @@ public class ExistingExpensesRepository
         existingExpensesRepository.ReplaceAllExpenses(new List<Expenses>());
         
         Assert.Null(existingExpensesRepository.GetLastExpenseReport());
-        
     }
 }
