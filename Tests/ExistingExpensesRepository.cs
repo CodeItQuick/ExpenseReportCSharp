@@ -13,19 +13,29 @@ public class ExistingExpensesRepository
     public void CanRetrieveAnEmptyExpenseReport()
     {
         var dbContextOptionsBuilder = new DbContextOptionsBuilder<ExpensesContext>()
-            .UseInMemoryDatabase(databaseName: "TestDb")
+            .UseInMemoryDatabase(databaseName: "TestDb-" + Guid.NewGuid())
             .Options;
         var expensesContext = new ExpensesContext(dbContextOptionsBuilder);
-        var expensesList = expensesContext.Expenses.ToList();
-        expensesContext.Expenses.RemoveRange(expensesList);
-        var expenseReportAggregates = expensesContext.ExpenseReportAggregates.ToList();
-        expensesContext.ExpenseReportAggregates.RemoveRange(expenseReportAggregates);
-        expensesContext.SaveChanges();
-        
         var existingExpensesRepository = new Application.Services.ExistingExpensesRepository(expensesContext);
 
         var expenseReportAggregate = existingExpensesRepository.GetLastExpenseReport();
         
         Assert.Null(expenseReportAggregate);
+    }
+    // Unit Tests on Domain
+    [Fact]
+    public void CanRetrieveAFilledExpenseReport()
+    {
+        var dbContextOptionsBuilder = new DbContextOptionsBuilder<ExpensesContext>()
+            .UseInMemoryDatabase(databaseName: "TestDb-" + Guid.NewGuid())
+            .Options;
+        var expensesContext = new ExpensesContext(dbContextOptionsBuilder);
+        expensesContext.ExpenseReportAggregates.Add(new ExpenseReportAggregate());
+        expensesContext.SaveChanges();
+        var existingExpensesRepository = new Application.Services.ExistingExpensesRepository(expensesContext);
+
+        var expenseReportAggregate = existingExpensesRepository.GetLastExpenseReport();
+        
+        Assert.NotNull(expenseReportAggregate);
     }
 }
