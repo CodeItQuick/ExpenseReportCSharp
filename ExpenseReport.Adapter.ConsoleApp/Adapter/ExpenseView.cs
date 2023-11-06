@@ -4,10 +4,10 @@ public class ExpenseView
 {
     private int mealExpenses;
     private int totalExpenses;
-    private String expenseDate;
+    private DateTimeOffset expenseDate;
     private List<String> individualExpenses;
 
-    public ExpenseView(int mealExpenses, int totalExpenses, String expenseDate, List<String> individualExpenses) {
+    public ExpenseView(int mealExpenses, int totalExpenses, DateTimeOffset expenseDate, List<String> individualExpenses) {
         this.mealExpenses = mealExpenses;
         this.totalExpenses = totalExpenses;
         this.expenseDate = expenseDate;

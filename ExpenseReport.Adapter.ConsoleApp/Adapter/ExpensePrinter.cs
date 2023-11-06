@@ -1,5 +1,6 @@
 
 using Application.Services;
+using Domain;
 
 namespace ExpenseReportCSharp.Adapter;
 
@@ -24,8 +25,15 @@ public class ExpensePrinter
     }
 
     public void PrintExistingReport() {
-        ExpenseView expenseView = expensesService.ViewExpenses();
+        ExpenseReport expenseReport = expensesService.ViewExpenses();
 
+        var expenseView = new ExpenseView(
+            expenseReport.CalculateMealExpenses(),
+            expenseReport.CalculateTotalExpenses(),
+            expenseReport.RetrieveDate(),
+            expenseReport.CalculateIndividualExpenses());
+        
+        
         systemOutProvider.ServicePrint(expenseView.reportTitle());
         foreach(string expenseMessage in expenseView.displayIndividualExpenses()) {
             systemOutProvider.ServicePrint(expenseMessage);

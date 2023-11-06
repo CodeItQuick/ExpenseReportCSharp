@@ -1,11 +1,21 @@
+using Application.Services;
+
 namespace Domain;
 
 public class ExpenseReport
 {
     private List<Expense> expenses;
+    private readonly DateProvider dateProvider;
 
-    public ExpenseReport(List<Expense> expenses) {
+    public ExpenseReport(List<Expense> expenses, DateProvider dateProvider)
+    {
         this.expenses = expenses;
+        this.dateProvider = dateProvider;
+    }
+
+    public DateTimeOffset RetrieveDate()
+    {
+        return dateProvider.CurrentDate();
     }
 
     public List<String> CalculateIndividualExpenses() {

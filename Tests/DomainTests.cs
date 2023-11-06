@@ -11,7 +11,7 @@ public class DomainTests
     [Fact]
     public void CanAddAMealExpense()
     {
-        var expenseReport = new ExpenseReport(new List<Expense>());
+        var expenseReport = new ExpenseReport(new List<Expense>(), new FakeDateProvider(DateTimeOffset.Now));
 
         Expense firstExpense = new Expense(ExpenseType.BREAKFAST, 500);
         expenseReport.AddExpense(firstExpense);
@@ -21,7 +21,7 @@ public class DomainTests
     [Fact]
     public void CanAddASecondExpense()
     {
-        var expenseReport = new ExpenseReport(new List<Expense>());
+        var expenseReport = new ExpenseReport(new List<Expense>(), new FakeDateProvider(DateTimeOffset.Now));
         Expense firstExpense = new Expense(ExpenseType.BREAKFAST, 500);
         expenseReport.AddExpense(firstExpense);
 

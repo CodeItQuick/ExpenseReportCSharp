@@ -22,14 +22,13 @@ public class ExpensesService
         expenseRepository = new ExistingExpensesRepository();
     }
 
-    public ExpenseView ViewExpenses() {
+    public ExpenseReport ViewExpenses() {
         var expensesReportAggregate = expenseRepository.GetLastExpenseReport();
 
-        ExpenseReport expenseReport = new ExpenseReport(expensesReportAggregate?.RetrieveExpenseList() ?? new List<Expense>());
-        int mealExpenses = expenseReport.CalculateMealExpenses();
-        int total = expenseReport.CalculateTotalExpenses();
-        List<String> individualExpenses = expenseReport.CalculateIndividualExpenses();
-
-        return new ExpenseView(mealExpenses, total, dateProvider.CurrentDate().ToString(), individualExpenses);
+        ExpenseReport expenseReport = new ExpenseReport(
+            expensesReportAggregate?.RetrieveExpenseList() ?? new List<Expense>(),
+            this.dateProvider);
+        
+        return expenseReport;
     }
 }

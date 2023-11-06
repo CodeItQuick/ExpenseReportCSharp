@@ -36,9 +36,9 @@ public class ExistingExpensesServiceTests
             expensesList, 
             existingExpensesRepository);
 
-        var viewExpenses = expensesService.ViewExpenses();
+        var expenseReport = expensesService.ViewExpenses();
         
-        Assert.Empty(viewExpenses.displayIndividualExpenses());
+        Assert.Empty(expenseReport.CalculateIndividualExpenses());
     }
     [Fact]
     public void CanViewExpenseList()
@@ -54,9 +54,9 @@ public class ExistingExpensesServiceTests
             expensesList, 
             existingExpensesRepository);
 
-        var viewExpenses = expensesService.ViewExpenses();
+        var expenseReport = expensesService.ViewExpenses();
         
-        Assert.Single(viewExpenses.displayIndividualExpenses());
+        Assert.Single(expenseReport.CalculateIndividualExpenses());
     }
 
 }

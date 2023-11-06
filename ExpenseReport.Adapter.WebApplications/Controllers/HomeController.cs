@@ -18,8 +18,13 @@ public class HomeController : Controller
 
     public ActionResult<ExpenseView> Index()
     {
-        var viewExpenses = _expenseService.ViewExpenses();
-        return View(viewExpenses);
+        var expenseReport = _expenseService.ViewExpenses();
+        var expenseView = new ExpenseView(
+            expenseReport.CalculateMealExpenses(),
+            expenseReport.CalculateTotalExpenses(),
+            expenseReport.RetrieveDate(),
+            expenseReport.CalculateIndividualExpenses());
+        return View(expenseView);
     }
 
     public IActionResult Privacy()
