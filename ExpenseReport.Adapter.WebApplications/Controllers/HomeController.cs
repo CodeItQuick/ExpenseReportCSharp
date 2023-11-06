@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using WebApplication1.Models;
 using Application.Services;
+using Domain;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApplication1.Controllers;
@@ -18,12 +19,12 @@ public class HomeController : Controller
 
     public ActionResult<ExpenseView> Index()
     {
-        var expenseReport = _expenseService.ViewExpenses();
+        ExpenseReport expenseReport = _expenseService.ViewExpenses();
         var expenseView = new ExpenseView(
-            expenseReport.CalculateMealExpenses(),
-            expenseReport.CalculateTotalExpenses(),
-            expenseReport.RetrieveDate(),
-            expenseReport.CalculateIndividualExpenses());
+            expenseReport.RetrieveDate(), 
+            expenseReport.CalculateMealExpenses(), 
+            expenseReport.CalculateTotalExpenses(), 
+            expenseReport.CalculateIndividualExpenses()); 
         return View(expenseView);
     }
 

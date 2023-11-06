@@ -7,11 +7,10 @@ public class ExpenseView
     private DateTimeOffset expenseDate;
     private List<String> individualExpenses;
 
-    public ExpenseView(
-        int mealExpenses, 
-        int totalExpenses, 
-        DateTimeOffset expenseDate, 
-        List<String> individualExpenses) {
+    public ExpenseView(DateTimeOffset expenseDate,
+        int mealExpenses,
+        int totalExpenses,
+        List<string> individualExpenses) {
         this.mealExpenses = mealExpenses;
         this.totalExpenses = totalExpenses;
         this.expenseDate = expenseDate;
