@@ -25,7 +25,7 @@ public class ExpensePrinter
     }
 
     public void PrintExistingReport() {
-        ExpenseReport expenseReport = expensesService.ViewExpenses();
+        ExpenseReport expenseReport = expensesService.RetrieveExpenseReport();
 
         var expenseView = new ExpenseView(
             expenseReport.CalculateMealExpenses(),

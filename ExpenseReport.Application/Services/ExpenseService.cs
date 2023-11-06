@@ -22,7 +22,7 @@ public class ExpensesService
         expenseRepository = new ExistingExpensesRepository();
     }
 
-    public ExpenseReport ViewExpenses() {
+    public ExpenseReport RetrieveExpenseReport() {
         var expensesReportAggregate = expenseRepository.GetLastExpenseReport();
 
         ExpenseReport expenseReport = new ExpenseReport(

@@ -1,3 +1,5 @@
+using Domain;
+
 namespace Application.Services;
 
 public class ExpenseView
@@ -7,17 +9,14 @@ public class ExpenseView
     private DateTimeOffset expenseDate;
     private List<String> individualExpenses;
 
-    public ExpenseView(DateTimeOffset expenseDate,
-        int mealExpenses,
-        int totalExpenses,
-        List<string> individualExpenses) {
-        this.mealExpenses = mealExpenses;
-        this.totalExpenses = totalExpenses;
-        this.expenseDate = expenseDate;
-        this.individualExpenses = individualExpenses;
+    public ExpenseView(ExpenseReport expenseReport) {
+        this.mealExpenses = expenseReport.CalculateMealExpenses();
+        this.totalExpenses = expenseReport.CalculateTotalExpenses();
+        this.expenseDate = expenseReport.RetrieveDate();
+        this.individualExpenses = expenseReport.CalculateIndividualExpenses();
     }
 
-    public List<string> displayIndividualExpenses() {
+    public List<string> DisplayIndividualExpenses() {
         List<string> individualExpenses = new List<string>();
         foreach (string individualExpense in this.individualExpenses) {
             string message = individualExpense;
@@ -26,11 +25,11 @@ public class ExpenseView
         return individualExpenses;
     }
 
-    public string reportTitle() {
+    public string ReportTitle() {
         return "Expenses " + this.expenseDate;
     }
 
-    public string mealExpenseTotal() {
+    public string MealExpenseTotal() {
         return "Meal expenses: " + this.mealExpenses;
     }
 

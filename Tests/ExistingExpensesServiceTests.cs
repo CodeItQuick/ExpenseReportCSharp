@@ -21,7 +21,7 @@ public class ExistingExpensesServiceTests
     {
         var expensesService = new ExpensesService(new FakeDateProvider(DateTimeOffset.Now));
 
-        var viewExpenses = expensesService.ViewExpenses();
+        var viewExpenses = expensesService.RetrieveExpenseReport();
         
         Assert.NotNull(viewExpenses);
     }
@@ -36,7 +36,7 @@ public class ExistingExpensesServiceTests
             expensesList, 
             existingExpensesRepository);
 
-        var expenseReport = expensesService.ViewExpenses();
+        var expenseReport = expensesService.RetrieveExpenseReport();
         
         Assert.Empty(expenseReport.CalculateIndividualExpenses());
     }
@@ -54,7 +54,7 @@ public class ExistingExpensesServiceTests
             expensesList, 
             existingExpensesRepository);
 
-        var expenseReport = expensesService.ViewExpenses();
+        var expenseReport = expensesService.RetrieveExpenseReport();
         
         Assert.Single(expenseReport.CalculateIndividualExpenses());
     }

@@ -19,13 +19,8 @@ public class HomeController : Controller
 
     public ActionResult<ExpenseView> Index()
     {
-        ExpenseReport expenseReport = _expenseService.ViewExpenses();
-        var expenseView = new ExpenseView(
-            expenseReport.RetrieveDate(), 
-            expenseReport.CalculateMealExpenses(), 
-            expenseReport.CalculateTotalExpenses(), 
-            expenseReport.CalculateIndividualExpenses()); 
-        return View(expenseView);
+        ExpenseReport expenseReport = _expenseService.RetrieveExpenseReport();
+        return View(new ExpenseView(expenseReport));
     }
 
     public IActionResult Privacy()

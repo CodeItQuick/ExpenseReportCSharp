@@ -1,9 +1,9 @@
 ﻿<div class="text-center">
-    <p>@ViewData.Model.reportTitle()</p>
-    @foreach (var individualExpense in @ViewData.Model.displayIndividualExpenses())
+    <p>@ViewData.Model.ReportTitle()</p>
+    @foreach (var individualExpense in @ViewData.Model.DisplayIndividualExpenses())
     {
         <p>@individualExpense</p>
     }
-    <p>@ViewData.Model.mealExpenseTotal()</p>
+    <p>@ViewData.Model.MealExpenseTotal()</p>
     <p>@ViewData.Model.TotalExpenses()</p>
 </div>
