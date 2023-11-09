@@ -19,7 +19,7 @@ public class ExistingExpensesRepositoryTests
     public void CanRetrieveAnEmptyExpenseReport()
     {
         var expensesContext = TestDbContextFactory(1);
-        var existingExpensesRepository = new Application.Services.ExistingExpensesRepository(expensesContext);
+        var existingExpensesRepository = new ExistingExpensesRepository(expensesContext);
 
         var expenseReportAggregate = existingExpensesRepository.GetLastExpenseReport();
         
@@ -32,7 +32,7 @@ public class ExistingExpensesRepositoryTests
         var expensesContext = TestDbContextFactory(2);
         expensesContext.ExpenseReportAggregates.Add(new ExpenseReportAggregate());
         expensesContext.SaveChanges();
-        var existingExpensesRepository = new Application.Services.ExistingExpensesRepository(expensesContext);
+        var existingExpensesRepository = new ExistingExpensesRepository(expensesContext);
 
         var expenseReportAggregate = existingExpensesRepository.GetLastExpenseReport();
         
@@ -51,7 +51,7 @@ public class ExistingExpensesRepositoryTests
             }
         });
         expensesContext.SaveChanges();
-        var existingExpensesRepository = new Application.Services.ExistingExpensesRepository(expensesContext);
+        var existingExpensesRepository = new ExistingExpensesRepository(expensesContext);
 
         var expenseReportAggregate = existingExpensesRepository.GetLastExpenseReport();
         
@@ -72,10 +72,27 @@ public class ExistingExpensesRepositoryTests
             }
         });
         expensesContext.SaveChanges();
-        var existingExpensesRepository = new Application.Services.ExistingExpensesRepository(expensesContext);
+        var existingExpensesRepository = new ExistingExpensesRepository(expensesContext);
         
         existingExpensesRepository.ReplaceAllExpenses(new List<Expenses>());
         
         Assert.Null(existingExpensesRepository.GetLastExpenseReport());
+    }
+    [Fact]
+    public void CanCreateNewExpenseReportAggregate()
+    {
+        var expensesContext = TestDbContextFactory(5);
+        var expenseReportAggregate = new ExpenseReportAggregate()
+        {
+            Expenses = new List<Expenses>()
+            {
+                new(ExpenseType.DINNER, 100)
+            }
+        };
+        var existingExpensesRepository = new ExistingExpensesRepository(expensesContext);
+
+        var addExpenseToReport = existingExpensesRepository.AddExpenseReportAggregate(expenseReportAggregate);
+
+        Assert.NotNull(addExpenseToReport);
     }
 }

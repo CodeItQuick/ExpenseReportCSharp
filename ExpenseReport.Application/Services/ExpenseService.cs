@@ -31,4 +31,21 @@ public class ExpensesService
         
         return expenseReport;
     }
+
+    public ExpenseReport CreateExpense(int expenseCost, ExpenseType expense, DateTimeOffset expenseDate)
+    {
+        var expenseReport = new ExpenseReportAggregate()
+        {
+            Expenses = new List<Expenses>()
+            {
+                new Expenses(expense, expenseCost)
+            }
+        };
+        var addExpenseToReport = expenseRepository.AddExpenseReportAggregate(expenseReport);
+        if (addExpenseToReport == null)
+        {
+            throw new Exception("expense report failed to save");
+        }
+        return new ExpenseReport(addExpenseToReport.RetrieveExpenseList() ?? new List<Expense>(), dateProvider);
+    }
 }

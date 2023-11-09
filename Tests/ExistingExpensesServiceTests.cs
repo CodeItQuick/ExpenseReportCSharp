@@ -58,5 +58,20 @@ public class ExistingExpensesServiceTests
         
         Assert.Single(expenseReport.CalculateIndividualExpenses());
     }
+    [Fact]
+    public void CanCreateExpense()
+    {
+        var existingExpensesContext = TestDbContextFactory(7);
+        var existingExpensesRepository = new ExistingExpensesRepository(existingExpensesContext);
+        var expensesService = new ExpensesService(
+            new FakeDateProvider(DateTimeOffset.Now), 
+            new List<Expenses>(), 
+            existingExpensesRepository);
+
+        var expenseReport = expensesService.CreateExpense(
+            100, ExpenseType.DINNER, DateTimeOffset.Parse("2023-11-09"));
+        
+        Assert.Single(expenseReport.CalculateIndividualExpenses());
+    }
 
 }

@@ -40,4 +40,11 @@ public class ExistingExpensesRepository
             expensesContext.SaveChanges();
         }
     }
+
+    public ExpenseReportAggregate? AddExpenseReportAggregate(ExpenseReportAggregate expenseReport)
+    {
+        var entityEntry = expensesContext.ExpenseReportAggregates.Add(expenseReport);
+        expensesContext.SaveChanges();
+        return entityEntry.Entity;
+    }
 }

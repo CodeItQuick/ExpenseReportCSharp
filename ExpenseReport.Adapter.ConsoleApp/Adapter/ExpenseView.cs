@@ -1,4 +1,4 @@
-namespace Application.Services;
+namespace ExpenseReportCSharp.Adapter;
 
 public class ExpenseView
 {

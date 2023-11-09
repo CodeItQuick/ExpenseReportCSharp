@@ -3,6 +3,7 @@ using WebApplication1.Models;
 using Application.Services;
 using Domain;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace WebApplication1.Controllers;
 
@@ -17,7 +18,7 @@ public class HomeController : Controller
         _expenseService = new ExpensesService(new RealDateProvider());
     }
 
-    public ActionResult<ExpenseView> Index()
+    public IActionResult Index()
     {
         ExpenseReport expenseReport = _expenseService.RetrieveExpenseReport();
         var expenseView = new ExpenseView() 
@@ -39,5 +40,23 @@ public class HomeController : Controller
     public IActionResult Error()
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+    }
+
+    public ActionResult CreateExpense(
+        int expenseCost, string expenseType, DateTimeOffset expenseDate)
+    {
+        var tryParse = ExpenseType.TryParse(expenseType, out ExpenseType expense);
+        var expenseAdded = _expenseService.CreateExpense(expenseCost, expense, expenseDate);
+
+        return View("ExpenseView", new ExpenseView()
+        {
+            MealExpenses = 100,
+            ExpenseDate = expenseDate,
+            IndividualExpenses = new List<string>()
+            {
+                "BREAKFAST	10	 "
+            },
+            TotalExpenses = 100
+        });
     }
 }
