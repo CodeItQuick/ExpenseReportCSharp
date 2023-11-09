@@ -41,7 +41,7 @@ public class ExistingExpensesRepository
         }
     }
 
-    public ExpenseReportAggregate? AddExpenseReportAggregate(ExpenseReportAggregate expenseReport)
+    public ExpenseReportAggregate? AddAggregate(ExpenseReportAggregate expenseReport)
     {
         var entityEntry = expensesContext.ExpenseReportAggregates.Add(expenseReport);
         expensesContext.SaveChanges();

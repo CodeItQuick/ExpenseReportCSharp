@@ -91,7 +91,7 @@ public class ExistingExpensesRepositoryTests
         };
         var existingExpensesRepository = new ExistingExpensesRepository(expensesContext);
 
-        var addExpenseToReport = existingExpensesRepository.AddExpenseReportAggregate(expenseReportAggregate);
+        var addExpenseToReport = existingExpensesRepository.AddAggregate(expenseReportAggregate);
 
         Assert.NotNull(addExpenseToReport);
     }

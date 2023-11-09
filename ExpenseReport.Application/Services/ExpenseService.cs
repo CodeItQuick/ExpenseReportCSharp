@@ -41,7 +41,7 @@ public class ExpensesService
                 new Expenses(expense, expenseCost)
             }
         };
-        var addExpenseToReport = expenseRepository.AddExpenseReportAggregate(expenseReport);
+        var addExpenseToReport = expenseRepository.AddAggregate(expenseReport);
         if (addExpenseToReport == null)
         {
             throw new Exception("expense report failed to save");
