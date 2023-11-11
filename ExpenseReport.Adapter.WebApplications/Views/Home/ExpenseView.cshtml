@@ -1,3 +1,4 @@
+@using Domain
 @model Application.Services.ExpenseView
 
 @{
@@ -6,3 +7,15 @@
 }
 
 <h2>New Expense Form - Needs Implementation</h2>
+
+<form action="ExpenseView" method="POST">
+    <button type="submit"
+            asp-controller="Home"
+            asp-action="ExpenseView"
+            asp-route-expenseCost="100"
+            asp-route-expenseType="@ExpenseType.BREAKFAST.ToString()"
+            asp-route-expenseDate="@DateTimeOffset.Now"
+            class="btn btn-default ">
+        Create Expense
+    </button>
+</form>

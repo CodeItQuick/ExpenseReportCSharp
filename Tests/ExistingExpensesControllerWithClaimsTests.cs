@@ -48,12 +48,12 @@
      [Fact]
      public void CanCreateANewExpense()
      {
-         var actionResult = _controller.CreateExpense(100, "BREAKFAST", DateTimeOffset.Parse("2023-11-09")) as ViewResult;
+         var actionResult = _controller.ExpenseView(100, "BREAKFAST", DateTimeOffset.Parse("2023-11-09")) as ViewResult;
 
          var indexResponseModel = (actionResult?.Model as ExpenseView);
          Assert.NotNull(actionResult);
          Assert.Equal(100, indexResponseModel.MealExpenses);
-         Assert.Equal("BREAKFAST	10	 ", indexResponseModel.IndividualExpenses.First());
+         Assert.Equal("BREAKFAST	100	 ", indexResponseModel.IndividualExpenses.First());
          Assert.Equal(100, indexResponseModel.TotalExpenses);
      }
  }

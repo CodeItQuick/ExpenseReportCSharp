@@ -42,21 +42,18 @@ public class HomeController : Controller
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 
-    public ActionResult CreateExpense(
+    public ActionResult ExpenseView(
         int expenseCost, string expenseType, DateTimeOffset expenseDate)
     {
         var tryParse = ExpenseType.TryParse(expenseType, out ExpenseType expense);
         var expenseAdded = _expenseService.CreateExpense(expenseCost, expense, expenseDate);
 
-        return View("ExpenseView", new ExpenseView()
+        return View("Index", new ExpenseView()
         {
-            MealExpenses = 100,
-            ExpenseDate = expenseDate,
-            IndividualExpenses = new List<string>()
-            {
-                "BREAKFAST	10	 "
-            },
-            TotalExpenses = 100
+            MealExpenses = expenseAdded.CalculateMealExpenses(),
+            ExpenseDate = expenseAdded.RetrieveDate(),
+            IndividualExpenses = expenseAdded.CalculateIndividualExpenses(),
+            TotalExpenses = expenseAdded.CalculateTotalExpenses()
         });
     }
 }

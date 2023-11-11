@@ -38,7 +38,7 @@ public class ExpensesService
         {
             Expenses = new List<Expenses>()
             {
-                new Expenses(expense, expenseCost)
+                new(expense, expenseCost)
             }
         };
         var addExpenseToReport = expenseRepository.AddAggregate(expenseReport);

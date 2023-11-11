@@ -1,4 +1,5 @@
-﻿<div class="text-center">
+﻿@using Domain
+<div class="text-center">
     <p>Expenses @ViewData.Model.ExpenseDate</p>
     @foreach (var individualExpense in @ViewData.Model.IndividualExpenses)
     {
@@ -6,4 +7,19 @@
     }
     <p>Meal Expenses: @ViewData.Model.MealExpenses</p>
     <p>Total Expenses: @ViewData.Model.TotalExpenses</p>
+    <form asp-action="ExpenseView" method="POST">
+        <input type="datetime-local" name="expenseDate" />
+        <input type="number" name="expenseCost" />
+        <select type="text" name="expenseType">
+            <option value="BREAKFAST">Breakfast</option>
+            <option value="DINNER">Dinner</option>
+            <option value="CAR_RENTAL">Car Rental</option>
+        </select>
+        <button type="submit"
+                asp-controller="Home"
+                asp-action="ExpenseView"
+                class="btn btn-default ">
+            Create Expense
+        </button>
+    </form>
 </div>
