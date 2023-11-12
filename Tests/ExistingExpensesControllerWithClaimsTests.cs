@@ -49,7 +49,10 @@
      [Fact]
      public void CanCreateANewExpense()
      {
-         var actionResult = _controller.ExpenseView(100, "BREAKFAST", DateTimeOffset.Parse("2023-11-09")) as ViewResult;
+         var actionResult = _controller.ExpenseView(
+             100, 
+             "BREAKFAST", 
+             DateTimeOffset.Parse("2023-11-09")) as ViewResult;
 
          var indexResponseModel = (actionResult?.Model as ExpenseView);
          Assert.NotNull(actionResult);

@@ -213,7 +213,7 @@ public class AcceptanceTests
          
      }
 
-     public Domain.ExpenseReport? AddAggregate(Domain.ExpenseReport expenseReport)
+     public Domain.ExpenseReport? AddAggregate(List<Expense> expenseReport, DateTimeOffset? expenseDate)
      {
          return null;
      }

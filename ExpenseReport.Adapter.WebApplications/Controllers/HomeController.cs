@@ -19,12 +19,16 @@ public class HomeController : Controller
         _logger = logger;
         _expenseService = new ExpensesService(
             new RealDateProvider(), 
-            new ExistingExpensesRepository()); // FIXME: broken
+            new ExistingExpensesRepository(new RealDateProvider())); // FIXME: broken
     }
 
     public IActionResult Index()
     {
-        Domain.ExpenseReport expenseReport = _expenseService.RetrieveExpenseReport();
+        Domain.ExpenseReport? expenseReport = _expenseService.RetrieveExpenseReport();
+        if (expenseReport == null)
+        {
+            return View(new ExpenseView());
+        }
         var expenseView = new ExpenseView() 
         {
             MealExpenses = expenseReport.CalculateMealExpenses(),
@@ -33,6 +37,7 @@ public class HomeController : Controller
             IndividualExpenses = expenseReport.CalculateIndividualExpenses(),
         };
         return View(expenseView);
+
     }
 
     public IActionResult Privacy()

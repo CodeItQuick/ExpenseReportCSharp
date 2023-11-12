@@ -1,8 +1,6 @@
 
 using Application.Adapter;
 using Application.Services;
-using Domain;
-
 using ExpenseReport.ApplicationServices;
 
 namespace ExpenseReportCSharp.Adapter;
@@ -22,14 +20,13 @@ public class ExpensePrinter
         this.systemOutProvider = systemOutProvider;
         expensesService = new ExpensesService(
             dateProvider, 
-            expenseList.Select(x => new Expense(x.ExpenseType, x.Amount)).ToList(), 
             existingExpensesRepository);
     }
 
     private ExpensePrinter(IDateProvider dateProvider) {
         this.dateProvider = dateProvider;
         systemOutProvider = new SystemOutProvider();
-        expensesService = new ExpensesService(new RealDateProvider(), new ExistingExpensesRepository());
+        expensesService = new ExpensesService(new RealDateProvider(), new ExistingExpensesRepository(new RealDateProvider()));
     }
 
     public static ExpensePrinter Create() {

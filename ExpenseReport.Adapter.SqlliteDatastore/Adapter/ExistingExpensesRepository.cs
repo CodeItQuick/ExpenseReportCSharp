@@ -1,3 +1,4 @@
+using Application.Services;
 using Domain;
 using ExpenseReport.ApplicationServices;
 using Microsoft.EntityFrameworkCore;
@@ -8,18 +9,21 @@ namespace Application.Adapter;
 public class ExistingExpensesRepository : IExistingExpensesRepository
 {
     private readonly ExpensesDbContext expensesDbContext;
+    private readonly IDateProvider realDateProvider;
 
-    public ExistingExpensesRepository()
+    public ExistingExpensesRepository(IDateProvider dateProvider)
     {
         var dbContextOptions = new DbContextOptionsBuilder()
             .UseSqlite("Data Source=blog.db")
             .Options; // FIXME: Broken
+        realDateProvider = dateProvider;
         expensesDbContext = new ExpensesDbContext(dbContextOptions);
         expensesDbContext.Database.EnsureCreated();
     }
 
-    public ExistingExpensesRepository(ExpensesDbContext expensesDbContext)
+    public ExistingExpensesRepository(ExpensesDbContext expensesDbContext, IDateProvider dateProvider)
     {
+        realDateProvider = dateProvider;
         this.expensesDbContext = expensesDbContext;
     }
 
@@ -44,30 +48,18 @@ public class ExistingExpensesRepository : IExistingExpensesRepository
         expensesDbContext.SaveChanges();
         if (expenseList.Any())
         {
-            var expenseReportAggregate = new ExpenseReportAggregate
-            {
-                Expenses = expenseList.Select(x =>
-                {
-                    var tryParse = Enum.TryParse<ExpenseType>(x.expenseType(), out var expenseType);
-                    return new Expenses(expenseType, x.Amount());
-                }).ToList()
-            };
+            var expenseReportAggregate = new ExpenseReportAggregate(expenseList, realDateProvider.CurrentDate());
             expensesDbContext.ExpenseReportAggregates.Add(expenseReportAggregate);
             expensesDbContext.SaveChanges();
         }
     }
 
-    // FIXME: Ultra broke this
-    public Domain.ExpenseReport? AddAggregate(Domain.ExpenseReport expenseReport)
+    public Domain.ExpenseReport? AddAggregate(List<Expense> expenseReport, DateTimeOffset? expenseDate)
     {
-        var entityEntry = expensesDbContext.ExpenseReportAggregates.Add(new ExpenseReportAggregate()
-        {
-            Expenses = expenseReport.CalculateIndividualExpenses().Select(x =>
-            {
-                return new Expenses(ExpenseType.DINNER, 100);
-            }).ToList()
-        });
+        var expenseReportAggregate = new ExpenseReportAggregate(expenseReport, expenseDate ?? realDateProvider.CurrentDate());
+        var entityEntry = expensesDbContext.ExpenseReportAggregates.Add(
+            expenseReportAggregate);
         expensesDbContext.SaveChanges();
-        return expenseReport;
+        return entityEntry.Entity?.RetrieveExpenseReport();
     }
 }
