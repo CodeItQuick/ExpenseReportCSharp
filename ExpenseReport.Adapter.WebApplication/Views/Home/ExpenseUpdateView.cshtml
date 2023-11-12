@@ -11,7 +11,7 @@
 <form action="ExpenseView" method="POST">
     <button type="submit"
             asp-controller="Home"
-            asp-action="ExpenseView"
+            asp-action="ExpenseUpdateView"
             asp-route-expenseCost="100"
             asp-route-expenseType="@ExpenseType.BREAKFAST.ToString()"
             asp-route-expenseDate="@DateTimeOffset.Now"

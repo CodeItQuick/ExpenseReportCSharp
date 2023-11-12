@@ -76,7 +76,7 @@ public class ExistingExpensesControllerWithClaimsTests
     {
         var expenseReport = _controller.CreateExpenseReport(DateTimeOffset.Parse("2023-11-09"));
 
-        var actionResult = _controller.ExpenseView(
+        var actionResult = _controller.ExpenseUpdateView(
             100,
             "BREAKFAST",
             (expenseReport.Model as ExpenseView).Id) as ViewResult;
@@ -93,12 +93,12 @@ public class ExistingExpensesControllerWithClaimsTests
     {
         var expenseReport = _controller.CreateExpenseReport(DateTimeOffset.Parse("2023-11-09"));
         var expenseReportId = (expenseReport.Model as ExpenseView).Id;
-        _controller.ExpenseView(
+        _controller.ExpenseUpdateView(
             100,
             "BREAKFAST",
             expenseReportId);
 
-        var actionResult = _controller.ExpenseView(
+        var actionResult = _controller.ExpenseUpdateView(
             200,
             "BREAKFAST",
             expenseReportId) as ViewResult;

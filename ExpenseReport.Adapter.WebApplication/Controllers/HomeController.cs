@@ -67,7 +67,7 @@ public class HomeController : Controller
             TotalExpenses = expenseAdded.CalculateTotalExpenses()
         });
     }
-    public ActionResult ExpenseView(
+    public ActionResult ExpenseUpdateView(
         int expenseCost, string expenseType, int expenseReportId)
     {
         var tryParse = ExpenseType.TryParse(expenseType, out ExpenseType expense);
