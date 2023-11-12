@@ -64,10 +64,10 @@ public class ExistingExpensesServiceTests
     public void CanCreateExpense()
     {
         var existingExpensesContext = TestDbContextFactory(7);
-        ExistingExpensesRepository existingExpensesRepository = new ExistingExpensesRepository(new RealDateProvider());
+        IExistingExpensesRepository existingExpensesRepository = new FakeExistingRepository();
         var expensesService = new ExpensesService(
-            (IDateProvider)new FakeDateProvider(DateTimeOffset.Parse("2023-01-01")), 
-            (IExistingExpensesRepository)existingExpensesRepository);
+            new FakeDateProvider(DateTimeOffset.Parse("2023-01-01")), 
+            existingExpensesRepository);
 
         var expenseReport = expensesService.CreateExpense(
             new Domain.Expense(ExpenseType.DINNER, 100), DateTimeOffset.Parse("2023-11-09"));
@@ -77,9 +77,7 @@ public class ExistingExpensesServiceTests
     [Fact]
     public void CanCreateExpenseReport()
     {
-        var existingExpensesContext = TestDbContextFactory(7);
-        ExistingExpensesRepository existingExpensesRepository = new ExistingExpensesRepository(
-            existingExpensesContext, new RealDateProvider());
+        IExistingExpensesRepository existingExpensesRepository = new FakeExistingRepository();
         var expenseReportDate = DateTimeOffset.Parse("2023-01-01");
         var expensesService = new ExpensesService(
             new FakeDateProvider(expenseReportDate), 
@@ -92,9 +90,7 @@ public class ExistingExpensesServiceTests
     [Fact]
     public void CanAddAnExpenseToAnExpenseReport()
     {
-        var existingExpensesContext = TestDbContextFactory(7);
-        ExistingExpensesRepository existingExpensesRepository = new ExistingExpensesRepository(
-            existingExpensesContext, new RealDateProvider());
+        IExistingExpensesRepository existingExpensesRepository = new FakeExistingRepository();
         var expenseReportDate = DateTimeOffset.Parse("2023-01-01");
         var expensesService = new ExpensesService(
             new FakeDateProvider(expenseReportDate), 
