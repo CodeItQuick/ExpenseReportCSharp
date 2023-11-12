@@ -52,11 +52,12 @@ public class ExistingExpensesRepository : IExistingExpensesRepository
         return entityEntry.Entity?.RetrieveExpenseReport();
     }
 
-    public Domain.ExpenseReport? UpdateAggregate(List<Expense> expenseReport, int expenseReportId)
+    public Domain.ExpenseReport? UpdateAggregate(List<Expense> expenses, int expenseReportId)
     {
-        var expenseReportAggregate = new ExpenseReportAggregate(expenseReport, realDateProvider.CurrentDate(), expenseReportId);
+        var reportAggregate = expensesDbContext.ExpenseReportAggregates.Find(expenseReportId);
+        reportAggregate.AddExpense(expenses);
         var entityEntry = expensesDbContext.ExpenseReportAggregates.Update(
-            expenseReportAggregate);
+            reportAggregate);
         expensesDbContext.SaveChanges();
         return entityEntry.Entity?.RetrieveExpenseReport();
     }

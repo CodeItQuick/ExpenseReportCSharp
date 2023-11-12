@@ -106,4 +106,21 @@ public class ExistingExpensesServiceTests
 
         Assert.Equal(expenseReport.Id, expense.Id);
     }
+    [Fact]
+    public void CanAddTwoExpensesToAnExpenseReport()
+    {
+        var existingExpensesContext = TestDbContextFactory(7);
+        ExistingExpensesRepository existingExpensesRepository = new ExistingExpensesRepository(
+            existingExpensesContext, new RealDateProvider());
+        var expenseReportDate = DateTimeOffset.Parse("2023-01-01");
+        var expensesService = new ExpensesService(
+            new FakeDateProvider(expenseReportDate), 
+            existingExpensesRepository);
+        var expenseReport = expensesService.CreateNewExpenseReport(expenseReportDate);
+        expensesService.CreateExpense(1234, ExpenseType.BREAKFAST, expenseReport.Id);
+
+        var expense = expensesService.CreateExpense(1234, ExpenseType.BREAKFAST, expenseReport.Id);
+
+        Assert.Equal(2, expense.CalculateIndividualExpenses().Count);
+    }
 }

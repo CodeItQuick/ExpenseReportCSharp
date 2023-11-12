@@ -23,7 +23,7 @@ public class Expense
         return dinnerOverExpensed || breakfastOverExpensed ? "X" : " ";
     }
 
-    public String expenseType() {
+    public String? expenseType() {
         return type.ToString();
     }
 

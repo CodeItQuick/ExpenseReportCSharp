@@ -50,4 +50,24 @@ public sealed class ExpenseReportAggregate
             ?.Select(x => new Expense(x.ExpenseType, x.Amount))
             .ToList() ?? new List<Expense>();
     }
+
+    public void AddExpense(List<Expense> expenses)
+    {
+        if (Expenses != null && Expenses.Any())
+        {
+            Expenses.AddRange(expenses.Select(x =>
+            {
+                var parseSuccess = Enum.TryParse<ExpenseType>(x.expenseType(), out var expenseType);
+                return new Expenses(expenseType, x.Amount());
+            }).ToList());
+        }
+        else
+        {
+            Expenses = expenses.Select(x =>
+            {
+                var parseSuccess = Enum.TryParse<ExpenseType>(x.expenseType(), out var expenseType);
+                return new Expenses(expenseType, x.Amount());
+            }).ToList();
+        }
+    }
 }

@@ -218,7 +218,7 @@ public class AcceptanceTests
          return null;
      }
 
-     public Domain.ExpenseReport? UpdateAggregate(List<Expense> expenseReport, int expenseReportId)
+     public Domain.ExpenseReport? UpdateAggregate(List<Expense> expenses, int expenseReportId)
      {
          throw new NotImplementedException();
      }
