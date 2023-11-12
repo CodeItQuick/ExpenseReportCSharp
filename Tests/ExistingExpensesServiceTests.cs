@@ -90,5 +90,20 @@ public class ExistingExpensesServiceTests
         
         Assert.Equal(expenseReportDate, expenseReport.RetrieveDate());
     }
+    [Fact]
+    public void CanAddAnExpenseToAnExpenseReport()
+    {
+        var existingExpensesContext = TestDbContextFactory(7);
+        ExistingExpensesRepository existingExpensesRepository = new ExistingExpensesRepository(
+            existingExpensesContext, new RealDateProvider());
+        var expenseReportDate = DateTimeOffset.Parse("2023-01-01");
+        var expensesService = new ExpensesService(
+            new FakeDateProvider(expenseReportDate), 
+            existingExpensesRepository);
+        var expenseReport = expensesService.CreateNewExpenseReport(expenseReportDate);
 
+        var expense = expensesService.CreateExpense(1234, ExpenseType.BREAKFAST, expenseReport.Id);
+
+        Assert.Equal(expenseReport.Id, expense.Id);
+    }
 }

@@ -26,12 +26,22 @@ public sealed class ExpenseReportAggregate
         }).ToList() ?? new List<Expenses>();
         ExpenseReportDate = expenseReportDate;
     }
+    public ExpenseReportAggregate(List<Expense>? expenses, DateTimeOffset expenseReportDate, int expenseReportId)
+    {
+        Expenses = expenses?.Select(x =>
+        {
+            var tryParse = Enum.TryParse<ExpenseType>(x.expenseType(), out var expenseType);
+            return new Expenses(expenseType, x.Amount());
+        }).ToList() ?? new List<Expenses>();
+        ExpenseReportDate = expenseReportDate;
+        Id = expenseReportId;
+    }
 
     public Domain.ExpenseReport RetrieveExpenseReport()
     {
         return new Domain.ExpenseReport(Expenses?
             .Select(x => new Expense(x.ExpenseType, x.Amount))
-            .ToList(), ExpenseReportDate);
+            .ToList(), ExpenseReportDate, Id);
     }
 
     public List<Expense> RetrieveExpenseList()

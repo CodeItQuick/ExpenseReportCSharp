@@ -203,7 +203,7 @@ public class AcceptanceTests
      {
          if (expensesList != null && expensesList.Any())
          {
-             return new Domain.ExpenseReport(this.expensesList, DateTimeOffset.Now);
+             return new Domain.ExpenseReport(this.expensesList, DateTimeOffset.Now, 1);
          }
          return null;
      }
@@ -216,5 +216,10 @@ public class AcceptanceTests
      public Domain.ExpenseReport? AddAggregate(List<Expense> expenseReport, DateTimeOffset? expenseDate)
      {
          return null;
+     }
+
+     public Domain.ExpenseReport? UpdateAggregate(List<Expense> expenseReport, int expenseReportId)
+     {
+         throw new NotImplementedException();
      }
  }

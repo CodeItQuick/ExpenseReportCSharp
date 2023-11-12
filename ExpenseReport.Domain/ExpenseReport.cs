@@ -6,12 +6,14 @@ public class ExpenseReport
 {
     private List<Expense>? expenses;
     public DateTimeOffset ExpenseReportDate { get; private set; }
+    public int Id { get; set; }
 
 
-    public ExpenseReport(List<Expense>? expenses, DateTimeOffset expenseReportDate)
+    public ExpenseReport(List<Expense>? expenses, DateTimeOffset expenseReportDate, int id)
     {
         this.expenses = expenses;
-        this.ExpenseReportDate = expenseReportDate;
+        ExpenseReportDate = expenseReportDate;
+        Id = id;
     }
 
     public DateTimeOffset RetrieveDate()

@@ -44,4 +44,20 @@ public class ExpensesService
         }
         return addExpenseToReport;
     }
+
+    public Domain.ExpenseReport CreateExpense(int expenseCost, ExpenseType expenseType, int expenseReportId)
+    {
+        
+        var expenseReport = 
+            new List<Expense>()
+            {
+                new(expenseType, expenseCost)
+            };
+        var addExpenseToReport = expenseRepository.UpdateAggregate(expenseReport, expenseReportId);
+        if (addExpenseToReport == null)
+        {
+            throw new Exception("expense report failed to save");
+        }
+        return addExpenseToReport;
+    }
 }
