@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Domain;
 
-namespace Application.Services;
+namespace Application.Adapter;
 
 public class Expenses
 {

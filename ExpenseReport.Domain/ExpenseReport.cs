@@ -4,18 +4,16 @@ namespace Domain;
 
 public class ExpenseReport
 {
-    private List<Expense> expenses;
-    private readonly DateProvider dateProvider;
+    private List<Expense>? expenses;
 
-    public ExpenseReport(List<Expense> expenses, DateProvider dateProvider)
+    public ExpenseReport(List<Expense>? expenses)
     {
         this.expenses = expenses;
-        this.dateProvider = dateProvider;
     }
 
     public DateTimeOffset RetrieveDate()
     {
-        return dateProvider.CurrentDate();
+        return DateTimeOffset.Now;
     }
 
     public List<String> CalculateIndividualExpenses() {

@@ -1,6 +1,9 @@
+ using Application.Adapter;
  using Application.Services;
  using Domain;
  using Microsoft.EntityFrameworkCore;
+ using WebApplication1.Controllers;
+ using ExpenseReport = Domain.ExpenseReport;
 
  namespace Tests;
 
@@ -55,9 +58,9 @@ public class ExistingExpensesRepositoryTests
 
         var expenseReportAggregate = existingExpensesRepository.GetLastExpenseReport();
         
-        Assert.Single(expenseReportAggregate.Expenses);
-        Assert.Equal(ExpenseType.DINNER, expenseReportAggregate.Expenses.First().ExpenseType);
-        Assert.Equal(100, expenseReportAggregate.Expenses.First().Amount);
+        Assert.Single(expenseReportAggregate.CalculateIndividualExpenses());
+        Assert.Equal("DINNER\t100\t ", expenseReportAggregate.CalculateIndividualExpenses().First());
+        Assert.Equal("DINNER\t100\t ", expenseReportAggregate.CalculateIndividualExpenses().First());
     }
     [Fact]
     public void CanReplaceExistingExpensesWithDefaultData()
@@ -74,7 +77,7 @@ public class ExistingExpensesRepositoryTests
         expensesContext.SaveChanges();
         var existingExpensesRepository = new ExistingExpensesRepository(expensesContext);
         
-        existingExpensesRepository.ReplaceAllExpenses(new List<Expenses>());
+        existingExpensesRepository.ReplaceAllExpenses(new List<Expense>());
         
         Assert.Null(existingExpensesRepository.GetLastExpenseReport());
     }
@@ -82,13 +85,11 @@ public class ExistingExpensesRepositoryTests
     public void CanCreateNewExpenseReportAggregate()
     {
         var expensesContext = TestDbContextFactory(5);
-        var expenseReportAggregate = new ExpenseReportAggregate()
-        {
-            Expenses = new List<Expenses>()
+        var expenseReportAggregate = new Domain.ExpenseReport(
+            new List<Expense>()
             {
                 new(ExpenseType.DINNER, 100)
-            }
-        };
+            }); // FIXME: borked
         var existingExpensesRepository = new ExistingExpensesRepository(expensesContext);
 
         var addExpenseToReport = existingExpensesRepository.AddAggregate(expenseReportAggregate);

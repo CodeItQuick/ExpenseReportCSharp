@@ -1,7 +1,7 @@
  using Application.Services;
  using Domain;
  using ExpenseReportCSharp.Adapter;
- using Expenses = Application.Services.Expenses;
+ using Expenses = Application.Adapter.Expenses;
 
  namespace Tests;
 
@@ -11,7 +11,7 @@ public class DomainTests
     [Fact]
     public void CanAddAMealExpense()
     {
-        var expenseReport = new ExpenseReport(new List<Expense>(), new FakeDateProvider(DateTimeOffset.Now));
+        var expenseReport = new Domain.ExpenseReport(new List<Expense>());
 
         Expense firstExpense = new Expense(ExpenseType.BREAKFAST, 500);
         expenseReport.AddExpense(firstExpense);
@@ -21,7 +21,7 @@ public class DomainTests
     [Fact]
     public void CanAddASecondExpense()
     {
-        var expenseReport = new ExpenseReport(new List<Expense>(), new FakeDateProvider(DateTimeOffset.Now));
+        var expenseReport = new Domain.ExpenseReport(new List<Expense>());
         Expense firstExpense = new Expense(ExpenseType.BREAKFAST, 500);
         expenseReport.AddExpense(firstExpense);
 

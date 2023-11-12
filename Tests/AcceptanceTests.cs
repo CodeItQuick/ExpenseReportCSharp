@@ -1,7 +1,9 @@
+ using Application.Adapter;
  using Application.Services;
  using Domain;
+ using ExpenseReport.ApplicationServices;
  using ExpenseReportCSharp.Adapter;
- using Expenses = Application.Services.Expenses;
+ using ExpenseReport = Domain.ExpenseReport;
 
  namespace Tests;
 
@@ -12,18 +14,19 @@ public class AcceptanceTests
     {
         FakeSystemOutProvider systemOutProvider = new FakeSystemOutProvider();
         ExpensePrinter expensePrinter = new ExpensePrinter(
-            new FakeDateProvider(DateTimeOffset.Parse("2023-04-05")), 
+            new FakeDateProvider(DateTimeOffset.Parse("4/5/2023")), 
             new List<Expenses>(),
-            systemOutProvider);
+            systemOutProvider,
+            new FakeExistingRepository());
 
         expensePrinter.PrintExistingReport();
 
-        Assert.Equal(systemOutProvider.Messages(), new List<string>()
+        Assert.Equal(new List<string>()
         {
             "Expenses 4/5/2023 12:00:00 AM -03:00",
             "Meal expenses: 0",
             "Total expenses: 0"
-        });
+        }, systemOutProvider.Messages());
     }
 
     [Fact]
@@ -32,9 +35,13 @@ public class AcceptanceTests
         Expenses expense = new Expenses(ExpenseType.BREAKFAST, 10);
         FakeSystemOutProvider systemOutProvider = new FakeSystemOutProvider();
         ExpensePrinter expensePrinter = new ExpensePrinter(
-            new FakeDateProvider(DateTimeOffset.Parse("2023-04-05")),
+            new FakeDateProvider(DateTimeOffset.Parse("4/5/2023")),
             new List<Expenses>() { expense },
-            systemOutProvider);
+            systemOutProvider,
+            new FakeExistingRepository(new List<Expense>()
+            {
+                new(expense.ExpenseType, expense.Amount),
+            }));
 
         expensePrinter.PrintExistingReport();
 
@@ -53,9 +60,13 @@ public class AcceptanceTests
         Expenses expense = new Expenses(ExpenseType.DINNER, 10);
         FakeSystemOutProvider systemOutProvider = new FakeSystemOutProvider();
         ExpensePrinter expensePrinter = new ExpensePrinter(
-            new FakeDateProvider(DateTimeOffset.Parse("2023-04-05")),
+            new FakeDateProvider(DateTimeOffset.Parse("4/5/2023")),
             new List<Expenses>() { expense },
-            systemOutProvider);
+            systemOutProvider,
+            new FakeExistingRepository(new List<Expense>()
+            {
+                new(expense.ExpenseType, expense.Amount),
+            }));
 
         expensePrinter.PrintExistingReport();
 
@@ -74,9 +85,13 @@ public class AcceptanceTests
         Expenses expense = new Expenses(ExpenseType.CAR_RENTAL, 10);
         FakeSystemOutProvider systemOutProvider = new FakeSystemOutProvider();
         ExpensePrinter expensePrinter = new ExpensePrinter(
-            new FakeDateProvider(DateTimeOffset.Parse("2023-04-05")),
+            new FakeDateProvider(DateTimeOffset.Parse("4/5/2023")),
             new List<Expenses>() { expense },
-            systemOutProvider);
+            systemOutProvider,
+            new FakeExistingRepository(new List<Expense>()
+            {
+                new(expense.ExpenseType, expense.Amount),
+            }));
 
         expensePrinter.PrintExistingReport();
 
@@ -95,9 +110,13 @@ public class AcceptanceTests
         Expenses expense = new Expenses(ExpenseType.DINNER, 5010);
         FakeSystemOutProvider systemOutProvider = new FakeSystemOutProvider();
         ExpensePrinter expensePrinter = new ExpensePrinter(
-            new FakeDateProvider(DateTimeOffset.Parse("2023-04-05")),
+            new FakeDateProvider(DateTimeOffset.Parse("4/5/2023")),
             new List<Expenses>() { expense },
-            systemOutProvider);
+            systemOutProvider,
+            new FakeExistingRepository(new List<Expense>()
+            {
+                new(expense.ExpenseType, expense.Amount),
+            }));
 
         expensePrinter.PrintExistingReport();
 
@@ -116,9 +135,13 @@ public class AcceptanceTests
         Expenses expense = new Expenses(ExpenseType.BREAKFAST, 1010);
         FakeSystemOutProvider systemOutProvider = new FakeSystemOutProvider();
         ExpensePrinter expensePrinter = new ExpensePrinter(
-            new FakeDateProvider(DateTimeOffset.Parse("2023-04-05")),
+            new FakeDateProvider(DateTimeOffset.Parse("4/5/2023")),
             new List<Expenses>() { expense },
-            systemOutProvider);
+            systemOutProvider,
+            new FakeExistingRepository(new List<Expense>()
+            {
+                new(expense.ExpenseType, expense.Amount),
+            }));
 
         expensePrinter.PrintExistingReport();
 
@@ -139,9 +162,15 @@ public class AcceptanceTests
         Expenses thirdExpense = new Expenses(ExpenseType.CAR_RENTAL, 1010);
         FakeSystemOutProvider fakeSystemOutProvider = new FakeSystemOutProvider();
         ExpensePrinter expensePrinter = new ExpensePrinter(
-            new FakeDateProvider(DateTimeOffset.Parse("2023-04-05")),
+            new FakeDateProvider(DateTimeOffset.Parse("4/5/2023")),
             new List<Expenses>() { firstExpense, secondExpense, thirdExpense },
-            fakeSystemOutProvider);
+            fakeSystemOutProvider,
+            new FakeExistingRepository(new List<Expense>()
+            {
+                new(firstExpense.ExpenseType, firstExpense.Amount),
+                new(secondExpense.ExpenseType, secondExpense.Amount),
+                new(thirdExpense.ExpenseType, thirdExpense.Amount),
+            }));
 
         expensePrinter.PrintExistingReport();
 
@@ -156,3 +185,36 @@ public class AcceptanceTests
         }, fakeSystemOutProvider.Messages());
     }
 }
+
+ public class FakeExistingRepository : IExistingExpensesRepository
+ {
+     private readonly List<Expense>? expensesList;
+
+     public FakeExistingRepository()
+     {
+     }
+
+     public FakeExistingRepository(List<Expense>? expensesList)
+     {
+         this.expensesList = expensesList;
+     }
+
+     public Domain.ExpenseReport? GetLastExpenseReport()
+     {
+         if (expensesList != null && expensesList.Any())
+         {
+             return new Domain.ExpenseReport(this.expensesList);
+         }
+         return null;
+     }
+
+     public void ReplaceAllExpenses(List<Expense> expenseList)
+     {
+         
+     }
+
+     public Domain.ExpenseReport? AddAggregate(Domain.ExpenseReport expenseReport)
+     {
+         return null;
+     }
+ }

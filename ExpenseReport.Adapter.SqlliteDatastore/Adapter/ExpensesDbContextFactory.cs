@@ -1,8 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.Extensions.DependencyInjection;
 
-namespace Application.Services;
+namespace Application.Adapter;
 
 public class ExpensesDbContextFactory : IDesignTimeDbContextFactory<ExpensesDbContext>
 {

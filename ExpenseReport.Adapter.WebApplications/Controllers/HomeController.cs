@@ -1,7 +1,9 @@
 ﻿using System.Diagnostics;
+using Application.Adapter;
 using WebApplication1.Models;
 using Application.Services;
 using Domain;
+using ExpenseReport.ApplicationServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
@@ -15,12 +17,14 @@ public class HomeController : Controller
     public HomeController(ILogger<HomeController> logger)
     {
         _logger = logger;
-        _expenseService = new ExpensesService(new RealDateProvider());
+        _expenseService = new ExpensesService(
+            new RealDateProvider(), 
+            new ExistingExpensesRepository()); // FIXME: broken
     }
 
     public IActionResult Index()
     {
-        ExpenseReport expenseReport = _expenseService.RetrieveExpenseReport();
+        Domain.ExpenseReport expenseReport = _expenseService.RetrieveExpenseReport();
         var expenseView = new ExpenseView() 
         {
             MealExpenses = expenseReport.CalculateMealExpenses(),

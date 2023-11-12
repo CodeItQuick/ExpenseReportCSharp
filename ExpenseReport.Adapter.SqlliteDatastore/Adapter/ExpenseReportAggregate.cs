@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using Domain;
 
-namespace Application.Services;
+namespace Application.Adapter;
 
 public sealed class ExpenseReportAggregate
 {
@@ -12,7 +12,7 @@ public sealed class ExpenseReportAggregate
     
     public DateTimeOffset ExpenseReportDate { get; set; }
 
-    public List<Expense>? RetrieveExpenseList()
+    public List<Expense> RetrieveExpenseList()
     {
         return Expenses?
             .Select(x => new Expense(x.ExpenseType, x.Amount))

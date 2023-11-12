@@ -1,37 +1,61 @@
 
+using Application.Adapter;
 using Application.Services;
 using Domain;
+
+using ExpenseReport.ApplicationServices;
 
 namespace ExpenseReportCSharp.Adapter;
 
 public class ExpensePrinter
 {
-    
+    private readonly IDateProvider dateProvider;
     private SystemOutProvider systemOutProvider;
     private ExpensesService expensesService;
 
-    public ExpensePrinter(DateProvider dateProvider, List<Expenses> expenseList, SystemOutProvider systemOutProvider) {
+    public ExpensePrinter(
+        IDateProvider dateProvider, 
+        List<Expenses> expenseList, 
+        SystemOutProvider systemOutProvider,
+        IExistingExpensesRepository existingExpensesRepository) {
+        this.dateProvider = dateProvider;
         this.systemOutProvider = systemOutProvider;
-        expensesService = new ExpensesService(dateProvider, expenseList, new ExistingExpensesRepository());
+        expensesService = new ExpensesService(
+            dateProvider, 
+            expenseList.Select(x => new Expense(x.ExpenseType, x.Amount)).ToList(), 
+            existingExpensesRepository);
     }
 
-    public ExpensePrinter(DateProvider dateProvider) {
+    private ExpensePrinter(IDateProvider dateProvider) {
+        this.dateProvider = dateProvider;
         systemOutProvider = new SystemOutProvider();
-        expensesService = new ExpensesService(dateProvider);
+        expensesService = new ExpensesService(new RealDateProvider(), new ExistingExpensesRepository());
     }
 
     public static ExpensePrinter Create() {
-        return new ExpensePrinter(new RealDateProvider());
+        return new ExpensePrinter(new RealDateProvider()); // FIXME: broken
     }
 
     public void PrintExistingReport() {
-        ExpenseReport expenseReport = expensesService.RetrieveExpenseReport();
+        var expenseReport = expensesService.RetrieveExpenseReport();
 
-        var expenseView = new ExpenseView(
-            expenseReport.CalculateMealExpenses(),
-            expenseReport.CalculateTotalExpenses(),
-            expenseReport.RetrieveDate(),
-            expenseReport.CalculateIndividualExpenses());
+        ExpenseView expenseView;
+        if (expenseReport == null)
+        {
+            expenseView = new ExpenseView(
+                0,
+                0,
+                dateProvider.CurrentDate(),
+                new List<string>());
+        }
+        else
+        {
+            expenseView = new ExpenseView(
+                expenseReport.CalculateMealExpenses(),
+                expenseReport.CalculateTotalExpenses(),
+                dateProvider.CurrentDate(),
+                expenseReport.CalculateIndividualExpenses());
+        }
         
         
         systemOutProvider.ServicePrint(expenseView.reportTitle());

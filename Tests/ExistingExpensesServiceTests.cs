@@ -1,6 +1,9 @@
+ using Application.Adapter;
  using Application.Services;
  using Domain;
+ using ExpenseReport.ApplicationServices;
  using Microsoft.EntityFrameworkCore;
+ using WebApplication1.Controllers;
 
  namespace Tests;
 
@@ -20,7 +23,9 @@ public class ExistingExpensesServiceTests
     [Fact]
     public void CanConstructDefaultExpenseServiceAndViewExpenses()
     {
-        var expensesService = new ExpensesService(new FakeDateProvider(DateTimeOffset.Now));
+        var expensesService = new ExpensesService(
+            new FakeDateProvider(DateTimeOffset.Parse("2023-01-01")), 
+            new ExistingExpensesRepository());
 
         var viewExpenses = expensesService.RetrieveExpenseReport();
         
@@ -29,11 +34,11 @@ public class ExistingExpensesServiceTests
     [Fact]
     public void CanViewEmptyExpenseList()
     {
-        var expensesList = new List<Expenses>();
+        var expensesList = new List<Expense>();
         var existingExpensesContext = TestDbContextFactory(7);
-        var existingExpensesRepository = new ExistingExpensesRepository(existingExpensesContext);
+        ExistingExpensesRepository existingExpensesRepository = new ExistingExpensesRepository();
         var expensesService = new ExpensesService(
-            new FakeDateProvider(DateTimeOffset.Now), 
+            new FakeDateProvider(DateTimeOffset.Parse("2023-01-01")), 
             expensesList, 
             existingExpensesRepository);
 
@@ -44,14 +49,13 @@ public class ExistingExpensesServiceTests
     [Fact]
     public void CanViewExpenseList()
     {
-        var expensesList = new List<Expenses>()
+        var expensesList = new List<Expense>()
         {
             new(ExpenseType.DINNER, 1000)
         };
-        var existingExpensesContext = TestDbContextFactory(7);
-        var existingExpensesRepository = new ExistingExpensesRepository(existingExpensesContext);
+        IExistingExpensesRepository existingExpensesRepository = new FakeExistingRepository(expensesList);
         var expensesService = new ExpensesService(
-            new FakeDateProvider(DateTimeOffset.Now), 
+            new FakeDateProvider(DateTimeOffset.Parse("2023-01-01")), 
             expensesList, 
             existingExpensesRepository);
 
@@ -63,10 +67,10 @@ public class ExistingExpensesServiceTests
     public void CanCreateExpense()
     {
         var existingExpensesContext = TestDbContextFactory(7);
-        var existingExpensesRepository = new ExistingExpensesRepository(existingExpensesContext);
+        ExistingExpensesRepository existingExpensesRepository = new ExistingExpensesRepository();
         var expensesService = new ExpensesService(
-            new FakeDateProvider(DateTimeOffset.Now), 
-            new List<Expenses>(), 
+            new FakeDateProvider(DateTimeOffset.Parse("2023-01-01")), 
+            new List<Expense>(), 
             existingExpensesRepository);
 
         var expenseReport = expensesService.CreateExpense(

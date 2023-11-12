@@ -1,6 +1,8 @@
-namespace Application.Services;
+using Application.Services;
 
-public class RealDateProvider : DateProvider
+namespace Application.Adapter;
+
+public class RealDateProvider : IDateProvider
 {
     public RealDateProvider() {
     }

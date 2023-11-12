@@ -1,6 +1,7 @@
+using Application.Services;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.Services;
+namespace Application.Adapter;
 
 public class ExpensesDbContext : DbContext
 {

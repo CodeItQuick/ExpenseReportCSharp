@@ -16,6 +16,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\ExpenseReport.Adapter.SqlliteDatastore\ExpenseReport.Adapter.SqlliteDatastore.csproj" />
       <ProjectReference Include="..\ExpenseReport.Application\ExpenseReport.Application.csproj" />
       <ProjectReference Include="..\ExpenseReport.Domain\ExpenseReport.Domain.csproj" />
     </ItemGroup>

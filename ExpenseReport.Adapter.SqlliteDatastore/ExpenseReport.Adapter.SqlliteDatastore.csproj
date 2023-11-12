@@ -16,6 +16,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\ExpenseReport.DomainServices\ExpenseReport.DomainServices.csproj" />
       <ProjectReference Include="..\ExpenseReport.Domain\ExpenseReport.Domain.csproj" />
     </ItemGroup>
 

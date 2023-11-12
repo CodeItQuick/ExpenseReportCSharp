@@ -4,7 +4,7 @@ using Application.Services;
 
 namespace Tests;
 
-public class FakeDateProvider : DateProvider
+public class FakeDateProvider : IDateProvider
 {
     private DateTimeOffset injectedDate;
 

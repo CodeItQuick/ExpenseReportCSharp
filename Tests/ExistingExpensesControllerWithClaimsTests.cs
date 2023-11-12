@@ -1,5 +1,6 @@
  using System.Net;
  using System.Security.Claims;
+ using Application.Adapter;
  using Application.Services;
  using Microsoft.AspNetCore.Http;
  using Microsoft.AspNetCore.Mvc;
