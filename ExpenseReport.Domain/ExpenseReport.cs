@@ -1,5 +1,3 @@
-using Application.Services;
-
 namespace Domain;
 
 public class ExpenseReport

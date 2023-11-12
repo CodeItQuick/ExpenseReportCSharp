@@ -4,7 +4,6 @@
 #nullable disable
 
 using Application.Adapter;
-using Application.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;

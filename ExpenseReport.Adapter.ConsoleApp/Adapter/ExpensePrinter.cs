@@ -1,6 +1,5 @@
 
 using Application.Adapter;
-using Application.Services;
 using ExpenseReport.ApplicationServices;
 
 namespace ExpenseReportCSharp.Adapter;

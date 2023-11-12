@@ -1,4 +1,4 @@
-namespace Application.Services;
+namespace ExpenseReport.ApplicationServices;
 
 public interface IDateProvider
 {
