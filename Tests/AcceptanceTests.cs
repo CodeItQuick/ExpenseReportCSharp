@@ -203,7 +203,7 @@ public class AcceptanceTests
      {
          if (expensesList != null && expensesList.Any())
          {
-             return new Domain.ExpenseReport(this.expensesList);
+             return new Domain.ExpenseReport(this.expensesList, DateTimeOffset.Now);
          }
          return null;
      }

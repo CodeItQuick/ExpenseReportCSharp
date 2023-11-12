@@ -31,7 +31,7 @@ public sealed class ExpenseReportAggregate
     {
         return new Domain.ExpenseReport(Expenses?
             .Select(x => new Expense(x.ExpenseType, x.Amount))
-            .ToList());
+            .ToList(), ExpenseReportDate);
     }
 
     public List<Expense> RetrieveExpenseList()

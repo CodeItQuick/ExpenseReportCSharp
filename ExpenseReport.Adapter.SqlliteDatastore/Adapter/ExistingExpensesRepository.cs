@@ -38,7 +38,8 @@ public class ExistingExpensesRepository : IExistingExpensesRepository
             return null;
         }
         return new Domain.ExpenseReport(
-            expenseReportAggregates?.RetrieveExpenseList() ?? new List<Expense>());
+            expenseReportAggregates?.RetrieveExpenseList() ?? new List<Expense>(), 
+            expenseReportAggregates?.ExpenseReportDate ?? DateTimeOffset.Now);
     }
 
     public Domain.ExpenseReport? AddAggregate(List<Expense> expenseReport, DateTimeOffset? expenseDate)

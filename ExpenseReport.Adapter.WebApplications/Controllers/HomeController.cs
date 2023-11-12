@@ -71,4 +71,17 @@ public class HomeController : Controller
             TotalExpenses = expenseAdded.CalculateTotalExpenses()
         });
     }
+
+    public ViewResult CreateExpenseReport(DateTimeOffset expenseReportDate)
+    {
+        var expenseAdded = _expenseService.CreateNewExpenseReport(expenseReportDate);
+
+        return View("Index", new ExpenseView()
+        {
+            MealExpenses = expenseAdded.CalculateMealExpenses(),
+            ExpenseDate = expenseAdded.RetrieveDate(),
+            IndividualExpenses = expenseAdded.CalculateIndividualExpenses(),
+            TotalExpenses = expenseAdded.CalculateTotalExpenses()
+        });
+    }
 }

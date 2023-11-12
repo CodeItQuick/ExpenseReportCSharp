@@ -5,15 +5,18 @@ namespace Domain;
 public class ExpenseReport
 {
     private List<Expense>? expenses;
+    public DateTimeOffset ExpenseReportDate { get; private set; }
 
-    public ExpenseReport(List<Expense>? expenses)
+
+    public ExpenseReport(List<Expense>? expenses, DateTimeOffset expenseReportDate)
     {
         this.expenses = expenses;
+        this.ExpenseReportDate = expenseReportDate;
     }
 
     public DateTimeOffset RetrieveDate()
     {
-        return DateTimeOffset.Now;
+        return ExpenseReportDate;
     }
 
     public List<String> CalculateIndividualExpenses() {

@@ -33,4 +33,15 @@ public class ExpensesService
         }
         return addExpenseToReport;
     }
+
+    public Domain.ExpenseReport CreateNewExpenseReport(DateTimeOffset expenseReportDate)
+    {
+        
+        var addExpenseToReport = expenseRepository.AddAggregate(new List<Expense>(), expenseReportDate);
+        if (addExpenseToReport == null)
+        {
+            throw new Exception("expense report failed to save");
+        }
+        return addExpenseToReport;
+    }
 }

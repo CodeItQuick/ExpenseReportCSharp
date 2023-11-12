@@ -60,6 +60,17 @@
          Assert.Equal("BREAKFAST	100	 ", indexResponseModel.IndividualExpenses.First());
          Assert.Equal(100, indexResponseModel.TotalExpenses);
      }
+     [Fact]
+     public void CanCreateANewEmptyExpenseReport()
+     {
+         var actionResult = _controller.CreateExpenseReport(DateTimeOffset.Parse("2023-11-09")) as ViewResult;
+
+         var indexResponseModel = (actionResult?.Model as ExpenseView);
+         Assert.NotNull(actionResult);
+         Assert.Equal(0, indexResponseModel.MealExpenses);
+         Assert.False(indexResponseModel.IndividualExpenses.Any());
+         Assert.Equal(0, indexResponseModel.TotalExpenses);
+     }
  }
  
 public class HomeControllerFixtures
