@@ -1,5 +1,4 @@
 using Application.Adapter;
-using ExpenseReport = Domain.ExpenseReport;
 
 namespace Tests;
 
@@ -26,11 +25,6 @@ public class FakeExistingRepository : IExistingExpensesRepository
             return new Domain.ExpenseReport(expenses, DateTimeOffset.Now, 1);
         }
         return new Domain.ExpenseReport(new List<Domain.Expense>(), DateTimeOffset.Now, 1);
-    }
-
-    public void ReplaceAllExpenses(List<Expense> expenseList)
-    {
-         
     }
 
     public Domain.ExpenseReport? AddAggregate(List<Expense> expenseList, DateTimeOffset? expenseDate)
