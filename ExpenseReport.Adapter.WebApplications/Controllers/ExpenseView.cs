@@ -6,4 +6,5 @@ public class ExpenseView
     public int TotalExpenses { get; set; }
     public DateTimeOffset ExpenseDate { get; set; }
     public List<String>? IndividualExpenses { get; set; }
+    public int Id { get; set; }
 }

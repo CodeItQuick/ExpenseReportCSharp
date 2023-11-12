@@ -71,6 +71,41 @@
          Assert.False(indexResponseModel.IndividualExpenses.Any());
          Assert.Equal(0, indexResponseModel.TotalExpenses);
      }
+     [Fact]
+     public void CanCreateANewEmptyExpenseReportWithAnExpense()
+     {
+         var expenseReport = _controller.CreateExpenseReport(DateTimeOffset.Parse("2023-11-09"));
+
+         var actionResult = _controller.ExpenseView(
+             100, 
+             "BREAKFAST",
+             (expenseReport.Model as ExpenseView).Id) as ViewResult;
+         
+         var indexResponseModel = (actionResult?.Model as ExpenseView);
+         Assert.NotNull(actionResult);
+         Assert.Equal(100, indexResponseModel.MealExpenses);
+         Assert.Equal("BREAKFAST\t100\t ", indexResponseModel.IndividualExpenses.First());
+         Assert.Equal(100, indexResponseModel.TotalExpenses);
+     }
+     [Fact]
+     public void CanCreateANewEmptyExpenseReportWithTwoExpenses()
+     {
+         var expenseReport = _controller.CreateExpenseReport(DateTimeOffset.Parse("2023-11-09"));
+         var expenseReportId = (expenseReport.Model as ExpenseView).Id;
+         _controller.ExpenseView(
+             100, 
+             "BREAKFAST",
+             expenseReportId);
+
+         var actionResult = _controller.ExpenseView(
+             200, 
+             "BREAKFAST",
+             expenseReportId) as ViewResult;
+         
+         var indexResponseModel = (actionResult?.Model as ExpenseView);
+         Assert.NotNull(actionResult);
+         Assert.Equal(2, indexResponseModel.IndividualExpenses.Count);
+     }
  }
  
 public class HomeControllerFixtures

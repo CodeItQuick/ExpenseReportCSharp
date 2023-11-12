@@ -71,7 +71,23 @@ public class HomeController : Controller
             TotalExpenses = expenseAdded.CalculateTotalExpenses()
         });
     }
+    public ActionResult ExpenseView(
+        int expenseCost, string expenseType, int expenseReportId)
+    {
+        var tryParse = ExpenseType.TryParse(expenseType, out ExpenseType expense);
+        var expenseAdded = _expenseService.CreateExpense(
+            expenseCost, expense, expenseReportId);
 
+        return View("Index", new ExpenseView()
+        {
+            MealExpenses = expenseAdded.CalculateMealExpenses(),
+            ExpenseDate = expenseAdded.RetrieveDate(),
+            IndividualExpenses = expenseAdded.CalculateIndividualExpenses(),
+            TotalExpenses = expenseAdded.CalculateTotalExpenses()
+        });
+    }
+
+    // FIXME: Needs a test and endpoint
     public ViewResult CreateExpenseReport(DateTimeOffset expenseReportDate)
     {
         var expenseAdded = _expenseService.CreateNewExpenseReport(expenseReportDate);
@@ -81,7 +97,8 @@ public class HomeController : Controller
             MealExpenses = expenseAdded.CalculateMealExpenses(),
             ExpenseDate = expenseAdded.RetrieveDate(),
             IndividualExpenses = expenseAdded.CalculateIndividualExpenses(),
-            TotalExpenses = expenseAdded.CalculateTotalExpenses()
+            TotalExpenses = expenseAdded.CalculateTotalExpenses(),
+            Id = expenseAdded.Id
         });
     }
 }
