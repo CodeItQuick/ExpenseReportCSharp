@@ -12,21 +12,17 @@
 
  namespace Tests;
 
- public class ExistingExpensesControllerWithClaimsTests : IClassFixture<HomeControllerFixtures>
+ public class ExistingExpensesControllerWithClaimsTests
  {
-     private readonly HomeControllerFixtures _fixture;
      private readonly HomeController _controller;
-     private IExistingExpensesRepository existingExpensesRepository;
 
-     public ExistingExpensesControllerWithClaimsTests(HomeControllerFixtures fixture)
+     public ExistingExpensesControllerWithClaimsTests()
      {
-         fixture.SeedDatabase();
-         _fixture = fixture;
-         existingExpensesRepository = new FakeExistingRepository(new List<Expense>());
          _controller = new HomeController(
-             new NullLogger<HomeController>(), new ExpensesService(
+             new NullLogger<HomeController>(), 
+                 new ExpensesService(
                  new RealDateProvider(), 
-                 existingExpensesRepository));
+                 new FakeExistingRepository(new List<Expense>())));
         
          var claimsIdentity = new ClaimsIdentity(
              new List<Claim>() { new(ClaimTypes.Name, "test_username") }, 
@@ -112,20 +108,3 @@
          Assert.Equal(2, indexResponseModel.IndividualExpenses.Count);
      }
  }
- 
-public class HomeControllerFixtures
-{
-    public ExpensesDbContext? StockContextDb;
-    private SqliteConnection? _connection;
-    public void SeedDatabase()
-    {
-        _connection = new SqliteConnection("DataSource=:memory:");
-        _connection.Open();
-        var options = new DbContextOptionsBuilder<ExpensesDbContext>().UseSqlite(_connection).Options;
-
-        StockContextDb = new ExpensesDbContext(options);
-        StockContextDb.Database.EnsureCreated();
-
-        StockContextDb.SaveChanges();
-    }
-}

@@ -2,11 +2,11 @@
 
  namespace Tests;
 
- public class ExistingExpensesControllerTests : IClassFixture<TestingWebAppFactory<Program>>
+ public class ExistingExpensesControllerTests : IClassFixture<TestingWebAppFactory>
  {
      private readonly HttpClient client;
 
-     public ExistingExpensesControllerTests(TestingWebAppFactory<Program> factory)
+     public ExistingExpensesControllerTests(TestingWebAppFactory factory)
      {
          client = factory.CreateClient();
      }
