@@ -71,7 +71,7 @@ public class ExistingExpensesServiceTests
             (IExistingExpensesRepository)existingExpensesRepository);
 
         var expenseReport = expensesService.CreateExpense(
-            100, ExpenseType.DINNER, DateTimeOffset.Parse("2023-11-09"));
+            new Expense(ExpenseType.DINNER, 100), DateTimeOffset.Parse("2023-11-09"));
         
         Assert.Single(expenseReport.CalculateIndividualExpenses());
     }
@@ -102,7 +102,7 @@ public class ExistingExpensesServiceTests
             existingExpensesRepository);
         var expenseReport = expensesService.CreateExpenseReport(expenseReportDate);
 
-        var expense = expensesService.CreateExpense(1234, ExpenseType.BREAKFAST, expenseReport.Id);
+        var expense = expensesService.CreateExpense(expenseReport.Id, new Expense(ExpenseType.BREAKFAST, 1234));
 
         Assert.Equal(expenseReport.Id, expense.Id);
     }
@@ -117,9 +117,9 @@ public class ExistingExpensesServiceTests
             new FakeDateProvider(expenseReportDate), 
             existingExpensesRepository);
         var expenseReport = expensesService.CreateExpenseReport(expenseReportDate);
-        expensesService.CreateExpense(1234, ExpenseType.BREAKFAST, expenseReport.Id);
+        expensesService.CreateExpense(expenseReport.Id, new Expense(ExpenseType.BREAKFAST, 1234));
 
-        var expense = expensesService.CreateExpense(1234, ExpenseType.BREAKFAST, expenseReport.Id);
+        var expense = expensesService.CreateExpense(expenseReport.Id, new Expense(ExpenseType.BREAKFAST, 1234));
 
         Assert.Equal(2, expense.CalculateIndividualExpenses().Count);
     }

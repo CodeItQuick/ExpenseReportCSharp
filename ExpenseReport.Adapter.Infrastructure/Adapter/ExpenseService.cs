@@ -14,12 +14,12 @@ public class ExpensesService : IExpenseService
         expenseRepository = existingExpensesRepository;  //new ExistingExpensesRepository();
     }
 
-    public Domain.ExpenseReport CreateExpense(int expenseCost, ExpenseType expense, DateTimeOffset expenseDate)
+    public Domain.ExpenseReport CreateExpense(Expense expense, DateTimeOffset expenseDate)
     {
         var expenseList = 
             new List<Expense>()
             {
-                new(expense, expenseCost)
+                expense
             };
         var addExpenseToReport = expenseRepository.AddAggregate(expenseList, expenseDate);
         if (addExpenseToReport == null)
@@ -44,13 +44,13 @@ public class ExpensesService : IExpenseService
         return addExpenseToReport;
     }
 
-    public Domain.ExpenseReport CreateExpense(int expenseCost, ExpenseType expenseType, int expenseReportId)
+    public Domain.ExpenseReport CreateExpense(int expenseReportId, Expense expense)
     {
         
         var expenseReport = 
             new List<Expense>()
             {
-                new(expenseType, expenseCost)
+                expense
             };
         var addExpenseToReport = expenseRepository.UpdateAggregate(expenseReport, expenseReportId);
         if (addExpenseToReport == null)

@@ -57,7 +57,7 @@ public class HomeController : Controller
         int expenseCost, string expenseType, DateTimeOffset expenseDate)
     {
         var tryParse = ExpenseType.TryParse(expenseType, out ExpenseType expense);
-        var expenseAdded = _expenseService.CreateExpense(expenseCost, expense, expenseDate);
+        var expenseAdded = _expenseService.CreateExpense(new Expense(expense, expenseCost), expenseDate);
 
         return View("Index", new ExpenseView()
         {
@@ -72,7 +72,7 @@ public class HomeController : Controller
     {
         var tryParse = ExpenseType.TryParse(expenseType, out ExpenseType expense);
         var expenseAdded = _expenseService.CreateExpense(
-            expenseCost, expense, expenseReportId);
+            expenseReportId, new Expense(expense, expenseCost));
 
         return View("Index", new ExpenseView()
         {
