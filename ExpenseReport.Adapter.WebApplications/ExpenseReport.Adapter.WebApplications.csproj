@@ -11,8 +11,6 @@
     <ItemGroup>
       <ProjectReference Include="..\ExpenseReport.Adapter.SqlliteDatastore\ExpenseReport.Adapter.SqlliteDatastore.csproj" />
       <ProjectReference Include="..\ExpenseReport.DomainServices\ExpenseReport.DomainServices.csproj" />
-      <ProjectReference Include="..\ExpenseReport.Application\ExpenseReport.Application.csproj" />
-      <ProjectReference Include="..\ExpenseReport.Services.IAdapters\ExpenseReport.Services.IAdapters.csproj" />
     </ItemGroup>
 
 </Project>

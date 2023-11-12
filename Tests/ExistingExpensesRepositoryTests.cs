@@ -59,21 +59,6 @@ public class ExistingExpensesRepositoryTests
         Assert.Equal("DINNER\t100\t ", expenseReportAggregate.CalculateIndividualExpenses().First());
     }
     [Fact]
-    public void CanReplaceExistingExpensesWithDefaultData()
-    {
-        var expensesContext = TestDbContextFactory(4);
-        expensesContext.ExpenseReportAggregates.Add(new ExpenseReportAggregate(new List<Expense>()
-            {
-                new(ExpenseType.DINNER, 100)
-            }, new RealDateProvider().CurrentDate()));
-        expensesContext.SaveChanges();
-        var existingExpensesRepository = new ExistingExpensesRepository(expensesContext, new RealDateProvider());
-        
-        existingExpensesRepository.ReplaceAllExpenses(new List<Expense>());
-        
-        Assert.Null(existingExpensesRepository.GetLastExpenseReport());
-    }
-    [Fact]
     public void CanCreateNewExpenseReportAggregate()
     {
         var expensesContext = TestDbContextFactory(5);

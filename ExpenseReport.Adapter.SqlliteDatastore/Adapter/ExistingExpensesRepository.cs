@@ -15,7 +15,7 @@ public class ExistingExpensesRepository : IExistingExpensesRepository
     {
         var dbContextOptions = new DbContextOptionsBuilder()
             .UseSqlite("Data Source=blog.db")
-            .Options; // FIXME: Broken
+            .Options; 
         realDateProvider = dateProvider;
         expensesDbContext = new ExpensesDbContext(dbContextOptions);
         expensesDbContext.Database.EnsureCreated();
@@ -39,19 +39,6 @@ public class ExistingExpensesRepository : IExistingExpensesRepository
         }
         return new Domain.ExpenseReport(
             expenseReportAggregates?.RetrieveExpenseList() ?? new List<Expense>());
-    }
-
-    public void ReplaceAllExpenses(List<Expense> expenseList)
-    {
-        var expenseReportAggregates = expensesDbContext.ExpenseReportAggregates.ToList();
-        expensesDbContext.ExpenseReportAggregates.RemoveRange(expenseReportAggregates);
-        expensesDbContext.SaveChanges();
-        if (expenseList.Any())
-        {
-            var expenseReportAggregate = new ExpenseReportAggregate(expenseList, realDateProvider.CurrentDate());
-            expensesDbContext.ExpenseReportAggregates.Add(expenseReportAggregate);
-            expensesDbContext.SaveChanges();
-        }
     }
 
     public Domain.ExpenseReport? AddAggregate(List<Expense> expenseReport, DateTimeOffset? expenseDate)

@@ -36,8 +36,8 @@ public sealed class ExpenseReportAggregate
 
     public List<Expense> RetrieveExpenseList()
     {
-        return Expenses?
-            .Select(x => new Expense(x.ExpenseType, x.Amount))
-            .ToList();
+        return Expenses
+            ?.Select(x => new Expense(x.ExpenseType, x.Amount))
+            .ToList() ?? new List<Expense>();
     }
 }

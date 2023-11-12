@@ -27,7 +27,13 @@ public class HomeController : Controller
         Domain.ExpenseReport? expenseReport = _expenseService.RetrieveExpenseReport();
         if (expenseReport == null)
         {
-            return View(new ExpenseView());
+            return View(new ExpenseView()
+            {
+                MealExpenses = 0,
+                ExpenseDate = DateTimeOffset.Now,
+                TotalExpenses = 0,
+                IndividualExpenses = new List<string>()
+            });
         }
         var expenseView = new ExpenseView() 
         {
