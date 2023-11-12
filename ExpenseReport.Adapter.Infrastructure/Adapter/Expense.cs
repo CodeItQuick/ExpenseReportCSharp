@@ -4,7 +4,7 @@ using Domain;
 
 namespace Application.Adapter;
 
-public class Expenses
+public class Expense
 {
     [Key]
     public int Id { get; set; }
@@ -13,10 +13,4 @@ public class Expenses
 
     [ForeignKey("ExpenseReportAggregateId")]
     public int ExpenseReportAggregateId { get; set; }
-
-    public Expenses(ExpenseType expenseType, int amount)
-    {
-        ExpenseType = expenseType;
-        Amount = amount;
-    }
 }

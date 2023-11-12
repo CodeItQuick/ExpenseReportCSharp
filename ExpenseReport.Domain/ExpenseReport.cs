@@ -2,7 +2,7 @@ namespace Domain;
 
 public class ExpenseReport
 {
-    private List<Expense>? expenses;
+    private readonly List<Expense>? expenses;
     private DateTimeOffset ExpenseReportDate { get; set; }
     public int Id { get; set; }
 
@@ -22,7 +22,7 @@ public class ExpenseReport
     public List<String> CalculateIndividualExpenses() {
         List<string> displayExpenses = new List<string>();
         foreach (Expense expense in this.expenses) {
-            String label = expense.expenseType() + "\t" + expense.Amount() + "\t" + expense.isOverExpensedMeal();
+            String label = expense.ExpenseType() + "\t" + expense.Amount() + "\t" + expense.IsOverExpensedMeal();
             displayExpenses.Add(label);
         }
         return displayExpenses;
@@ -39,7 +39,7 @@ public class ExpenseReport
     public int CalculateMealExpenses() {
         int mealExpenses = 0;
         foreach (Expense expense in expenses) {
-            mealExpenses += expense.calculateMealExpenses();
+            mealExpenses += expense.CalculateMealExpenses();
         }
         return mealExpenses;
     }

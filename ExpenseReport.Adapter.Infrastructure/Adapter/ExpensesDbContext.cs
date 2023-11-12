@@ -4,7 +4,7 @@ namespace Application.Adapter;
 
 public class ExpensesDbContext : DbContext
 {
-    public DbSet<Expenses> Expenses { get; set; }
+    public DbSet<Expense> Expenses { get; set; }
     public DbSet<ExpenseReportAggregate?> ExpenseReportAggregates { get; set; }
     private string DbPath { get; set; }
 

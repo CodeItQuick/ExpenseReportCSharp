@@ -28,6 +28,7 @@ public class ExistingExpensesRepository : IExistingExpensesRepository
     public Domain.ExpenseReport? GetLastExpenseReport()
     {
         var reportAggregates = expensesDbContext.ExpenseReportAggregates
+            .Include("Expenses")
             .ToList();
         var expenseReportAggregates = reportAggregates
             .LastOrDefault();
@@ -36,27 +37,37 @@ public class ExistingExpensesRepository : IExistingExpensesRepository
             return null;
         }
         return new Domain.ExpenseReport(
-            expenseReportAggregates?.RetrieveExpenseList() ?? new List<Expense>(), 
-            expenseReportAggregates?.ExpenseReportDate ?? DateTimeOffset.Now, expenseReportAggregates.Id);
+            expenseReportAggregates.Expenses?.Select(x => new Domain.Expense(x.ExpenseType, x.Amount)).ToList(), 
+            expenseReportAggregates?.ExpenseReportDate ?? DateTimeOffset.Now, 
+            expenseReportAggregates.Id);
     }
 
-    public Domain.ExpenseReport? AddAggregate(List<Expense> expenseReport, DateTimeOffset? expenseDate)
+    public Domain.ExpenseReport? AddAggregate(List<Expense> expenseList, DateTimeOffset? expenseDate)
     {
-        var expenseReportAggregate = new ExpenseReportAggregate(expenseReport, expenseDate ?? realDateProvider.CurrentDate());
+        var expenseReportAggregate = new ExpenseReportAggregate()
+        {
+            Expenses = expenseList,
+            ExpenseReportDate = expenseDate ?? DateTimeOffset.Now
+        };
         var entityEntry = expensesDbContext.ExpenseReportAggregates.Add(
             expenseReportAggregate);
         expensesDbContext.SaveChanges();
         expensesDbContext.ChangeTracker.Clear();
-        return entityEntry.Entity?.RetrieveExpenseReport();
+        return new Domain.ExpenseReport(
+            expenseList.Select(x => new Domain.Expense(x.ExpenseType, x.Amount)).ToList(), 
+            entityEntry.Entity?.ExpenseReportDate ?? DateTimeOffset.Now, 
+            entityEntry.Entity.Id);
     }
 
     public Domain.ExpenseReport? UpdateAggregate(List<Expense> expenses, int expenseReportId)
     {
         var reportAggregate = expensesDbContext.ExpenseReportAggregates.Find(expenseReportId);
-        reportAggregate?.AddExpense(expenses);
-        var entityEntry = expensesDbContext.ExpenseReportAggregates.Update(
-            reportAggregate);
+        reportAggregate.Expenses = expenses;
+        expensesDbContext.ExpenseReportAggregates.Update(reportAggregate);
         expensesDbContext.SaveChanges();
-        return entityEntry.Entity?.RetrieveExpenseReport();
+        return new Domain.ExpenseReport(
+            reportAggregate?.Expenses.Select(x => new Domain.Expense(x.ExpenseType, x.Amount)).ToList(), 
+            reportAggregate?.ExpenseReportDate ?? DateTimeOffset.Now, 
+            reportAggregate.Id);
     }
 }

@@ -3,6 +3,7 @@
  using Domain;
  using Microsoft.EntityFrameworkCore;
  using WebApplication1.Controllers;
+ using Expense = Application.Adapter.Expense;
  using ExpenseReport = Domain.ExpenseReport;
 
  namespace Tests;
@@ -45,10 +46,10 @@ public class ExistingExpensesRepositoryTests
     public void CanRetrieveAFilledExpenseReportWithExpenses()
     {
         var expensesContext = TestDbContextFactory(3);
-        expensesContext.ExpenseReportAggregates.Add(new ExpenseReportAggregate(
-            new List<Expense>(){
-                new(ExpenseType.DINNER, 100)
-            }, new RealDateProvider().CurrentDate()));
+        expensesContext.ExpenseReportAggregates.Add(new ExpenseReportAggregate() {
+           Expenses = new List<Expense>() { new() {  ExpenseType = ExpenseType.DINNER, Amount = 100} },
+           ExpenseReportDate = new RealDateProvider().CurrentDate()
+        });
         expensesContext.SaveChanges();
         var existingExpensesRepository = new ExistingExpensesRepository(expensesContext, new RealDateProvider());
 
@@ -64,7 +65,7 @@ public class ExistingExpensesRepositoryTests
         var expensesContext = TestDbContextFactory(5);
         var expenses = new List<Expense>()
         {
-            new(ExpenseType.DINNER, 100)
+            new() { ExpenseType = ExpenseType.DINNER, Amount = 100}
         };
         var existingExpensesRepository = new ExistingExpensesRepository(expensesContext, new RealDateProvider());
 

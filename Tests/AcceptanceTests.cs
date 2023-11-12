@@ -1,8 +1,8 @@
- using Application.Adapter;
- using Application.Services;
+using Application.Services;
  using Domain;
  using ExpenseReport.ApplicationServices;
  using ExpenseReportCSharp.Adapter;
+ using Expense = Application.Adapter.Expense;
  using ExpenseReport = Domain.ExpenseReport;
 
  namespace Tests;
@@ -15,7 +15,7 @@ public class AcceptanceTests
         FakeSystemOutProvider systemOutProvider = new FakeSystemOutProvider();
         ExpensePrinter expensePrinter = new ExpensePrinter(
             new FakeDateProvider(DateTimeOffset.Parse("4/5/2023")), 
-            new List<Expenses>(),
+            new List<Expense>(),
             systemOutProvider,
             new FakeExistingRepository());
 
@@ -32,15 +32,15 @@ public class AcceptanceTests
     [Fact]
     public void OneBreakfastExpenseReportShowsMealExpense()
     {
-        Expenses expense = new Expenses(ExpenseType.BREAKFAST, 10);
         FakeSystemOutProvider systemOutProvider = new FakeSystemOutProvider();
+        var expenses = new Expense() { ExpenseType = ExpenseType.BREAKFAST, Amount = 10};
         ExpensePrinter expensePrinter = new ExpensePrinter(
             new FakeDateProvider(DateTimeOffset.Parse("4/5/2023")),
-            new List<Expenses>() { expense },
+            null,
             systemOutProvider,
             new FakeExistingRepository(new List<Expense>()
             {
-                new(expense.ExpenseType, expense.Amount),
+                expenses,
             }));
 
         expensePrinter.PrintExistingReport();
@@ -57,15 +57,14 @@ public class AcceptanceTests
     [Fact]
     public void OneDinnerExpenseReportShowsMealExpense()
     {
-        Expenses expense = new Expenses(ExpenseType.DINNER, 10);
         FakeSystemOutProvider systemOutProvider = new FakeSystemOutProvider();
         ExpensePrinter expensePrinter = new ExpensePrinter(
             new FakeDateProvider(DateTimeOffset.Parse("4/5/2023")),
-            new List<Expenses>() { expense },
+            new List<Expense>() ,
             systemOutProvider,
             new FakeExistingRepository(new List<Expense>()
             {
-                new(expense.ExpenseType, expense.Amount),
+                new() { ExpenseType = ExpenseType.DINNER, Amount = 10 }
             }));
 
         expensePrinter.PrintExistingReport();
@@ -82,15 +81,15 @@ public class AcceptanceTests
     [Fact]
     public void OneCarRentalExpenseReportShowsMealExpense()
     {
-        Expenses expense = new Expenses(ExpenseType.CAR_RENTAL, 10);
         FakeSystemOutProvider systemOutProvider = new FakeSystemOutProvider();
+        var expenses = new Expense() { ExpenseType = ExpenseType.CAR_RENTAL, Amount = 10};
         ExpensePrinter expensePrinter = new ExpensePrinter(
             new FakeDateProvider(DateTimeOffset.Parse("4/5/2023")),
-            new List<Expenses>() { expense },
+            null,
             systemOutProvider,
             new FakeExistingRepository(new List<Expense>()
             {
-                new(expense.ExpenseType, expense.Amount),
+                expenses,
             }));
 
         expensePrinter.PrintExistingReport();
@@ -107,15 +106,14 @@ public class AcceptanceTests
     [Fact]
     public void OneDinnerExpenseOverMaximumReportShowsMealExpenseAndMarker()
     {
-        Expenses expense = new Expenses(ExpenseType.DINNER, 5010);
         FakeSystemOutProvider systemOutProvider = new FakeSystemOutProvider();
         ExpensePrinter expensePrinter = new ExpensePrinter(
             new FakeDateProvider(DateTimeOffset.Parse("4/5/2023")),
-            new List<Expenses>() { expense },
+            new List<Expense>(),
             systemOutProvider,
             new FakeExistingRepository(new List<Expense>()
             {
-                new(expense.ExpenseType, expense.Amount),
+                new() { ExpenseType = ExpenseType.DINNER, Amount = 5010 },
             }));
 
         expensePrinter.PrintExistingReport();
@@ -132,15 +130,14 @@ public class AcceptanceTests
     [Fact]
     public void OneBreakfastExpenseOverMaximumReportShowsMealExpenseAndMarker()
     {
-        Expenses expense = new Expenses(ExpenseType.BREAKFAST, 1010);
         FakeSystemOutProvider systemOutProvider = new FakeSystemOutProvider();
         ExpensePrinter expensePrinter = new ExpensePrinter(
             new FakeDateProvider(DateTimeOffset.Parse("4/5/2023")),
-            new List<Expenses>() { expense },
+            null,
             systemOutProvider,
             new FakeExistingRepository(new List<Expense>()
             {
-                new(expense.ExpenseType, expense.Amount),
+                new() { ExpenseType = ExpenseType.BREAKFAST, Amount = 1010}
             }));
 
         expensePrinter.PrintExistingReport();
@@ -157,19 +154,16 @@ public class AcceptanceTests
     [Fact]
     public void MultipleMealsReportShowsAllExpenses()
     {
-        Expenses firstExpense = new Expenses(ExpenseType.BREAKFAST, 500);
-        Expenses secondExpense = new Expenses(ExpenseType.DINNER, 5010);
-        Expenses thirdExpense = new Expenses(ExpenseType.CAR_RENTAL, 1010);
         FakeSystemOutProvider fakeSystemOutProvider = new FakeSystemOutProvider();
         ExpensePrinter expensePrinter = new ExpensePrinter(
             new FakeDateProvider(DateTimeOffset.Parse("4/5/2023")),
-            new List<Expenses>() { firstExpense, secondExpense, thirdExpense },
+            new List<Expense>(),
             fakeSystemOutProvider,
             new FakeExistingRepository(new List<Expense>()
             {
-                new(firstExpense.ExpenseType, firstExpense.Amount),
-                new(secondExpense.ExpenseType, secondExpense.Amount),
-                new(thirdExpense.ExpenseType, thirdExpense.Amount),
+                new() { ExpenseType = ExpenseType.BREAKFAST, Amount = 500 },
+                new() { ExpenseType = ExpenseType.DINNER, Amount = 5010 },
+                new() { ExpenseType = ExpenseType.CAR_RENTAL, Amount = 1010 },
             }));
 
         expensePrinter.PrintExistingReport();
@@ -185,41 +179,3 @@ public class AcceptanceTests
         }, fakeSystemOutProvider.Messages());
     }
 }
-
- public class FakeExistingRepository : IExistingExpensesRepository
- {
-     private readonly List<Expense>? expensesList;
-
-     public FakeExistingRepository()
-     {
-     }
-
-     public FakeExistingRepository(List<Expense>? expensesList)
-     {
-         this.expensesList = expensesList;
-     }
-
-     public Domain.ExpenseReport? GetLastExpenseReport()
-     {
-         if (expensesList != null && expensesList.Any())
-         {
-             return new Domain.ExpenseReport(this.expensesList, DateTimeOffset.Now, 1);
-         }
-         return null;
-     }
-
-     public void ReplaceAllExpenses(List<Expense> expenseList)
-     {
-         
-     }
-
-     public Domain.ExpenseReport? AddAggregate(List<Expense> expenseReport, DateTimeOffset? expenseDate)
-     {
-         return null;
-     }
-
-     public Domain.ExpenseReport? UpdateAggregate(List<Expense> expenses, int expenseReportId)
-     {
-         throw new NotImplementedException();
-     }
- }

@@ -16,15 +16,17 @@
  {
      private readonly HomeControllerFixtures _fixture;
      private readonly HomeController _controller;
+     private IExistingExpensesRepository existingExpensesRepository;
 
      public ExistingExpensesControllerWithClaimsTests(HomeControllerFixtures fixture)
      {
          fixture.SeedDatabase();
          _fixture = fixture;
+         existingExpensesRepository = new FakeExistingRepository(new List<Expense>());
          _controller = new HomeController(
              new NullLogger<HomeController>(), new ExpensesService(
                  new RealDateProvider(), 
-                 new ExistingExpensesRepository(new RealDateProvider())));
+                 existingExpensesRepository));
         
          var claimsIdentity = new ClaimsIdentity(
              new List<Claim>() { new(ClaimTypes.Name, "test_username") }, 

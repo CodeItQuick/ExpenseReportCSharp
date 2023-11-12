@@ -1,10 +1,9 @@
-using Domain;
 
-namespace ExpenseReport.ApplicationServices;
+namespace Application.Adapter;
 
 public interface IExistingExpensesRepository
 {
     public Domain.ExpenseReport? GetLastExpenseReport();
-    public Domain.ExpenseReport? AddAggregate(List<Expense> expenseReport, DateTimeOffset? expenseDate);
+    public Domain.ExpenseReport? AddAggregate(List<Expense> expenseList, DateTimeOffset? expenseDate);
     public Domain.ExpenseReport? UpdateAggregate(List<Expense> expenses, int expenseReportId);
 }
