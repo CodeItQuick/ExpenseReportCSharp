@@ -4,47 +4,47 @@ namespace Application.Services;
 
 public class ExistingExpensesRepository
 {
-    private readonly ExpensesContext expensesContext;
+    private readonly ExpensesDbContext expensesDbContext;
 
     public ExistingExpensesRepository()
     {
-        var DbPath = Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "blogging.db");
         var dbContextOptions = new DbContextOptionsBuilder()
-            .UseSqlite($"Data Source={DbPath}")
+            .UseSqlite("Data Source=blog.db")
             .Options;
-        expensesContext = new ExpensesContext(dbContextOptions);
+        expensesDbContext = new ExpensesDbContext(dbContextOptions);
+        expensesDbContext.Database.EnsureCreated();
     }
 
-    public ExistingExpensesRepository(ExpensesContext expensesContext)
+    public ExistingExpensesRepository(ExpensesDbContext expensesDbContext)
     {
-        this.expensesContext = expensesContext;
+        this.expensesDbContext = expensesDbContext;
     }
 
     public ExpenseReportAggregate? GetLastExpenseReport()
     {
-        return expensesContext.ExpenseReportAggregates.ToList().LastOrDefault();
+        return expensesDbContext.ExpenseReportAggregates.ToList().LastOrDefault();
     }
 
     public void ReplaceAllExpenses(List<Expenses> expenseList)
     {
-        var expenseReportAggregates = expensesContext.ExpenseReportAggregates.ToList();
-        expensesContext.ExpenseReportAggregates.RemoveRange(expenseReportAggregates);
-        expensesContext.SaveChanges();
+        var expenseReportAggregates = expensesDbContext.ExpenseReportAggregates.ToList();
+        expensesDbContext.ExpenseReportAggregates.RemoveRange(expenseReportAggregates);
+        expensesDbContext.SaveChanges();
         if (expenseList.Any())
         {
             var expenseReportAggregate = new ExpenseReportAggregate
             {
                 Expenses = expenseList
             };
-            expensesContext.ExpenseReportAggregates.Add(expenseReportAggregate);
-            expensesContext.SaveChanges();
+            expensesDbContext.ExpenseReportAggregates.Add(expenseReportAggregate);
+            expensesDbContext.SaveChanges();
         }
     }
 
     public ExpenseReportAggregate? AddAggregate(ExpenseReportAggregate expenseReport)
     {
-        var entityEntry = expensesContext.ExpenseReportAggregates.Add(expenseReport);
-        expensesContext.SaveChanges();
+        var entityEntry = expensesDbContext.ExpenseReportAggregates.Add(expenseReport);
+        expensesDbContext.SaveChanges();
         return entityEntry.Entity;
     }
 }

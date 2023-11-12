@@ -60,15 +60,15 @@
  
 public class HomeControllerFixtures
 {
-    public ExpensesContext? StockContextDb;
+    public ExpensesDbContext? StockContextDb;
     private SqliteConnection? _connection;
     public void SeedDatabase()
     {
         _connection = new SqliteConnection("DataSource=:memory:");
         _connection.Open();
-        var options = new DbContextOptionsBuilder<ExpensesContext>().UseSqlite(_connection).Options;
+        var options = new DbContextOptionsBuilder<ExpensesDbContext>().UseSqlite(_connection).Options;
 
-        StockContextDb = new ExpensesContext(options);
+        StockContextDb = new ExpensesDbContext(options);
         StockContextDb.Database.EnsureCreated();
 
         StockContextDb.SaveChanges();

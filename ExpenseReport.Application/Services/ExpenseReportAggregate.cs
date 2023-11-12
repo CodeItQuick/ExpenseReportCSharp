@@ -9,6 +9,8 @@ public sealed class ExpenseReportAggregate
     public int Id { get; set; }
 
     public List<Expenses>? Expenses { get; set; }
+    
+    public DateTimeOffset ExpenseReportDate { get; set; }
 
     public List<Expense>? RetrieveExpenseList()
     {

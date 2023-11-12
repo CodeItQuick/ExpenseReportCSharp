@@ -7,12 +7,13 @@
 public class ExistingExpensesServiceTests
 {
 
-    private static ExpensesContext TestDbContextFactory(int id)
+    private static ExpensesDbContext TestDbContextFactory(int id)
     {
-        var dbContextOptionsBuilder = new DbContextOptionsBuilder<ExpensesContext>()
+        var dbContextOptionsBuilder = new DbContextOptionsBuilder<ExpensesDbContext>()
             .UseInMemoryDatabase(databaseName: $"TestDb-{id}" + Guid.NewGuid())
             .Options;
-        var expensesContext = new ExpensesContext(dbContextOptionsBuilder);
+        var expensesContext = new ExpensesDbContext(dbContextOptionsBuilder);
+        expensesContext.Database.EnsureCreated();
         return expensesContext;
     }
     

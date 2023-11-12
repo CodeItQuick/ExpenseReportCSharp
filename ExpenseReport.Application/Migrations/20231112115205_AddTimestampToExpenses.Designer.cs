@@ -11,14 +11,28 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ExpenseReportCSharp.Migrations
 {
     [DbContext(typeof(ExpensesDbContext))]
-    [Migration("20231105002937_DropExpenseReportAggregateIdReference")]
-    partial class DropExpenseReportAggregateIdReference
+    [Migration("20231112115205_AddTimestampToExpenses")]
+    partial class AddTimestampToExpenses
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.13");
+
+            modelBuilder.Entity("Application.Services.ExpenseReportAggregate", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTimeOffset>("ExpenseReportDate")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ExpenseReportAggregates");
+                });
 
             modelBuilder.Entity("Application.Services.Expenses", b =>
                 {
@@ -36,26 +50,19 @@ namespace ExpenseReportCSharp.Migrations
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
-                    
+
+                    b.HasIndex("ExpenseReportAggregateId");
+
                     b.ToTable("Expenses");
-                });
-
-            modelBuilder.Entity("Application.Services.ExpenseReportAggregate", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ExpenseReportAggregates");
                 });
 
             modelBuilder.Entity("Application.Services.Expenses", b =>
                 {
                     b.HasOne("Application.Services.ExpenseReportAggregate", null)
                         .WithMany("Expenses")
-                        .HasForeignKey("ExpenseReportAggregateId");
+                        .HasForeignKey("ExpenseReportAggregateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Application.Services.ExpenseReportAggregate", b =>

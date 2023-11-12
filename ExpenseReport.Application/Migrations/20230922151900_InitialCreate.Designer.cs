@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ExpenseReportCSharp.Migrations
 {
-    [DbContext(typeof(ExpensesContext))]
+    [DbContext(typeof(ExpensesDbContext))]
     [Migration("20230922151900_InitialCreate")]
     partial class InitialCreate
     {
