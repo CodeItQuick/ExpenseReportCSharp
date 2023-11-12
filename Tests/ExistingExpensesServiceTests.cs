@@ -86,7 +86,7 @@ public class ExistingExpensesServiceTests
             new FakeDateProvider(expenseReportDate), 
             existingExpensesRepository);
 
-        var expenseReport = expensesService.CreateNewExpenseReport(expenseReportDate);
+        var expenseReport = expensesService.CreateExpenseReport(expenseReportDate);
         
         Assert.Equal(expenseReportDate, expenseReport.RetrieveDate());
     }
@@ -100,7 +100,7 @@ public class ExistingExpensesServiceTests
         var expensesService = new ExpensesService(
             new FakeDateProvider(expenseReportDate), 
             existingExpensesRepository);
-        var expenseReport = expensesService.CreateNewExpenseReport(expenseReportDate);
+        var expenseReport = expensesService.CreateExpenseReport(expenseReportDate);
 
         var expense = expensesService.CreateExpense(1234, ExpenseType.BREAKFAST, expenseReport.Id);
 
@@ -116,7 +116,7 @@ public class ExistingExpensesServiceTests
         var expensesService = new ExpensesService(
             new FakeDateProvider(expenseReportDate), 
             existingExpensesRepository);
-        var expenseReport = expensesService.CreateNewExpenseReport(expenseReportDate);
+        var expenseReport = expensesService.CreateExpenseReport(expenseReportDate);
         expensesService.CreateExpense(1234, ExpenseType.BREAKFAST, expenseReport.Id);
 
         var expense = expensesService.CreateExpense(1234, ExpenseType.BREAKFAST, expenseReport.Id);

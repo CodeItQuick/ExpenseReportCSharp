@@ -2,6 +2,7 @@
  using System.Security.Claims;
  using Application.Adapter;
  using Application.Services;
+ using ExpenseReport.ApplicationServices;
  using Microsoft.AspNetCore.Http;
  using Microsoft.AspNetCore.Mvc;
  using Microsoft.Data.Sqlite;
@@ -21,7 +22,9 @@
          fixture.SeedDatabase();
          _fixture = fixture;
          _controller = new HomeController(
-             new NullLogger<HomeController>());
+             new NullLogger<HomeController>(), new ExpensesService(
+                 new RealDateProvider(), 
+                 new ExistingExpensesRepository(new RealDateProvider())));
         
          var claimsIdentity = new ClaimsIdentity(
              new List<Claim>() { new(ClaimTypes.Name, "test_username") }, 

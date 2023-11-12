@@ -1,7 +1,14 @@
+using Application.Adapter;
+using Application.Services;
+using ExpenseReport.ApplicationServices;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddTransient<IDateProvider, RealDateProvider>();
+builder.Services.AddTransient<IExistingExpensesRepository, ExistingExpensesRepository>();
+builder.Services.AddTransient<IExpenseService, ExpensesService>();
 
 var app = builder.Build();
 

@@ -9,7 +9,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\ExpenseReport.Adapter.SqlliteDatastore\ExpenseReport.Adapter.SqlliteDatastore.csproj" />
+      <ProjectReference Include="..\ExpenseReport.Adapter.Infrastructure\ExpenseReport.Adapter.Infrastructure.csproj" />
       <ProjectReference Include="..\ExpenseReport.DomainServices\ExpenseReport.DomainServices.csproj" />
     </ItemGroup>
 

@@ -1,12 +1,12 @@
-
 using Application.Services;
 using Domain;
+using ExpenseReport.ApplicationServices;
 
-namespace ExpenseReport.ApplicationServices;
+namespace Application.Adapter;
 
-public class ExpensesService
+public class ExpensesService : IExpenseService
 {
-    private IExistingExpensesRepository expenseRepository;
+    private readonly IExistingExpensesRepository expenseRepository;
     private readonly IDateProvider dateProvider;
 
     // Used By Production Code, One Smoke Test
@@ -15,18 +15,14 @@ public class ExpensesService
         expenseRepository = existingExpensesRepository;  //new ExistingExpensesRepository();
     }
 
-    public Domain.ExpenseReport? RetrieveExpenseReport() {
-        return expenseRepository.GetLastExpenseReport();
-    }
-
     public Domain.ExpenseReport CreateExpense(int expenseCost, ExpenseType expense, DateTimeOffset expenseDate)
     {
-        var expenseReport = 
+        var expenseList = 
             new List<Expense>()
             {
                 new(expense, expenseCost)
             };
-        var addExpenseToReport = expenseRepository.AddAggregate(expenseReport, expenseDate);
+        var addExpenseToReport = expenseRepository.AddAggregate(expenseList, expenseDate);
         if (addExpenseToReport == null)
         {
             throw new Exception("expense report failed to save");
@@ -34,7 +30,11 @@ public class ExpensesService
         return addExpenseToReport;
     }
 
-    public Domain.ExpenseReport CreateNewExpenseReport(DateTimeOffset expenseReportDate)
+    public Domain.ExpenseReport? RetrieveExpenseReport() {
+        return expenseRepository.GetLastExpenseReport();
+    }
+
+    public Domain.ExpenseReport CreateExpenseReport(DateTimeOffset expenseReportDate)
     {
         
         var addExpenseToReport = expenseRepository.AddAggregate(new List<Expense>(), expenseReportDate);

@@ -6,9 +6,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpenseReport.Domain", "ExpenseReport.Domain\ExpenseReport.Domain.csproj", "{7C760423-7F58-4CE1-8CFE-009E68F6FB40}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpenseReport.Adapter.SqlliteDatastore", "ExpenseReport.Adapter.SqlliteDatastore\ExpenseReport.Adapter.SqlliteDatastore.csproj", "{D9494816-128C-4782-B89D-EFC9CA560B56}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpenseReport.Adapter.Infrastructure", "ExpenseReport.Adapter.Infrastructure\ExpenseReport.Adapter.Infrastructure.csproj", "{D9494816-128C-4782-B89D-EFC9CA560B56}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpenseReport.Adapter.WebApplications", "ExpenseReport.Adapter.WebApplications\ExpenseReport.Adapter.WebApplications.csproj", "{19BE254C-BC49-496E-89BE-EDD1E9E4CA05}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpenseReport.Adapter.WebApplication", "ExpenseReport.Adapter.WebApplication\ExpenseReport.Adapter.WebApplication.csproj", "{19BE254C-BC49-496E-89BE-EDD1E9E4CA05}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpenseReport.DomainServices", "ExpenseReport.DomainServices\ExpenseReport.DomainServices.csproj", "{9D7136D8-FFCA-40B9-9C92-4F9793BE070D}"
 EndProject

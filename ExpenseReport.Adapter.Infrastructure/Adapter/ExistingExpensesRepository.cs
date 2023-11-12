@@ -2,7 +2,6 @@ using Application.Services;
 using Domain;
 using ExpenseReport.ApplicationServices;
 using Microsoft.EntityFrameworkCore;
-using ExpenseReport = Domain.ExpenseReport;
 
 namespace Application.Adapter;
 

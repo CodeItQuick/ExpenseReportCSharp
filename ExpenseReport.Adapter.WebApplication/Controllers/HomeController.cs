@@ -1,25 +1,21 @@
 ﻿using System.Diagnostics;
-using Application.Adapter;
-using WebApplication1.Models;
 using Application.Services;
 using Domain;
 using ExpenseReport.ApplicationServices;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using WebApplication1.Models;
 
 namespace WebApplication1.Controllers;
 
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
-    private ExpensesService _expenseService;
+    private IExpenseService _expenseService;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(ILogger<HomeController> logger, IExpenseService expensesService)
     {
         _logger = logger;
-        _expenseService = new ExpensesService(
-            new RealDateProvider(), 
-            new ExistingExpensesRepository(new RealDateProvider())); // FIXME: broken
+        _expenseService = expensesService; // FIXME: broken
     }
 
     public IActionResult Index()
@@ -90,7 +86,7 @@ public class HomeController : Controller
     // FIXME: Needs a test and endpoint
     public ViewResult CreateExpenseReport(DateTimeOffset expenseReportDate)
     {
-        var expenseAdded = _expenseService.CreateNewExpenseReport(expenseReportDate);
+        var expenseAdded = _expenseService.CreateExpenseReport(expenseReportDate);
 
         return View("Index", new ExpenseView()
         {
