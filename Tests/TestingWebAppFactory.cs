@@ -1,3 +1,4 @@
+using Application.Adapter;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,6 +13,7 @@ public class TestingWebAppFactory: WebApplicationFactory<Program>
         builder.ConfigureServices(services =>
         {
             var sp = services.BuildServiceProvider();
+            services.AddScoped<IExistingExpensesRepository, FakeExistingRepository>();
             sp.CreateScope();
         });
     }

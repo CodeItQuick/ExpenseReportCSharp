@@ -63,7 +63,6 @@ public class ExistingExpensesServiceTests
     [Fact]
     public void CanCreateExpense()
     {
-        var existingExpensesContext = TestDbContextFactory(7);
         IExistingExpensesRepository existingExpensesRepository = new FakeExistingRepository();
         var expensesService = new ExpensesService(
             new FakeDateProvider(DateTimeOffset.Parse("2023-01-01")), 

@@ -69,7 +69,7 @@ public class ExistingExpensesRepositoryTests
         };
         var existingExpensesRepository = new ExistingExpensesRepository(expensesContext, new RealDateProvider());
 
-        var addExpenseToReport = existingExpensesRepository.AddAggregate(expenses, new RealDateProvider().CurrentDate());
+        var addExpenseToReport = existingExpensesRepository.CreateAggregate(expenses, new RealDateProvider().CurrentDate());
 
         Assert.NotNull(addExpenseToReport);
     }

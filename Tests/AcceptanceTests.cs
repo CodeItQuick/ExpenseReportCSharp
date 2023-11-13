@@ -17,7 +17,7 @@ public class AcceptanceTests
             new FakeDateProvider(DateTimeOffset.Parse("4/5/2023")), 
             new List<Expense>(),
             systemOutProvider,
-            new FakeExistingRepository());
+            new FakeExistingRepository(new List<Expense>()));
 
         expensePrinter.PrintExistingReport();
 
@@ -137,7 +137,7 @@ public class AcceptanceTests
             systemOutProvider,
             new FakeExistingRepository(new List<Expense>()
             {
-                new() { ExpenseType = ExpenseType.BREAKFAST, Amount = 1010}
+                new() { ExpenseType = ExpenseType.BREAKFAST, Amount = 1010, ExpenseReportAggregateId = 1}
             }));
 
         expensePrinter.PrintExistingReport();

@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using Application.Services;
 using Domain;
 using ExpenseReport.ApplicationServices;
@@ -86,7 +87,7 @@ public class HomeController : Controller
     }
 
     // FIXME: Needs a test and endpoint
-    public ViewResult CreateExpenseReport(DateTimeOffset expenseReportDate)
+    public ViewResult CreateExpenseReport([Required] DateTimeOffset expenseReportDate)
     {
         var expenseAdded = _expenseService.CreateExpenseReport(expenseReportDate);
 

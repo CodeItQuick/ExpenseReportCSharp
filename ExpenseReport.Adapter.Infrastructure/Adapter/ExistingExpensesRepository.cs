@@ -6,22 +6,19 @@ namespace Application.Adapter;
 
 public class ExistingExpensesRepository : IExistingExpensesRepository
 {
-    private readonly ExpensesDbContext expensesDbContext;
-    private readonly IDateProvider realDateProvider;
+    protected ExpensesDbContext expensesDbContext;
 
     public ExistingExpensesRepository(IDateProvider dateProvider)
     {
         var dbContextOptions = new DbContextOptionsBuilder()
             .UseSqlite("Data Source=blog.db")
             .Options; 
-        realDateProvider = dateProvider;
         expensesDbContext = new ExpensesDbContext(dbContextOptions);
         expensesDbContext.Database.EnsureCreated();
     }
 
     public ExistingExpensesRepository(ExpensesDbContext expensesDbContext, IDateProvider dateProvider)
     {
-        realDateProvider = dateProvider;
         this.expensesDbContext = expensesDbContext;
     }
 
@@ -42,7 +39,7 @@ public class ExistingExpensesRepository : IExistingExpensesRepository
             expenseReportAggregates.Id);
     }
 
-    public Domain.ExpenseReport? AddAggregate(List<Expense> expenseList, DateTimeOffset? expenseDate)
+    public Domain.ExpenseReport? CreateAggregate(List<Expense> expenseList, DateTimeOffset? expenseDate)
     {
         var expenseReportAggregate = new ExpenseReportAggregate()
         {
@@ -56,15 +53,23 @@ public class ExistingExpensesRepository : IExistingExpensesRepository
         return new Domain.ExpenseReport(
             expenseList.Select(x => new Domain.Expense(x.ExpenseType, x.Amount)).ToList(), 
             entityEntry.Entity?.ExpenseReportDate ?? DateTimeOffset.Now, 
-            entityEntry.Entity.Id);
+            entityEntry.Entity?.Id ?? 0);
     }
 
     public Domain.ExpenseReport? UpdateAggregate(List<Expense> expenses, int expenseReportId)
     {
-        var reportAggregate = expensesDbContext.ExpenseReportAggregates
+        var reportAggregate = expensesDbContext
+            .ExpenseReportAggregates
             .Include("Expenses")
             .FirstOrDefault(x => x.Id == expenseReportId);
-        reportAggregate.Expenses = expenses;
+        if (reportAggregate?.Expenses != null && reportAggregate.Expenses.Any())
+        {
+            reportAggregate.Expenses.AddRange(expenses);
+        }
+        else
+        {
+            reportAggregate.Expenses = expenses;
+        }
         expensesDbContext.ExpenseReportAggregates.Update(reportAggregate);
         expensesDbContext.SaveChanges();
         return new Domain.ExpenseReport(
