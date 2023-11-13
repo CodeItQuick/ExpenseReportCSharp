@@ -37,6 +37,7 @@ public class HomeController : Controller
             ExpenseDate = expenseReport.RetrieveDate(),
             TotalExpenses = expenseReport.CalculateTotalExpenses(),
             IndividualExpenses = expenseReport.CalculateIndividualExpenses(),
+            Id = expenseReport.Id
         };
         return View(expenseView);
 
@@ -79,7 +80,8 @@ public class HomeController : Controller
             MealExpenses = expenseAdded.CalculateMealExpenses(),
             ExpenseDate = expenseAdded.RetrieveDate(),
             IndividualExpenses = expenseAdded.CalculateIndividualExpenses(),
-            TotalExpenses = expenseAdded.CalculateTotalExpenses()
+            TotalExpenses = expenseAdded.CalculateTotalExpenses(),
+            Id = expenseAdded.Id
         });
     }
 

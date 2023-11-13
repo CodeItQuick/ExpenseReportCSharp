@@ -61,7 +61,9 @@ public class ExistingExpensesRepository : IExistingExpensesRepository
 
     public Domain.ExpenseReport? UpdateAggregate(List<Expense> expenses, int expenseReportId)
     {
-        var reportAggregate = expensesDbContext.ExpenseReportAggregates.Find(expenseReportId);
+        var reportAggregate = expensesDbContext.ExpenseReportAggregates
+            .Include("Expenses")
+            .FirstOrDefault(x => x.Id == expenseReportId);
         reportAggregate.Expenses = expenses;
         expensesDbContext.ExpenseReportAggregates.Update(reportAggregate);
         expensesDbContext.SaveChanges();

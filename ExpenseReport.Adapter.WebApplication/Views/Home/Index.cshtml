@@ -8,7 +8,7 @@
     <p>Meal Expenses: @ViewData.Model.MealExpenses</p>
     <p>Total Expenses: @ViewData.Model.TotalExpenses</p>
     <form asp-action="ExpenseView" method="POST">
-        <input type="datetime-local" name="expenseDate" />
+        <input type="hidden" name="expenseReportId" value="@ViewData.Model.Id"/>
         <input type="number" name="expenseCost" />
         <select type="text" name="expenseType">
             <option value="BREAKFAST">Breakfast</option>
@@ -17,7 +17,7 @@
         </select>
         <button type="submit"
                 asp-controller="Home"
-                asp-action="ExpenseView"
+                asp-action="ExpenseUpdateView"
                 class="btn btn-default ">
             Create Expense
         </button>
