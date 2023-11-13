@@ -1,5 +1,4 @@
 using Application.Adapter;
-using Application.Services;
 using ExpenseReport.ApplicationServices;
 
 var builder = WebApplication.CreateBuilder(args);
