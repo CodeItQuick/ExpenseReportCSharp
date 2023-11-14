@@ -62,7 +62,7 @@ public class ExistingExpensesControllerWithClaimsTests
     [Fact]
     public void CanCreateANewEmptyExpenseReport()
     {
-        var actionResult = _controller.CreateExpenseReport(DateTimeOffset.Parse("2023-11-09")) as ViewResult;
+        var actionResult = _controller.CreateExpenseReport(DateTimeOffset.Parse("2023-11-09"));
 
         var indexResponseModel = (actionResult?.Model as ExpenseView);
         Assert.NotNull(actionResult);
