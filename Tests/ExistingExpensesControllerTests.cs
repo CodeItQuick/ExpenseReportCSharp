@@ -61,6 +61,9 @@ public class ExistingExpensesControllerTests : IClassFixture<TestingWebAppFactor
             Assert.Equal(HttpStatusCode.OK, httpResponseMessage.StatusCode);
             var data = httpResponseMessage.Content.ReadAsStringAsync().Result;
             Assert.Contains($"Expenses {dateTimeOffset.ToString()}", data);
+            Assert.Contains($"BREAKFAST&#x9;1001&#x9;X", data);
+            Assert.Contains($"Meal Expenses: 1001", data);
+            Assert.Contains($"Total Expenses: 1001", data);
         }
     }
 }
