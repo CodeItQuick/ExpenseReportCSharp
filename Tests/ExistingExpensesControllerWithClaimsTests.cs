@@ -19,7 +19,7 @@ public class ExistingExpensesControllerWithClaimsTests
             new ExpensesService(
                 new RealDateProvider(),
                 new FakeExistingRepository(new List<Expense>())));
-
+        
         var claimsIdentity = new ClaimsIdentity(
             new List<Claim>() { new(ClaimTypes.Name, "test_username") },
             "TestAuthType");
@@ -35,22 +35,7 @@ public class ExistingExpensesControllerWithClaimsTests
     [Fact]
     public void CanConstructDefaultExpenseServiceAndViewExpenses()
     {
-        var controller = new HomeController(
-            new NullLogger<HomeController>(),
-            new ExpensesService(
-                new RealDateProvider(),
-                new FakeExistingRepository(new List<Expense>())));
-        var claimsIdentity = new ClaimsIdentity(
-            new List<Claim>() { new(ClaimTypes.Name, "test_username") },
-            "TestAuthType");
-        controller.ControllerContext = new ControllerContext()
-        {
-            HttpContext = new DefaultHttpContext()
-            {
-                User = new ClaimsPrincipal(claimsIdentity)
-            }
-        };
-        var actionResult = controller.Index() as ViewResult;
+        var actionResult = _controller.Index() as ViewResult;
 
         var indexResponseModel = (actionResult?.Model as ExpenseView);
         Assert.NotNull(actionResult);
