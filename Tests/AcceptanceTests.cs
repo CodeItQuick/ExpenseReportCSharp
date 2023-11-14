@@ -45,7 +45,8 @@ public class AcceptanceTests
 
         expensePrinter.PrintExistingReport();
 
-        Assert.Equal(systemOutProvider.Messages(), new List<string>()
+        Assert.Equal(systemOutProvider.Messages(), 
+            new List<string>()
         {
             "Expenses 4/5/2023 12:00:00 AM -03:00",
             "BREAKFAST	10	 ",

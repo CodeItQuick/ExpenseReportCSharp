@@ -10,7 +10,7 @@ public class ExistingExpensesRepository : IExistingExpensesRepository
 
     public ExistingExpensesRepository(IDateProvider dateProvider)
     {
-        var dbContextOptions = new DbContextOptionsBuilder()
+        var dbContextOptions = new DbContextOptionsBuilder<ExpensesDbContext>()
             .UseSqlite("Data Source=blog.db")
             .Options; 
         expensesDbContext = new ExpensesDbContext(dbContextOptions);

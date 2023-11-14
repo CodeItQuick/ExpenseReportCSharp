@@ -9,7 +9,7 @@ public class FakeExistingRepository : ExistingExpensesRepository
 {
     public FakeExistingRepository(): base(new RealDateProvider())
     {
-        var dbContextOptions = new DbContextOptionsBuilder()
+        var dbContextOptions = new DbContextOptionsBuilder<ExpensesDbContext>()
             .UseInMemoryDatabase($"testing_blog-1")
             .Options; 
         expensesDbContext = new ExpensesDbContext(dbContextOptions);
@@ -17,21 +17,27 @@ public class FakeExistingRepository : ExistingExpensesRepository
     }
     public FakeExistingRepository(List<Expense> expenses): base(new RealDateProvider())
     {
-        var dbContextOptions = new DbContextOptionsBuilder()
-            .UseInMemoryDatabase($"testing_blog-2")
+        var dbContextOptions = new DbContextOptionsBuilder<ExpensesDbContext>()
+            .UseInMemoryDatabase($"testing_blog-{Guid.NewGuid()}")
             .Options; 
         expensesDbContext = new ExpensesDbContext(dbContextOptions);
         expensesDbContext.Database.EnsureCreated();
         var expenseList = expensesDbContext.Expenses.ToList();
         expensesDbContext.Expenses.RemoveRange(expenseList);
+        var expenseReports = expensesDbContext.ExpenseReportAggregates.ToList();
+        expensesDbContext.ExpenseReportAggregates.RemoveRange(expenseReports);
         expensesDbContext.SaveChanges();
-        expensesDbContext.Expenses.AddRange(expenses);
+        expensesDbContext.ExpenseReportAggregates.Add(new ExpenseReportAggregate()
+        {
+            Expenses = expenses,
+            ExpenseReportDate = DateTimeOffset.Now
+        });
         expensesDbContext.SaveChanges();
         expensesDbContext.ChangeTracker.Clear();
     }
     public FakeExistingRepository(IDateProvider dateProvider) : base(dateProvider)
     {
-        var dbContextOptions = new DbContextOptionsBuilder()
+        var dbContextOptions = new DbContextOptionsBuilder<ExpensesDbContext>()
             .UseInMemoryDatabase($"testing_blog-3")
             .Options; 
         expensesDbContext = new ExpensesDbContext(dbContextOptions);
