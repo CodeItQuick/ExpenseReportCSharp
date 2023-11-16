@@ -14,6 +14,10 @@ public class FakeExistingRepository : ExistingExpensesRepository
             .Options; 
         expensesDbContext = new ExpensesDbContext(dbContextOptions);
         expensesDbContext.Database.EnsureCreated();
+        var expenseReportAggregates = expensesDbContext.ExpenseReportAggregates.ToList();
+        expensesDbContext.ExpenseReportAggregates.RemoveRange(expenseReportAggregates);
+        expensesDbContext.SaveChanges();
+        expensesDbContext.ChangeTracker.Clear();
     }
     public FakeExistingRepository(List<Expense> expenses): base(new RealDateProvider())
     {

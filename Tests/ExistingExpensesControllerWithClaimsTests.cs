@@ -16,9 +16,7 @@ public class ExistingExpensesControllerWithClaimsTests
     {
         _controller = new HomeController(
             new NullLogger<HomeController>(),
-            new ExpensesService(
-                new RealDateProvider(),
-                new FakeExistingRepository(new List<Expense>())));
+            new ExpensesService(new FakeExistingRepository(new List<Expense>())));
         
         var claimsIdentity = new ClaimsIdentity(
             new List<Claim>() { new(ClaimTypes.Name, "test_username") },

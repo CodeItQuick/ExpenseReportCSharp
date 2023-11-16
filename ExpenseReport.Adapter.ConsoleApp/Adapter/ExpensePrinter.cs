@@ -17,17 +17,13 @@ public class ExpensePrinter
         IExistingExpensesRepository existingExpensesRepository) {
         this.dateProvider = dateProvider;
         this.systemOutProvider = systemOutProvider;
-        expensesService = new ExpensesService(
-            dateProvider, 
-            existingExpensesRepository);
+        expensesService = new ExpensesService(existingExpensesRepository);
     }
 
     private ExpensePrinter(IDateProvider dateProvider) {
         this.dateProvider = dateProvider;
         systemOutProvider = new SystemOutProvider();
-        expensesService = new ExpensesService(
-            new RealDateProvider(), 
-            new ExistingExpensesRepository(new RealDateProvider()));
+        expensesService = new ExpensesService(new ExistingExpensesRepository(new RealDateProvider()));
     }
 
     public static ExpensePrinter Create() {
