@@ -10,19 +10,23 @@
 
 public class ExistingExpensesRepositoryTests
 {
-    private static ExpensesDbContext TestDbContextFactory(int id)
+    private static ExpensesDbContext TestDbContextFactory()
     {
         var dbContextOptionsBuilder = new DbContextOptionsBuilder<ExpensesDbContext>()
-            .UseInMemoryDatabase(databaseName: $"TestDb-{id}" + Guid.NewGuid())
+            .UseInMemoryDatabase(databaseName: $"TestDb" + Guid.NewGuid())
             .Options;
         var expensesContext = new ExpensesDbContext(dbContextOptionsBuilder);
+        var expenseReportAggregates = expensesContext.ExpenseReportAggregates.ToList();
+        expensesContext.ExpenseReportAggregates.RemoveRange(expenseReportAggregates);
+        expensesContext.SaveChanges();
+        expensesContext.ChangeTracker.Clear();
         return expensesContext;
     }
 
     [Fact]
     public void CanRetrieveAnEmptyExpenseReport()
     {
-        var expensesContext = TestDbContextFactory(1);
+        var expensesContext = TestDbContextFactory();
         var existingExpensesRepository = new ExistingExpensesRepository(expensesContext, new RealDateProvider());
 
         var expenseReportAggregate = existingExpensesRepository.GetLastExpenseReport();
@@ -33,7 +37,7 @@ public class ExistingExpensesRepositoryTests
     [Fact]
     public void CanRetrieveAFilledExpenseReport()
     {
-        var expensesContext = TestDbContextFactory(2);
+        var expensesContext = TestDbContextFactory();
         expensesContext.ExpenseReportAggregates.Add(new ExpenseReportAggregate());
         expensesContext.SaveChanges();
         var existingExpensesRepository = new ExistingExpensesRepository(expensesContext, new RealDateProvider());
@@ -45,7 +49,7 @@ public class ExistingExpensesRepositoryTests
     [Fact]
     public void CanRetrieveAFilledExpenseReportWithExpenses()
     {
-        var expensesContext = TestDbContextFactory(3);
+        var expensesContext = TestDbContextFactory();
         expensesContext.ExpenseReportAggregates.Add(new ExpenseReportAggregate() {
            Expenses = new List<Expense>() { new() {  ExpenseType = ExpenseType.DINNER, Amount = 100} },
            ExpenseReportDate = new RealDateProvider().CurrentDate()
@@ -62,7 +66,7 @@ public class ExistingExpensesRepositoryTests
     [Fact]
     public void CanCreateNewExpenseReportAggregate()
     {
-        var expensesContext = TestDbContextFactory(5);
+        var expensesContext = TestDbContextFactory();
         var expenses = new List<Expense>()
         {
             new() { ExpenseType = ExpenseType.DINNER, Amount = 100}
@@ -72,5 +76,66 @@ public class ExistingExpensesRepositoryTests
         var addExpenseToReport = existingExpensesRepository.CreateAggregate(expenses, new RealDateProvider().CurrentDate());
 
         Assert.NotNull(addExpenseToReport);
+    }
+    [Fact]
+    public void CanListAllAggregateExpenseReportsWhenThereAreNoExpenseReports()
+    {
+        var expensesContext = TestDbContextFactory();
+        var expenseReportAggregates = new List<ExpenseReportAggregate>();
+        expensesContext.ExpenseReportAggregates.AddRange(expenseReportAggregates);
+        expensesContext.SaveChanges();
+        expensesContext.ChangeTracker.Clear();
+        var existingExpensesRepository = new ExistingExpensesRepository(expensesContext, new RealDateProvider());
+
+        var addExpenseToReport = existingExpensesRepository.ListAllExpenseReports();
+
+        Assert.Empty(addExpenseToReport);
+    }
+    [Fact]
+    public void CanListAllAggregateExpenseReportsWhenThereAreNoExpenses()
+    {
+        var expensesContext = TestDbContextFactory();
+        var expenseReportAggregates = new List<ExpenseReportAggregate>()
+        {
+            new()
+            {
+                Expenses = null,
+                ExpenseReportDate = DateTimeOffset.Now
+            }
+        };
+        expensesContext.ExpenseReportAggregates.AddRange(expenseReportAggregates);
+        expensesContext.SaveChanges();
+        expensesContext.ChangeTracker.Clear();
+        var existingExpensesRepository = new ExistingExpensesRepository(expensesContext, new RealDateProvider());
+
+        var addExpenseToReport = existingExpensesRepository.ListAllExpenseReports();
+
+        Assert.Single(addExpenseToReport);
+        Assert.Empty(addExpenseToReport.First().CalculateIndividualExpenses());
+    }
+    [Fact]
+    public void CanListAllAggregateExpenseReports()
+    {
+        var expensesContext = TestDbContextFactory();
+        var expenseReportAggregates = new List<ExpenseReportAggregate>()
+        {
+            new()
+            {
+                Expenses = new List<Expense>()
+                {
+                    new() { ExpenseType = ExpenseType.DINNER, Amount = 100}
+                },
+                ExpenseReportDate = DateTimeOffset.Now
+            }
+        };
+        expensesContext.ExpenseReportAggregates.AddRange(expenseReportAggregates);
+        expensesContext.SaveChanges();
+        expensesContext.ChangeTracker.Clear();
+        var existingExpensesRepository = new ExistingExpensesRepository(expensesContext, new RealDateProvider());
+
+        var addExpenseToReport = existingExpensesRepository.ListAllExpenseReports();
+
+        Assert.Single(addExpenseToReport);
+        Assert.Single(addExpenseToReport.First().CalculateIndividualExpenses());
     }
 }

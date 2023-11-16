@@ -51,7 +51,10 @@ public class ExistingExpensesRepository : IExistingExpensesRepository
         expensesDbContext.SaveChanges();
         expensesDbContext.ChangeTracker.Clear();
         return new Domain.ExpenseReport(
-            expenseList.Select(x => new Domain.Expense(x.ExpenseType, x.Amount)).ToList(), 
+            expenseList
+                .Select(x => 
+                    new Domain.Expense(x.ExpenseType, x.Amount))
+                .ToList(), 
             entityEntry.Entity?.ExpenseReportDate ?? DateTimeOffset.Now, 
             entityEntry.Entity?.Id ?? 0);
     }
@@ -76,5 +79,17 @@ public class ExistingExpensesRepository : IExistingExpensesRepository
             reportAggregate?.Expenses.Select(x => new Domain.Expense(x.ExpenseType, x.Amount)).ToList(), 
             reportAggregate?.ExpenseReportDate ?? DateTimeOffset.Now, 
             reportAggregate.Id);
+    }
+
+    public List<Domain.ExpenseReport> ListAllExpenseReports()
+    {
+        return expensesDbContext.ExpenseReportAggregates
+            .Include("Expenses")
+            .ToList()
+            .Select(x => new Domain.ExpenseReport(
+                x?.Expenses?.Select(x => new Domain.Expense(x.ExpenseType, x.Amount)).ToList() ?? new List<Domain.Expense>(), 
+                x?.ExpenseReportDate ?? DateTimeOffset.Now, 
+                x.Id
+            )).ToList();
     }
 }

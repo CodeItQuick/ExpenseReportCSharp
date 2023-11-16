@@ -22,8 +22,6 @@ public class FakeExistingRepository : ExistingExpensesRepository
             .Options; 
         expensesDbContext = new ExpensesDbContext(dbContextOptions);
         expensesDbContext.Database.EnsureCreated();
-        var expenseList = expensesDbContext.Expenses.ToList();
-        expensesDbContext.Expenses.RemoveRange(expenseList);
         var expenseReports = expensesDbContext.ExpenseReportAggregates.ToList();
         expensesDbContext.ExpenseReportAggregates.RemoveRange(expenseReports);
         expensesDbContext.SaveChanges();
@@ -35,6 +33,7 @@ public class FakeExistingRepository : ExistingExpensesRepository
         expensesDbContext.SaveChanges();
         expensesDbContext.ChangeTracker.Clear();
     }
+    // Used By The Outside Controller Tests - needs a single persistance for all api calls, additive changes/state persisted
     public FakeExistingRepository(IDateProvider dateProvider) : base(dateProvider)
     {
         var dbContextOptions = new DbContextOptionsBuilder<ExpensesDbContext>()
