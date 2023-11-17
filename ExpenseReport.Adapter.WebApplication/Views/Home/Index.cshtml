@@ -1,5 +1,5 @@
 ﻿<div class="text-center">
-    <p>Expenses @ViewData.Model.ExpenseDate</p>
+    <p>Expenses @ViewData.Model.ExpenseDate - Report #@ViewData.Model.Id</p>
     @foreach (var individualExpense in @ViewData.Model.IndividualExpenses)
     {
         <p>@individualExpense</p>
@@ -14,10 +14,10 @@
             }
         </select>
         <button type="submit"
-                asp-controller="Home"
-                asp-action="Index"
-                class="btn btn-default ">
-            Retrieve Expense Report
+            asp-controller="Home"
+            asp-action="Index"
+            class="btn btn-default">
+             Retrieve Expense Report
         </button>
     </form>
     <form asp-action="ExpenseView" method="POST">
