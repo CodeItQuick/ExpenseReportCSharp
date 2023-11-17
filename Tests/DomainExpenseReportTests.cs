@@ -4,9 +4,8 @@
 
  namespace Tests;
 
-public class DomainTests
+public class DomainExpenseReportTests
 {
-    // ExpenseReports
     [Fact]
     public void CanAddAMealExpense()
     {
