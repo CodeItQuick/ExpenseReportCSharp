@@ -3,8 +3,8 @@ namespace Domain;
 public class ExpenseReport
 {
     private readonly List<Expense> expenses;
-    private DateTimeOffset ExpenseReportDate { get; set; }
-    public int Id { get; set; }
+    private DateTimeOffset ExpenseReportDate { get; }
+    public int Id { get; }
 
 
     public ExpenseReport(List<Expense>? expenses, DateTimeOffset expenseReportDate, int id)

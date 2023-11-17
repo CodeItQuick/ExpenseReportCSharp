@@ -25,9 +25,9 @@ public class ExistingExpensesServiceTests
     {
         var expensesService = new ExpensesService(new ExistingExpensesRepository(new RealDateProvider()));
 
-        var viewExpenses = expensesService.RetrieveExpenseReport();
+        var viewExpenses = expensesService.RetrieveExpenseReport(1);
         
-        Assert.NotNull(viewExpenses);
+        Assert.Null(viewExpenses);
     }
     [Fact]
     public void CanViewEmptyExpenseList()
@@ -35,7 +35,7 @@ public class ExistingExpensesServiceTests
         IExistingExpensesRepository existingExpensesRepository = new FakeExistingRepository(new List<Expense>());
         var expensesService = new ExpensesService(existingExpensesRepository);
 
-        var expenseReport = expensesService.RetrieveExpenseReport();
+        var expenseReport = expensesService.RetrieveExpenseReport(1);
         
         Assert.Empty(expenseReport.CalculateIndividualExpenses());
     }
@@ -49,7 +49,7 @@ public class ExistingExpensesServiceTests
         IExistingExpensesRepository existingExpensesRepository = new FakeExistingRepository(expensesList);
         var expensesService = new ExpensesService(existingExpensesRepository);
 
-        var expenseReport = expensesService.RetrieveExpenseReport();
+        var expenseReport = expensesService.RetrieveExpenseReport(1);
         
         Assert.Single(expenseReport.CalculateIndividualExpenses());
     }
@@ -93,7 +93,7 @@ public class ExistingExpensesServiceTests
         IExistingExpensesRepository existingExpensesRepository = new FakeExistingRepository();
         var expensesService = new ExpensesService(existingExpensesRepository);
 
-        var expense = expensesService.RetrieveAllExpenseReports();
+        var expense = expensesService.ListAllExpenseReports();
 
         Assert.Empty(expense);
     }
@@ -106,7 +106,7 @@ public class ExistingExpensesServiceTests
         var expenseReport = expensesService.CreateExpenseReport(expenseReportDate);
         expensesService.CreateExpense(expenseReport.Id, new Domain.Expense(ExpenseType.BREAKFAST, 1234));
 
-        var expense = expensesService.RetrieveAllExpenseReports();
+        var expense = expensesService.ListAllExpenseReports();
 
         Assert.Single(expense);
     }
@@ -119,7 +119,7 @@ public class ExistingExpensesServiceTests
         expensesService.CreateExpenseReport(expenseReportDate);
         expensesService.CreateExpenseReport(expenseReportDate);
 
-        var expense = expensesService.RetrieveAllExpenseReports();
+        var expense = expensesService.ListAllExpenseReports();
 
         Assert.Equal(2, expense.Count);
     }

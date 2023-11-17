@@ -29,7 +29,7 @@ public class ExistingExpensesRepositoryTests
         var expensesContext = TestDbContextFactory();
         var existingExpensesRepository = new ExistingExpensesRepository(expensesContext, new RealDateProvider());
 
-        var expenseReportAggregate = existingExpensesRepository.GetLastExpenseReport();
+        var expenseReportAggregate = existingExpensesRepository.RetrieveById(1);
         
         Assert.Null(expenseReportAggregate);
     }
@@ -42,7 +42,7 @@ public class ExistingExpensesRepositoryTests
         expensesContext.SaveChanges();
         var existingExpensesRepository = new ExistingExpensesRepository(expensesContext, new RealDateProvider());
 
-        var expenseReportAggregate = existingExpensesRepository.GetLastExpenseReport();
+        var expenseReportAggregate = existingExpensesRepository.RetrieveById(1);
         
         Assert.NotNull(expenseReportAggregate);
     }
@@ -57,7 +57,7 @@ public class ExistingExpensesRepositoryTests
         expensesContext.SaveChanges();
         var existingExpensesRepository = new ExistingExpensesRepository(expensesContext, new RealDateProvider());
 
-        var expenseReportAggregate = existingExpensesRepository.GetLastExpenseReport();
+        var expenseReportAggregate = existingExpensesRepository.RetrieveById(1);
         
         Assert.Single(expenseReportAggregate.CalculateIndividualExpenses());
         Assert.Equal("DINNER\t100\t ", expenseReportAggregate.CalculateIndividualExpenses().First());

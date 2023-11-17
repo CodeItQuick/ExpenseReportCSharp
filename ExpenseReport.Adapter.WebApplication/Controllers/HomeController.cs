@@ -19,9 +19,10 @@ public class HomeController : Controller
         _expenseService = expensesService; // FIXME: broken
     }
 
-    public IActionResult Index()
+    public IActionResult Index(int id = 1)
     {
-        Domain.ExpenseReport? expenseReport = _expenseService.RetrieveExpenseReport();
+        Domain.ExpenseReport? expenseReport = _expenseService.RetrieveExpenseReport(id);
+        var expenseReportList = _expenseService.ListAllExpenseReports();
         if (expenseReport == null)
         {
             return View(new ExpenseView()
@@ -29,7 +30,8 @@ public class HomeController : Controller
                 MealExpenses = 0,
                 ExpenseDate = DateTimeOffset.Now,
                 TotalExpenses = 0,
-                IndividualExpenses = new List<string>()
+                IndividualExpenses = new List<string>(),
+                ExpenseReportIds = new List<int>()
             });
         }
         var expenseView = new ExpenseView() 
@@ -38,7 +40,8 @@ public class HomeController : Controller
             ExpenseDate = expenseReport.RetrieveDate(),
             TotalExpenses = expenseReport.CalculateTotalExpenses(),
             IndividualExpenses = expenseReport.CalculateIndividualExpenses(),
-            Id = expenseReport.Id
+            Id = expenseReport.Id,
+            ExpenseReportIds = expenseReportList.Select(x => x.Id).ToList()
         };
         return View(expenseView);
 
@@ -56,17 +59,19 @@ public class HomeController : Controller
     }
 
     public ActionResult ExpenseView(
-        int expenseCost, string expenseType, DateTimeOffset expenseDate)
+        int expenseCost, string expenseType, DateTimeOffset expenseDate, int reportId = 0)
     {
         var tryParse = ExpenseType.TryParse(expenseType, out ExpenseType expense);
         var expenseAdded = _expenseService.CreateExpense(new Expense(expense, expenseCost), expenseDate);
+        var expenseReportList = _expenseService.ListAllExpenseReports();
 
         return View("Index", new ExpenseView()
         {
             MealExpenses = expenseAdded.CalculateMealExpenses(),
             ExpenseDate = expenseAdded.RetrieveDate(),
             IndividualExpenses = expenseAdded.CalculateIndividualExpenses(),
-            TotalExpenses = expenseAdded.CalculateTotalExpenses()
+            TotalExpenses = expenseAdded.CalculateTotalExpenses(),
+            ExpenseReportIds = expenseReportList.Select(x => x.Id).ToList()
         });
     }
     public ActionResult ExpenseUpdateView(
@@ -75,6 +80,7 @@ public class HomeController : Controller
         var tryParse = ExpenseType.TryParse(expenseType, out ExpenseType expense);
         var expenseAdded = _expenseService.CreateExpense(
             expenseReportId, new Expense(expense, expenseCost));
+        var expenseReportList = _expenseService.ListAllExpenseReports();
 
         return View("Index", new ExpenseView()
         {
@@ -82,7 +88,8 @@ public class HomeController : Controller
             ExpenseDate = expenseAdded.RetrieveDate(),
             IndividualExpenses = expenseAdded.CalculateIndividualExpenses(),
             TotalExpenses = expenseAdded.CalculateTotalExpenses(),
-            Id = expenseAdded.Id
+            Id = expenseAdded.Id,
+            ExpenseReportIds = expenseReportList.Select(x => x.Id).ToList()
         });
     }
 
@@ -90,6 +97,7 @@ public class HomeController : Controller
     public ViewResult CreateExpenseReport([Required] DateTimeOffset expenseReportDate)
     {
         var expenseAdded = _expenseService.CreateExpenseReport(expenseReportDate);
+        var expenseReportList = _expenseService.ListAllExpenseReports();
 
         return View("Index", new ExpenseView()
         {
@@ -97,7 +105,8 @@ public class HomeController : Controller
             ExpenseDate = expenseAdded.RetrieveDate(),
             IndividualExpenses = expenseAdded.CalculateIndividualExpenses(),
             TotalExpenses = expenseAdded.CalculateTotalExpenses(),
-            Id = expenseAdded.Id
+            Id = expenseAdded.Id,
+            ExpenseReportIds = expenseReportList.Select(x => x.Id).ToList()
         });
     }
 }

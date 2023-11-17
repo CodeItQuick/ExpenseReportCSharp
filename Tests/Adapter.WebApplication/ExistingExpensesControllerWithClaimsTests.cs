@@ -40,6 +40,7 @@ public class ExistingExpensesControllerWithClaimsTests
         Assert.Equal(0, indexResponseModel.MealExpenses);
         Assert.Equal(new List<string>(), indexResponseModel.IndividualExpenses);
         Assert.Equal(0, indexResponseModel.TotalExpenses);
+        Assert.Equal(1, indexResponseModel.ExpenseReportIds.Count);
     }
 
     [Fact]
@@ -55,6 +56,8 @@ public class ExistingExpensesControllerWithClaimsTests
         Assert.Equal(100, indexResponseModel.MealExpenses);
         Assert.Equal("BREAKFAST	100	 ", indexResponseModel.IndividualExpenses.First());
         Assert.Equal(100, indexResponseModel.TotalExpenses);
+        Assert.Equal(2, indexResponseModel.ExpenseReportIds.Count);
+        Assert.Equal(new List<int>() { 1, 2 }, indexResponseModel.ExpenseReportIds);
     }
 
     [Fact]

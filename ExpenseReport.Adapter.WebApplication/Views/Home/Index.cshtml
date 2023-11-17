@@ -1,5 +1,4 @@
-﻿@using Domain
-<div class="text-center">
+﻿<div class="text-center">
     <p>Expenses @ViewData.Model.ExpenseDate</p>
     @foreach (var individualExpense in @ViewData.Model.IndividualExpenses)
     {
@@ -7,6 +6,20 @@
     }
     <p>Meal Expenses: @ViewData.Model.MealExpenses</p>
     <p>Total Expenses: @ViewData.Model.TotalExpenses</p>
+    <form asp-action="" method="POST">
+        <select name="id">
+            @foreach (var id in ViewData.Model.ExpenseReportIds) 
+            {
+                <option value="@id">Report #@id?.ToString()</option>
+            }
+        </select>
+        <button type="submit"
+                asp-controller="Home"
+                asp-action="Index"
+                class="btn btn-default ">
+            Retrieve Expense Report
+        </button>
+    </form>
     <form asp-action="ExpenseView" method="POST">
         <input type="hidden" name="expenseReportId" value="@ViewData.Model.Id"/>
         <input type="number" name="expenseCost" />

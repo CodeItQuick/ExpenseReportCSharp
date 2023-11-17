@@ -25,10 +25,11 @@ public class ExpensesService : IExpenseService
         return addExpenseToReport;
     }
 
-    public Domain.ExpenseReport? RetrieveExpenseReport() {
-        return expenseRepository.GetLastExpenseReport();
+    public Domain.ExpenseReport? RetrieveExpenseReport(int id) {
+        return expenseRepository.RetrieveById(id);
     }
-    public List<Domain.ExpenseReport> RetrieveAllExpenseReports() {
+
+    public List<Domain.ExpenseReport> ListAllExpenseReports() {
         return expenseRepository.ListAllExpenseReports();
     }
 

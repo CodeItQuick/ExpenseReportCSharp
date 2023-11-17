@@ -31,7 +31,7 @@ public class ExpensePrinter
     }
 
     public void PrintExistingReport() {
-        var expenseReport = expensesService.RetrieveExpenseReport();
+        var expenseReport = expensesService.RetrieveExpenseReport(1);
 
         ExpenseView expenseView;
         if (expenseReport == null)

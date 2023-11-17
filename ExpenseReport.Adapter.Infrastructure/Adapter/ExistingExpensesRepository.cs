@@ -22,21 +22,19 @@ public class ExistingExpensesRepository : IExistingExpensesRepository
         this.expensesDbContext = expensesDbContext;
     }
 
-    public Domain.ExpenseReport? GetLastExpenseReport()
+    public Domain.ExpenseReport? RetrieveById(int id)
     {
-        var reportAggregates = expensesDbContext.ExpenseReportAggregates
+        var expenseReportAggregates = expensesDbContext.ExpenseReportAggregates
             .Include("Expenses")
-            .ToList();
-        var expenseReportAggregates = reportAggregates
-            .LastOrDefault();
-        if (expenseReportAggregates == null || !reportAggregates.Any())
+            .FirstOrDefault(x => x.Id == id);
+        if (expenseReportAggregates == null)
         {
             return null;
         }
         return new Domain.ExpenseReport(
             expenseReportAggregates.Expenses?.Select(x => new Domain.Expense(x.ExpenseType, x.Amount)).ToList(), 
-            expenseReportAggregates?.ExpenseReportDate ?? DateTimeOffset.Now, 
-            expenseReportAggregates.Id);
+            expenseReportAggregates.ExpenseReportDate, 
+            expenseReportAggregates?.Id ?? 0);
     }
 
     public Domain.ExpenseReport? CreateAggregate(List<Expense> expenseList, DateTimeOffset? expenseDate)

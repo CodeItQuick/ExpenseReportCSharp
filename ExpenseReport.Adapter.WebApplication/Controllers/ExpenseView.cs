@@ -11,7 +11,8 @@ public class ExpenseView
     [JsonProperty("expenseDate")]
     public DateTimeOffset ExpenseDate { get; set; }
     [JsonProperty("individualExpenses")]
-    public List<String>? IndividualExpenses { get; set; }
+    public List<string>? IndividualExpenses { get; set; }
     [JsonProperty("id")]
     public int Id { get; set; }
+    public List<int>? ExpenseReportIds { get; set; }
 }
