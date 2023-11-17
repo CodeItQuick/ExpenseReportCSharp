@@ -6,17 +6,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging.Abstractions;
 using WebApplication1.Controllers;
 
-namespace Tests;
+namespace Tests.Adapter.WebBlazorServerApp;
 
-public class ExistingExpensesControllerWithClaimsTests
+public class ExistingExpensesBlazorControllerWithClaimsTests
 {
     private readonly HomeController _controller;
 
-    public ExistingExpensesControllerWithClaimsTests()
+    public ExistingExpensesBlazorControllerWithClaimsTests()
     {
         _controller = new HomeController(
             new NullLogger<HomeController>(),
-            new ExpensesService(new FakeWebApplicationRepository(new List<Expense>())));
+            new ExpensesService(new FakeBlazorApplicationRepository(new List<Expense>())));
         
         var claimsIdentity = new ClaimsIdentity(
             new List<Claim>() { new(ClaimTypes.Name, "test_username") },

@@ -2,13 +2,13 @@ using System.Net;
 using Domain;
 using Tests.Adapter.WebApplication;
 
-namespace Tests;
+namespace Tests.Adapter.WebBlazorServerApp;
 
-public class ExistingExpensesControllerTests : IClassFixture<TestingWebAppFactory>
+public class ExistingExpensesBlazorControllerTests : IClassFixture<TestingBlazorWebAppFactory>
 {
-    private TestingWebAppFactory factory;
+    private TestingBlazorWebAppFactory factory;
 
-    public ExistingExpensesControllerTests(TestingWebAppFactory factory)
+    public ExistingExpensesBlazorControllerTests(TestingBlazorWebAppFactory factory)
     {
         this.factory = factory;
     }

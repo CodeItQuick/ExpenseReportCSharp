@@ -33,4 +33,4 @@ app.MapFallbackToPage("/_Host");
 
 app.Run();
 
-public partial class Program { }
+public partial class BlazorProgram { }

@@ -3,16 +3,16 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Tests.Adapter.WebApplication;
+namespace Tests.Adapter.WebBlazorServerApp;
 
-public class TestingWebAppFactory: WebApplicationFactory<Program>
+public class TestingBlazorWebAppFactory: WebApplicationFactory<BlazorProgram>
 {
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.ConfigureServices(services =>
         {
             var sp = services.BuildServiceProvider();
-            services.AddScoped<IExistingExpensesRepository, FakeWebApplicationRepository>();
+            services.AddScoped<IExistingExpensesRepository, FakeBlazorApplicationRepository>();
             sp.CreateScope();
         });
     }

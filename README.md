@@ -1,3 +1,8 @@
+TODO:
+1. Make the console app more of an adapter with better test suite, non-acceptance-test-stuff
+2. Add the create method to the BlazorApp
+3. Add tests to the adapter layer of the BlazorApp (*)
+
 # Questions
 1. When is it better to return the domain object rather than a string? I would think when you don't own that code?
 2. I do map multiple aggregate Id's to a list, so that I can retrieve by aggregate, this seems "fine"?

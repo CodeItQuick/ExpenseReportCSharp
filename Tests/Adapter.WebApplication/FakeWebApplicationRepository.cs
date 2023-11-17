@@ -5,12 +5,12 @@ using ExpenseReport = Domain.ExpenseReport;
 
 namespace Tests;
 
-public class FakeExistingRepository : ExistingExpensesRepository
+public class FakeWebApplicationRepository : ExistingExpensesRepository
 {
-    public FakeExistingRepository(): base(new RealDateProvider())
+    public FakeWebApplicationRepository(): base(new RealDateProvider())
     {
         var dbContextOptions = new DbContextOptionsBuilder<ExpensesDbContext>()
-            .UseInMemoryDatabase($"testing_blog-infrastructure-1")
+            .UseInMemoryDatabase($"testing_blog-application-2")
             .Options; 
         expensesDbContext = new ExpensesDbContext(dbContextOptions);
         expensesDbContext.Database.EnsureCreated();
@@ -19,10 +19,10 @@ public class FakeExistingRepository : ExistingExpensesRepository
         expensesDbContext.SaveChanges();
         expensesDbContext.ChangeTracker.Clear();
     }
-    public FakeExistingRepository(List<Expense> expenses): base(new RealDateProvider())
+    public FakeWebApplicationRepository(List<Expense> expenses): base(new RealDateProvider())
     {
         var dbContextOptions = new DbContextOptionsBuilder<ExpensesDbContext>()
-            .UseInMemoryDatabase($"testing_blog-infrastructure-{Guid.NewGuid()}")
+            .UseInMemoryDatabase($"testing_blog-application-{Guid.NewGuid()}")
             .Options; 
         expensesDbContext = new ExpensesDbContext(dbContextOptions);
         expensesDbContext.Database.EnsureCreated();
@@ -38,16 +38,16 @@ public class FakeExistingRepository : ExistingExpensesRepository
         expensesDbContext.ChangeTracker.Clear();
     }
     // Used By The Outside Controller Tests - needs a single persistance for all api calls, additive changes/state persisted
-    public FakeExistingRepository(IDateProvider dateProvider) : base(dateProvider)
+    public FakeWebApplicationRepository(IDateProvider dateProvider) : base(dateProvider)
     {
         var dbContextOptions = new DbContextOptionsBuilder<ExpensesDbContext>()
-            .UseInMemoryDatabase($"testing_blog-infrastructure-3")
+            .UseInMemoryDatabase($"testing_blog-application-3")
             .Options; 
         expensesDbContext = new ExpensesDbContext(dbContextOptions);
         expensesDbContext.Database.EnsureCreated();
     }
 
-    public FakeExistingRepository(ExpensesDbContext expensesDbContext, IDateProvider dateProvider) : 
+    public FakeWebApplicationRepository(ExpensesDbContext expensesDbContext, IDateProvider dateProvider) : 
         base(expensesDbContext, dateProvider)
     {
         this.expensesDbContext = expensesDbContext;

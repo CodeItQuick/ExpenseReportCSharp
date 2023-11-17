@@ -1,16 +1,15 @@
 using Application.Adapter;
 using ExpenseReport.ApplicationServices;
 using Microsoft.EntityFrameworkCore;
-using ExpenseReport = Domain.ExpenseReport;
 
-namespace Tests;
+namespace Tests.Adapter.WebBlazorServerApp;
 
-public class FakeExistingRepository : ExistingExpensesRepository
+public class FakeBlazorApplicationRepository : ExistingExpensesRepository
 {
-    public FakeExistingRepository(): base(new RealDateProvider())
+    public FakeBlazorApplicationRepository(): base(new RealDateProvider())
     {
         var dbContextOptions = new DbContextOptionsBuilder<ExpensesDbContext>()
-            .UseInMemoryDatabase($"testing_blog-infrastructure-1")
+            .UseInMemoryDatabase($"testing_blog-blazor")
             .Options; 
         expensesDbContext = new ExpensesDbContext(dbContextOptions);
         expensesDbContext.Database.EnsureCreated();
@@ -19,10 +18,10 @@ public class FakeExistingRepository : ExistingExpensesRepository
         expensesDbContext.SaveChanges();
         expensesDbContext.ChangeTracker.Clear();
     }
-    public FakeExistingRepository(List<Expense> expenses): base(new RealDateProvider())
+    public FakeBlazorApplicationRepository(List<Expense> expenses): base(new RealDateProvider())
     {
         var dbContextOptions = new DbContextOptionsBuilder<ExpensesDbContext>()
-            .UseInMemoryDatabase($"testing_blog-infrastructure-{Guid.NewGuid()}")
+            .UseInMemoryDatabase($"testing_blog-blazor-{Guid.NewGuid()}")
             .Options; 
         expensesDbContext = new ExpensesDbContext(dbContextOptions);
         expensesDbContext.Database.EnsureCreated();
@@ -38,16 +37,16 @@ public class FakeExistingRepository : ExistingExpensesRepository
         expensesDbContext.ChangeTracker.Clear();
     }
     // Used By The Outside Controller Tests - needs a single persistance for all api calls, additive changes/state persisted
-    public FakeExistingRepository(IDateProvider dateProvider) : base(dateProvider)
+    public FakeBlazorApplicationRepository(IDateProvider dateProvider) : base(dateProvider)
     {
         var dbContextOptions = new DbContextOptionsBuilder<ExpensesDbContext>()
-            .UseInMemoryDatabase($"testing_blog-infrastructure-3")
+            .UseInMemoryDatabase($"testing_blog-blazor-3")
             .Options; 
         expensesDbContext = new ExpensesDbContext(dbContextOptions);
         expensesDbContext.Database.EnsureCreated();
     }
 
-    public FakeExistingRepository(ExpensesDbContext expensesDbContext, IDateProvider dateProvider) : 
+    public FakeBlazorApplicationRepository(ExpensesDbContext expensesDbContext, IDateProvider dateProvider) : 
         base(expensesDbContext, dateProvider)
     {
         this.expensesDbContext = expensesDbContext;
