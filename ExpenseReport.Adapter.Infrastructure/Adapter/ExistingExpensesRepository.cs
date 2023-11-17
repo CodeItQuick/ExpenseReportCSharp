@@ -24,28 +24,28 @@ public class ExistingExpensesRepository : IExistingExpensesRepository
 
     public Domain.ExpenseReport? RetrieveById(int id)
     {
-        var expenseReportAggregates = expensesDbContext.ExpenseReportAggregates
+        var expenseReport = expensesDbContext.ExpenseReport
             .Include("Expenses")
             .FirstOrDefault(x => x.Id == id);
-        if (expenseReportAggregates == null)
+        if (expenseReport == null)
         {
             return null;
         }
         return new Domain.ExpenseReport(
-            expenseReportAggregates.Expenses?.Select(x => new Domain.Expense(x.ExpenseType, x.Amount)).ToList(), 
-            expenseReportAggregates.ExpenseReportDate, 
-            expenseReportAggregates?.Id ?? 0);
+            expenseReport.Expenses?.Select(x => new Domain.Expense(x.ExpenseType, x.Amount)).ToList(), 
+            expenseReport.ExpenseReportDate, 
+            expenseReport?.Id ?? 0);
     }
 
     public Domain.ExpenseReport? CreateAggregate(List<Expense> expenseList, DateTimeOffset? expenseDate)
     {
-        var expenseReportAggregate = new ExpenseReportAggregate()
+        var expenseReport = new ExpenseReport()
         {
             Expenses = expenseList,
             ExpenseReportDate = expenseDate ?? DateTimeOffset.Now
         };
-        var entityEntry = expensesDbContext.ExpenseReportAggregates.Add(
-            expenseReportAggregate);
+        var entityEntry = expensesDbContext.ExpenseReport.Add(
+            expenseReport);
         expensesDbContext.SaveChanges();
         expensesDbContext.ChangeTracker.Clear();
         return new Domain.ExpenseReport(
@@ -59,29 +59,29 @@ public class ExistingExpensesRepository : IExistingExpensesRepository
 
     public Domain.ExpenseReport? UpdateAggregate(List<Expense> expenses, int expenseReportId)
     {
-        var reportAggregate = expensesDbContext
-            .ExpenseReportAggregates
+        var report = expensesDbContext
+            .ExpenseReport
             .Include("Expenses")
             .FirstOrDefault(x => x.Id == expenseReportId);
-        if (reportAggregate?.Expenses != null && reportAggregate.Expenses.Any())
+        if (report?.Expenses != null && report.Expenses.Any())
         {
-            reportAggregate.Expenses.AddRange(expenses);
+            report.Expenses.AddRange(expenses);
         }
         else
         {
-            reportAggregate.Expenses = expenses;
+            report.Expenses = expenses;
         }
-        expensesDbContext.ExpenseReportAggregates.Update(reportAggregate);
+        expensesDbContext.ExpenseReport.Update(report);
         expensesDbContext.SaveChanges();
         return new Domain.ExpenseReport(
-            reportAggregate?.Expenses.Select(x => new Domain.Expense(x.ExpenseType, x.Amount)).ToList(), 
-            reportAggregate?.ExpenseReportDate ?? DateTimeOffset.Now, 
-            reportAggregate.Id);
+            report?.Expenses.Select(x => new Domain.Expense(x.ExpenseType, x.Amount)).ToList(), 
+            report?.ExpenseReportDate ?? DateTimeOffset.Now, 
+            report.Id);
     }
 
     public List<Domain.ExpenseReport> ListAllExpenseReports()
     {
-        return expensesDbContext.ExpenseReportAggregates
+        return expensesDbContext.ExpenseReport
             .Include("Expenses")
             .ToList()
             .Select(x => new Domain.ExpenseReport(

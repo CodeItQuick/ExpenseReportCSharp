@@ -13,7 +13,7 @@ public sealed class ExpensesDbContext : DbContext
 {
     public DbSet<Expense> Expenses { get; set; }
     private readonly string _connectionString;
-    public DbSet<ExpenseReportAggregate?> ExpenseReportAggregates { get; set; }
+    public DbSet<ExpenseReport?> ExpenseReport { get; set; }
     private string DbPath { get; set; }
 
     public ExpensesDbContext(DbContextOptions<ExpensesDbContext> options) : base(options)

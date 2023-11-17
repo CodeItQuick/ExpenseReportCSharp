@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ExpenseReportCSharp.Migrations
 {
     [DbContext(typeof(ExpensesDbContext))]
-    [Migration("20231105002937_DropExpenseReportAggregateIdReference")]
-    partial class DropExpenseReportAggregateIdReference
+    [Migration("20231105002937_DropExpenseReportIdReference")]
+    partial class DropExpenseReportIdReference
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -29,7 +29,7 @@ namespace ExpenseReportCSharp.Migrations
                     b.Property<int>("Amount")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("ExpenseReportAggregateId")
+                    b.Property<int>("ExpenseReportId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("ExpenseType")
@@ -40,7 +40,7 @@ namespace ExpenseReportCSharp.Migrations
                     b.ToTable("Expenses");
                 });
 
-            modelBuilder.Entity("Application.Services.ExpenseReportAggregate", b =>
+            modelBuilder.Entity("Application.Services.ExpenseReport", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -48,17 +48,17 @@ namespace ExpenseReportCSharp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ExpenseReportAggregates");
+                    b.ToTable("ExpenseReports");
                 });
 
             modelBuilder.Entity("Application.Services.Expenses", b =>
                 {
-                    b.HasOne("Application.Services.ExpenseReportAggregate", null)
+                    b.HasOne("Application.Services.ExpenseReport", null)
                         .WithMany("Expenses")
-                        .HasForeignKey("ExpenseReportAggregateId");
+                        .HasForeignKey("ExpenseReportId");
                 });
 
-            modelBuilder.Entity("Application.Services.ExpenseReportAggregate", b =>
+            modelBuilder.Entity("Application.Services.ExpenseReport", b =>
                 {
                     b.Navigation("Expenses");
                 });

@@ -11,6 +11,6 @@ public class Expense
     public ExpenseType ExpenseType { get; set; }
     public int Amount { get; set; }
 
-    [ForeignKey("ExpenseReportAggregateId")]
-    public int ExpenseReportAggregateId { get; set; }
+    [ForeignKey("ExpenseReportId")]
+    public int ExpenseReportId { get; set; }
 }

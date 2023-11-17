@@ -53,7 +53,7 @@ public class ExpensesService : IExpenseService
                 {
                     ExpenseType = expense.ExpenseTypes(), 
                     Amount = expense.Amount(), 
-                    ExpenseReportAggregateId = expenseReportId
+                    ExpenseReportId = expenseReportId
                 } 
             };
         var addExpenseToReport = expenseRepository.UpdateAggregate(expenses, expenseReportId);

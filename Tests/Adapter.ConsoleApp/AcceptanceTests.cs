@@ -138,7 +138,7 @@ public class AcceptanceTests
             systemOutProvider,
             new FakeExistingRepository(new List<Expense>()
             {
-                new() { ExpenseType = ExpenseType.BREAKFAST, Amount = 1010, ExpenseReportAggregateId = 1}
+                new() { ExpenseType = ExpenseType.BREAKFAST, Amount = 1010, ExpenseReportId = 1}
             }));
 
         expensePrinter.PrintExistingReport();

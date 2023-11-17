@@ -88,7 +88,7 @@ public class HomeController : Controller
             IndividualExpenses = expenseAdded.CalculateIndividualExpenses(),
             TotalExpenses = expenseAdded.CalculateTotalExpenses(),
             Id = expenseAdded.Id,
-            ExpenseReportIds = expenseReportList.Select(x => x.Id).ToList()
+            ExpenseReportIds = expenseReportList.Select(x => x.Id).ToList() // TODO: Ted - Is this a code smell?
         });
     }
 

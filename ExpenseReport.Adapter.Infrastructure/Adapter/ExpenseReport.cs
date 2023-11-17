@@ -3,7 +3,7 @@ using Domain;
 
 namespace Application.Adapter;
 
-public sealed class ExpenseReportAggregate
+public sealed class ExpenseReport
 {
     [Key]
     public int Id { get; private set; }

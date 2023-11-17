@@ -5,19 +5,19 @@
 namespace ExpenseReportCSharp.Migrations
 {
     /// <inheritdoc />
-    public partial class CreateExpenseReportAggregate : Migration
+    public partial class CreateExpenseReport : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<int>(
-                name: "ExpensesReportAggregateId",
+                name: "ExpensesReportId",
                 table: "Expenses",
                 type: "INTEGER",
                 nullable: true);
 
             migrationBuilder.CreateTable(
-                name: "ExpenseReportAggregates",
+                name: "ExpenseReports",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
@@ -25,19 +25,19 @@ namespace ExpenseReportCSharp.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ExpenseReportAggregates", x => x.Id);
+                    table.PrimaryKey("PK_ExpenseReport", x => x.Id);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Expenses_ExpensesReportAggregateId",
+                name: "IX_Expenses_ExpensesReportId",
                 table: "Expenses",
-                column: "ExpensesReportAggregateId");
+                column: "ExpensesReportId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Expenses_ExpenseReportAggregates_ExpensesReportAggregateId",
+                name: "FK_Expenses_ExpenseReports_ExpensesReportId",
                 table: "Expenses",
-                column: "ExpensesReportAggregateId",
-                principalTable: "ExpenseReportAggregates",
+                column: "ExpensesReportId",
+                principalTable: "ExpenseReports",
                 principalColumn: "Id");
         }
 
@@ -45,18 +45,18 @@ namespace ExpenseReportCSharp.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Expenses_ExpenseReportAggregates_ExpensesReportAggregateId",
+                name: "FK_Expenses_ExpenseReports_ExpensesReportId",
                 table: "Expenses");
 
             migrationBuilder.DropTable(
-                name: "ExpenseReportAggregates");
+                name: "ExpenseReports");
 
             migrationBuilder.DropIndex(
-                name: "IX_Expenses_ExpensesReportAggregateId",
+                name: "IX_Expenses_ExpensesReportId",
                 table: "Expenses");
 
             migrationBuilder.DropColumn(
-                name: "ExpensesReportAggregateId",
+                name: "ExpensesReportId",
                 table: "Expenses");
         }
     }

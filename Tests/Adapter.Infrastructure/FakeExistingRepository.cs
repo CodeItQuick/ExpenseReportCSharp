@@ -14,8 +14,8 @@ public class FakeExistingRepository : ExistingExpensesRepository
             .Options; 
         expensesDbContext = new ExpensesDbContext(dbContextOptions);
         expensesDbContext.Database.EnsureCreated();
-        var expenseReportAggregates = expensesDbContext.ExpenseReportAggregates.ToList();
-        expensesDbContext.ExpenseReportAggregates.RemoveRange(expenseReportAggregates);
+        var expenseReportAggregates = expensesDbContext.ExpenseReport.ToList();
+        expensesDbContext.ExpenseReport.RemoveRange(expenseReportAggregates);
         expensesDbContext.SaveChanges();
         expensesDbContext.ChangeTracker.Clear();
     }
@@ -26,10 +26,10 @@ public class FakeExistingRepository : ExistingExpensesRepository
             .Options; 
         expensesDbContext = new ExpensesDbContext(dbContextOptions);
         expensesDbContext.Database.EnsureCreated();
-        var expenseReports = expensesDbContext.ExpenseReportAggregates.ToList();
-        expensesDbContext.ExpenseReportAggregates.RemoveRange(expenseReports);
+        var expenseReports = expensesDbContext.ExpenseReport.ToList();
+        expensesDbContext.ExpenseReport.RemoveRange(expenseReports);
         expensesDbContext.SaveChanges();
-        expensesDbContext.ExpenseReportAggregates.Add(new ExpenseReportAggregate()
+        expensesDbContext.ExpenseReport.Add(new Application.Adapter.ExpenseReport()
         {
             Expenses = expenses,
             ExpenseReportDate = DateTimeOffset.Now

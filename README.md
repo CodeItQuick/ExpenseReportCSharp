@@ -1,3 +1,13 @@
+# Questions
+1. When is it better to return the domain object rather than a string? I would think when you don't own that code?
+2. I do map multiple aggregate Id's to a list, so that I can retrieve by aggregate, this seems "fine"?
+3. The entire adapter could be in an external codebase. For a Mobile App, I would have the Mobile API in this codebase, 
+but then the swift/kotlin app would be in a different codebase?
+4. The adapter could also be used to produce multiple Database-specific tasks, think creating a CSV Report of Expense Reports
+5. We could also import in from a 3rd/2nd party application ExpenseReports, to be shown to the user here. How does our code change in these scenarios?
+6. "DomainServices" are actually just interfaces/ports. Should the Adapter ExpenseService go in that layer, or remain in the adapter layer and get "plugged into" out layers
+
+
 # CodeItQuick Contribution to this Kata
 
 I redid this kata mostly to explore how hexagonal architecture _should_ look. For the most part the solution

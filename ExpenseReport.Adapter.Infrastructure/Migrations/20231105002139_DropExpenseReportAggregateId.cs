@@ -5,13 +5,13 @@
 namespace ExpenseReportCSharp.Migrations
 {
     /// <inheritdoc />
-    public partial class DropExpenseReportAggregateId : Migration
+    public partial class DropExpenseReportId : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "ExpenseReportAggregateId",
+                name: "ExpenseReportId",
                 table: "Expenses");
 
         }

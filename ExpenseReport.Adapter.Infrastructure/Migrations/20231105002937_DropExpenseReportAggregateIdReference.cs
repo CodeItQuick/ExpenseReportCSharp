@@ -5,7 +5,7 @@
 namespace ExpenseReportCSharp.Migrations
 {
     /// <inheritdoc />
-    public partial class DropExpenseReportAggregateIdReference : Migration
+    public partial class DropExpenseReportIdReference : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

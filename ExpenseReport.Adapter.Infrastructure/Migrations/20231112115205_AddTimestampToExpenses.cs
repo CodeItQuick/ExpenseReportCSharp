@@ -12,34 +12,34 @@ namespace ExpenseReportCSharp.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Expenses_ExpenseReportAggregates_ExpensesReportAggregateId",
+                name: "FK_Expenses_ExpenseReports_ExpensesReportId",
                 table: "Expenses");
 
             migrationBuilder.DropIndex(
-                name: "IX_Expenses_ExpensesReportAggregateId",
+                name: "IX_Expenses_ExpensesReportId",
                 table: "Expenses");
 
             migrationBuilder.DropColumn(
-                name: "ExpensesReportAggregateId",
+                name: "ExpensesReportId",
                 table: "Expenses");
 
             migrationBuilder.AddColumn<DateTimeOffset>(
                 name: "ExpenseReportDate",
-                table: "ExpenseReportAggregates",
+                table: "ExpenseReports",
                 type: "TEXT",
                 nullable: false,
                 defaultValue: new DateTimeOffset(new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)));
 
             migrationBuilder.CreateIndex(
-                name: "IX_Expenses_ExpenseReportAggregateId",
+                name: "IX_Expenses_ExpenseReportId",
                 table: "Expenses",
-                column: "ExpenseReportAggregateId");
+                column: "ExpenseReportId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Expenses_ExpenseReportAggregates_ExpenseReportAggregateId",
+                name: "FK_Expenses_ExpenseReports_ExpenseReportId",
                 table: "Expenses",
-                column: "ExpenseReportAggregateId",
-                principalTable: "ExpenseReportAggregates",
+                column: "ExpenseReportId",
+                principalTable: "ExpenseReports",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
         }
@@ -48,33 +48,33 @@ namespace ExpenseReportCSharp.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Expenses_ExpenseReportAggregates_ExpenseReportAggregateId",
+                name: "FK_Expenses_ExpenseReports_ExpenseReportId",
                 table: "Expenses");
 
             migrationBuilder.DropIndex(
-                name: "IX_Expenses_ExpenseReportAggregateId",
+                name: "IX_Expenses_ExpenseReportId",
                 table: "Expenses");
 
             migrationBuilder.DropColumn(
                 name: "ExpenseReportDate",
-                table: "ExpenseReportAggregates");
+                table: "ExpenseReports");
 
             migrationBuilder.AddColumn<int>(
-                name: "ExpensesReportAggregateId",
+                name: "ExpensesReportId",
                 table: "Expenses",
                 type: "INTEGER",
                 nullable: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Expenses_ExpensesReportAggregateId",
+                name: "IX_Expenses_ExpensesReportId",
                 table: "Expenses",
-                column: "ExpensesReportAggregateId");
+                column: "ExpensesReportId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Expenses_ExpenseReportAggregates_ExpensesReportAggregateId",
+                name: "FK_Expenses_ExpenseReports_ExpensesReportId",
                 table: "Expenses",
-                column: "ExpensesReportAggregateId",
-                principalTable: "ExpenseReportAggregates",
+                column: "ExpensesReportId",
+                principalTable: "ExpenseReports",
                 principalColumn: "Id");
         }
     }

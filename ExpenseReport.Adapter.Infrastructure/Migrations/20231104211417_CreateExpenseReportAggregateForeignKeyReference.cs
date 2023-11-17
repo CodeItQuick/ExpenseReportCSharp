@@ -5,13 +5,13 @@
 namespace ExpenseReportCSharp.Migrations
 {
     /// <inheritdoc />
-    public partial class CreateExpenseReportAggregateForeignKeyReference : Migration
+    public partial class CreateExpenseReportForeignKeyReference : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<int>(
-                name: "ExpenseReportAggregateId",
+                name: "ExpenseReportId",
                 table: "Expenses",
                 type: "INTEGER",
                 nullable: false,
@@ -22,7 +22,7 @@ namespace ExpenseReportCSharp.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "ExpenseReportAggregateId",
+                name: "ExpenseReportId",
                 table: "Expenses");
         }
     }

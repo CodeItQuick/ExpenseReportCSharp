@@ -1,5 +1,6 @@
 namespace Domain;
 
+// Aggregate
 public class ExpenseReport
 {
     private readonly List<Expense> expenses;
