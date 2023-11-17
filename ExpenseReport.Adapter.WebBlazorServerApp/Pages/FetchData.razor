@@ -1,0 +1,92 @@
+﻿@page "/fetchdata"
+
+<PageTitle>Expense Reports</PageTitle>
+
+@using ExpenseReport.Adapter.WebBlazorServerApp.Data
+@using Microsoft.AspNetCore.Mvc
+@inject ExpenseReportService ForecastService
+
+<h1>Expense Reports</h1>
+
+@if (expenseView == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    @foreach (var individualExpense in expenseView.IndividualExpenses)
+    {
+        <p>@individualExpense</p>
+    }
+    <p>Meal Expenses: @expenseView.MealExpenses</p>
+    <p>Total Expenses: @expenseView.TotalExpenses</p>
+    <EditForm Model="@expenseView" OnValidSubmit="GetExpenseReport">
+        <InputSelect name="Id" @bind-Value="expenseView.Id">
+            @foreach (var id in expenseView.ExpenseReportIds) 
+            {
+                <option value="@id">Report #@(id.ToString())</option>
+            }
+        </InputSelect>
+        <button type="submit"
+                asp-controller="Home"
+                asp-action="Index"
+                class="btn btn-default">
+            Retrieve Expense Report
+        </button>
+    </EditForm>
+    <EditForm Model="@expenseRequest" OnValidSubmit="CreateExpense">
+        <InputNumber name="expenseCost" @bind-Value="@expenseRequest.expenseCost" />
+        <InputSelect type="text" name="expenseType" @bind-Value="expenseRequest.expenseType">
+            <option value="BREAKFAST">Breakfast</option>
+            <option value="DINNER">Dinner</option>
+            <option value="CAR_RENTAL">Car Rental</option>
+        </InputSelect>
+        <button type="submit"
+                asp-controller="Home"
+                asp-action="ExpenseUpdateView"
+                class="btn btn-default ">
+            Create Expense
+        </button>
+    </EditForm>
+}
+
+@code {
+    private ExpenseView? expenseView = new ExpenseView()
+    {
+        IndividualExpenses = new List<string>()
+    };
+
+    private CreateExpenseRequest? expenseRequest = new CreateExpenseRequest();
+
+    private class CreateExpenseRequest
+    {
+        public int expenseCost { get; set; }
+        public string expenseType { get; set; }
+        public int expenseReportId { get; set; }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        expenseView.ExpenseReportIds ??= (await ForecastService.OnGet()).ExpenseReportIds;
+    }
+
+
+    private void GetExpenseReport(EditContext obj)
+    {
+        Console.WriteLine(obj.Model);
+        var id = (obj.Model as ExpenseView).Id;
+        Console.WriteLine(id);
+        expenseView = ForecastService.OnGet(id).Result;
+    }
+
+    private void CreateExpense(EditContext obj)
+    {
+        Console.WriteLine(obj.Model);
+        var expenseCost = (obj.Model as CreateExpenseRequest).expenseCost;
+        var expenseType = (obj.Model as CreateExpenseRequest).expenseType;
+        var reportId = expenseView.Id;
+        Console.WriteLine(reportId);
+        expenseView = ForecastService.ExpenseView(expenseCost, expenseType, reportId).Result;
+    }
+
+}

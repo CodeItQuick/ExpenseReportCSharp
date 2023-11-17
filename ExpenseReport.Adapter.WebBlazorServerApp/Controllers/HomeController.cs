@@ -1,12 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
-using Application.Services;
 using Domain;
+using ExpenseReport.Adapter.WebBlazorServerApp.Controllers;
+using ExpenseReport.Adapter.WebBlazorServerApp.Data;
 using ExpenseReport.ApplicationServices;
 using Microsoft.AspNetCore.Mvc;
-using WebApplication1.Models;
 
-namespace WebApplication1.Controllers;
+namespace ExpenseReport.Adapter.WebBlazorServerApp;
 
 public class HomeController : Controller
 {

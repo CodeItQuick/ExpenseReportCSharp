@@ -1,16 +1,21 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpenseReport.Adapter.ConsoleApp", "ExpenseReport.Adapter.ConsoleApp\ExpenseReport.Adapter.ConsoleApp.csproj", "{2EA6351B-5B8E-4035-BBAA-AA9C4F4B0FC8}"
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32825.248
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExpenseReport.Adapter.ConsoleApp", "ExpenseReport.Adapter.ConsoleApp\ExpenseReport.Adapter.ConsoleApp.csproj", "{2EA6351B-5B8E-4035-BBAA-AA9C4F4B0FC8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{61909A7D-6AD2-4D4E-90E2-5AC70B17CAA8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{61909A7D-6AD2-4D4E-90E2-5AC70B17CAA8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpenseReport.Domain", "ExpenseReport.Domain\ExpenseReport.Domain.csproj", "{7C760423-7F58-4CE1-8CFE-009E68F6FB40}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExpenseReport.Domain", "ExpenseReport.Domain\ExpenseReport.Domain.csproj", "{7C760423-7F58-4CE1-8CFE-009E68F6FB40}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpenseReport.Adapter.Infrastructure", "ExpenseReport.Adapter.Infrastructure\ExpenseReport.Adapter.Infrastructure.csproj", "{D9494816-128C-4782-B89D-EFC9CA560B56}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExpenseReport.Adapter.Infrastructure", "ExpenseReport.Adapter.Infrastructure\ExpenseReport.Adapter.Infrastructure.csproj", "{D9494816-128C-4782-B89D-EFC9CA560B56}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpenseReport.Adapter.WebApplication", "ExpenseReport.Adapter.WebApplication\ExpenseReport.Adapter.WebApplication.csproj", "{19BE254C-BC49-496E-89BE-EDD1E9E4CA05}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExpenseReport.Adapter.WebApplication", "ExpenseReport.Adapter.WebApplication\ExpenseReport.Adapter.WebApplication.csproj", "{19BE254C-BC49-496E-89BE-EDD1E9E4CA05}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpenseReport.DomainServices", "ExpenseReport.DomainServices\ExpenseReport.DomainServices.csproj", "{9D7136D8-FFCA-40B9-9C92-4F9793BE070D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExpenseReport.DomainServices", "ExpenseReport.DomainServices\ExpenseReport.DomainServices.csproj", "{9D7136D8-FFCA-40B9-9C92-4F9793BE070D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpenseReport.Adapter.WebBlazorServerApp", "ExpenseReport.Adapter.WebBlazorServerApp\ExpenseReport.Adapter.WebBlazorServerApp.csproj", "{44AC0FF9-5172-41DF-84D0-4AC2250FEED8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,5 +47,15 @@ Global
 		{9D7136D8-FFCA-40B9-9C92-4F9793BE070D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9D7136D8-FFCA-40B9-9C92-4F9793BE070D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9D7136D8-FFCA-40B9-9C92-4F9793BE070D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44AC0FF9-5172-41DF-84D0-4AC2250FEED8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44AC0FF9-5172-41DF-84D0-4AC2250FEED8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44AC0FF9-5172-41DF-84D0-4AC2250FEED8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44AC0FF9-5172-41DF-84D0-4AC2250FEED8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C57FF3E8-9921-45A7-AD54-10DA46295A0D}
 	EndGlobalSection
 EndGlobal
