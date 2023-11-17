@@ -57,6 +57,7 @@ public class HomeController : Controller
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 
+    // Create
     public ActionResult ExpenseView(
         int expenseCost, string expenseType, DateTimeOffset expenseDate, int reportId = 0)
     {

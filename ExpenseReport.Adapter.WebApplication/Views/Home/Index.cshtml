@@ -14,10 +14,19 @@
             }
         </select>
         <button type="submit"
-            asp-controller="Home"
-            asp-action="Index"
-            class="btn btn-default">
-             Retrieve Expense Report
+                asp-controller="Home"
+                asp-action="Index"
+                class="btn btn-default">
+            Retrieve Expense Report
+        </button>
+    </form>
+    <form method="POST">
+        <input type="date" name="expenseReportDate" />
+        <button type="submit"
+                asp-controller="Home"
+                asp-action="CreateExpenseReport"
+                class="btn btn-default ">
+            Create Expense Report
         </button>
     </form>
     <form asp-action="ExpenseView" method="POST">
