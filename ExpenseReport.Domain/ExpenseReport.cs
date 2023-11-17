@@ -2,14 +2,14 @@ namespace Domain;
 
 public class ExpenseReport
 {
-    private readonly List<Expense>? expenses;
+    private readonly List<Expense> expenses;
     private DateTimeOffset ExpenseReportDate { get; set; }
     public int Id { get; set; }
 
 
     public ExpenseReport(List<Expense>? expenses, DateTimeOffset expenseReportDate, int id)
     {
-        this.expenses = expenses;
+        this.expenses = expenses ?? new List<Expense>();
         ExpenseReportDate = expenseReportDate;
         Id = id;
     }
@@ -21,7 +21,7 @@ public class ExpenseReport
 
     public List<String> CalculateIndividualExpenses() {
         List<string> displayExpenses = new List<string>();
-        foreach (Expense expense in this.expenses) {
+        foreach (Expense expense in expenses) {
             String label = expense.ExpenseType() + "\t" + expense.Amount() + "\t" + expense.IsOverExpensedMeal();
             displayExpenses.Add(label);
         }
