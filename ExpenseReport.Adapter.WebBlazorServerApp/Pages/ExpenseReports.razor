@@ -34,6 +34,12 @@ else
             Retrieve Expense Report
         </button>
     </EditForm>
+    <EditForm Model="@expenseRequest" OnValidSubmit="CreateExpenseReport">
+        <button type="submit"
+                class="btn btn-default ">
+            Create Expense Report
+        </button>
+    </EditForm>
     <EditForm Model="@expenseRequest" OnValidSubmit="CreateExpense">
         <InputNumber name="expenseCost" @bind-Value="@expenseRequest.expenseCost" />
         <InputSelect type="text" name="expenseType" @bind-Value="expenseRequest.expenseType">
@@ -42,8 +48,6 @@ else
             <option value="CAR_RENTAL">Car Rental</option>
         </InputSelect>
         <button type="submit"
-                asp-controller="Home"
-                asp-action="ExpenseUpdateView"
                 class="btn btn-default ">
             Create Expense
         </button>
@@ -51,18 +55,17 @@ else
 }
 
 @code {
-    private ExpenseView? expenseView = new ExpenseView()
+    private ExpenseView? expenseView = new()
     {
         IndividualExpenses = new List<string>()
     };
 
-    private CreateExpenseRequest? expenseRequest = new CreateExpenseRequest();
+    private CreateExpenseRequest? expenseRequest = new();
 
     private class CreateExpenseRequest
     {
         public int expenseCost { get; set; }
         public string expenseType { get; set; }
-        public int expenseReportId { get; set; }
     }
 
     protected override async Task OnInitializedAsync()
@@ -83,6 +86,10 @@ else
         var expenseType = (expenseContext.Model as CreateExpenseRequest).expenseType;
         var reportId = expenseView.Id;
         expenseView = ForecastAdapterService.ExpenseView(expenseCost, expenseType, reportId).Result;
+    }
+    private void CreateExpenseReport(EditContext expenseContext)
+    {
+        expenseView = ForecastAdapterService.CreateExpenseReport(DateTimeOffset.Now).Result;
     }
 
 }

@@ -1,7 +1,5 @@
 TODO:
 1. Make the console app more of an adapter with better test suite, non-acceptance-test-stuff
-2. Add the create method to the BlazorApp
-3. Add tests to the adapter layer of the BlazorApp (*)
 
 # Questions
 1. When is it better to return the domain object rather than a string? I would think when you don't own that code?
@@ -11,6 +9,7 @@ but then the swift/kotlin app would be in a different codebase?
 4. The adapter could also be used to produce multiple Database-specific tasks, think creating a CSV Report of Expense Reports
 5. We could also import in from a 3rd/2nd party application ExpenseReports, to be shown to the user here. How does our code change in these scenarios?
 6. "DomainServices" are actually just interfaces/ports. Should the Adapter ExpenseService go in that layer, or remain in the adapter layer and get "plugged into" out layers
+7. Blazor uses sockets, how would I test that through the client?
 
 
 # CodeItQuick Contribution to this Kata
