@@ -1,10 +1,10 @@
-﻿@page "/fetchdata"
+﻿@page "/ExpenseReports"
 
 <PageTitle>Expense Reports</PageTitle>
 
 @using ExpenseReport.Adapter.WebBlazorServerApp.Data
 @using Microsoft.AspNetCore.Mvc
-@inject ExpenseReportService ForecastService
+@inject ExpenseReportAdapterService ForecastAdapterService
 
 <h1>Expense Reports</h1>
 
@@ -67,26 +67,22 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        expenseView.ExpenseReportIds ??= (await ForecastService.OnGet()).ExpenseReportIds;
+        expenseView.ExpenseReportIds ??= (await ForecastAdapterService.OnGet()).ExpenseReportIds;
     }
 
 
-    private void GetExpenseReport(EditContext obj)
+    private void GetExpenseReport(EditContext expenseContext)
     {
-        Console.WriteLine(obj.Model);
-        var id = (obj.Model as ExpenseView).Id;
-        Console.WriteLine(id);
-        expenseView = ForecastService.OnGet(id).Result;
+        var id = (expenseContext.Model as ExpenseView).Id;
+        expenseView = ForecastAdapterService.OnGet(id).Result;
     }
 
-    private void CreateExpense(EditContext obj)
+    private void CreateExpense(EditContext expenseContext)
     {
-        Console.WriteLine(obj.Model);
-        var expenseCost = (obj.Model as CreateExpenseRequest).expenseCost;
-        var expenseType = (obj.Model as CreateExpenseRequest).expenseType;
+        var expenseCost = (expenseContext.Model as CreateExpenseRequest).expenseCost;
+        var expenseType = (expenseContext.Model as CreateExpenseRequest).expenseType;
         var reportId = expenseView.Id;
-        Console.WriteLine(reportId);
-        expenseView = ForecastService.ExpenseView(expenseCost, expenseType, reportId).Result;
+        expenseView = ForecastAdapterService.ExpenseView(expenseCost, expenseType, reportId).Result;
     }
 
 }

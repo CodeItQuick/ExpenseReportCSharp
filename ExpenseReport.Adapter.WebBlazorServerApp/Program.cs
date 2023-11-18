@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddSingleton<ExpenseReportService>();
+builder.Services.AddTransient<ExpenseReportAdapterService>();
 builder.Services.AddTransient<IDateProvider, RealDateProvider>();
 builder.Services.AddTransient<IExistingExpensesRepository, ExistingExpensesRepository>();
 builder.Services.AddTransient<IExpenseService, ExpensesService>();

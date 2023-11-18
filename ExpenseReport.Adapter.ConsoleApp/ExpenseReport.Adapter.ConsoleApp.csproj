@@ -17,7 +17,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\ExpenseReport.Adapter.Infrastructure\ExpenseReport.Adapter.Infrastructure.csproj" />
-      <ProjectReference Include="..\ExpenseReport.Application\ExpenseReport.Application.csproj" />
       <ProjectReference Include="..\ExpenseReport.Domain\ExpenseReport.Domain.csproj" />
     </ItemGroup>
 

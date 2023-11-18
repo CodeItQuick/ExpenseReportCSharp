@@ -93,7 +93,6 @@ public class HomeController : Controller
         });
     }
 
-    // FIXME: Needs a test and endpoint
     public ViewResult CreateExpenseReport([Required] DateTimeOffset expenseReportDate)
     {
         var expenseAdded = _expenseService.CreateExpenseReport(expenseReportDate);

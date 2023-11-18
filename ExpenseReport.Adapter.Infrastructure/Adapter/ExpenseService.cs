@@ -1,4 +1,3 @@
-using Domain;
 using ExpenseReport.ApplicationServices;
 
 namespace Application.Adapter;

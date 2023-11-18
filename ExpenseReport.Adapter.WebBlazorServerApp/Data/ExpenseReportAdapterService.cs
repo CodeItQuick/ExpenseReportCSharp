@@ -1,16 +1,18 @@
+using System.ComponentModel.DataAnnotations;
 using Domain;
 using ExpenseReport.ApplicationServices;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
+// Not actually a service
 namespace ExpenseReport.Adapter.WebBlazorServerApp.Data
 {
-    public class ExpenseReportService
+    public class ExpenseReportAdapterService
     {
-        private readonly ILogger<ExpenseReportService> _logger;
+        private readonly ILogger<ExpenseReportAdapterService> _logger;
         private IExpenseService _expenseService;
 
-        public ExpenseReportService(ILogger<ExpenseReportService> logger, IExpenseService expensesService)
+        public ExpenseReportAdapterService(
+            ILogger<ExpenseReportAdapterService> logger, 
+            IExpenseService expensesService)
         {
             _logger = logger;
             _expenseService = expensesService; // FIXME: broken
@@ -48,6 +50,22 @@ namespace ExpenseReport.Adapter.WebBlazorServerApp.Data
             var tryParse = ExpenseType.TryParse(expenseType, out ExpenseType expense);
             var expenseAdded = _expenseService.CreateExpense(
                 expenseReportId, new Expense(expense, expenseCost));
+            var expenseReportList = _expenseService.ListAllExpenseReports();
+
+            return Task.FromResult(new ExpenseView()
+            {
+                MealExpenses = expenseAdded.CalculateMealExpenses(),
+                ExpenseDate = expenseAdded.RetrieveDate(),
+                IndividualExpenses = expenseAdded.CalculateIndividualExpenses(),
+                TotalExpenses = expenseAdded.CalculateTotalExpenses(),
+                Id = expenseAdded.Id,
+                ExpenseReportIds = expenseReportList.Select(x => x.Id).ToList()
+            });
+        }
+        // Needs an endpoint
+        public Task<ExpenseView> CreateExpenseReport([Required] DateTimeOffset expenseReportDate)
+        {
+            var expenseAdded = _expenseService.CreateExpenseReport(expenseReportDate);
             var expenseReportList = _expenseService.ListAllExpenseReports();
 
             return Task.FromResult(new ExpenseView()
