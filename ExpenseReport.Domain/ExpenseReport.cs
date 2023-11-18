@@ -3,14 +3,14 @@ namespace Domain;
 // Aggregate
 public class ExpenseReport
 {
-    private readonly List<Expense> expenses;
+    private readonly ExpenseList expenses;
     private DateTimeOffset ExpenseReportDate { get; }
     public int Id { get; }
 
 
     public ExpenseReport(List<Expense>? expenses, DateTimeOffset expenseReportDate, int id)
     {
-        this.expenses = expenses ?? new List<Expense>();
+        this.expenses = new ExpenseList(expenses ?? new List<Expense>(), id);
         ExpenseReportDate = expenseReportDate;
         Id = id;
     }
@@ -22,27 +22,20 @@ public class ExpenseReport
 
     public List<String> CalculateIndividualExpenses() {
         List<string> displayExpenses = new List<string>();
-        foreach (Expense expense in expenses) {
-            String label = expense.ExpenseType() + "\t" + expense.Amount() + "\t" + expense.IsOverExpensedMeal();
+        foreach (Expense expense in expenses.RetrieveIndividualExpenses()) {
+            String label = expense.ExpenseTypes() + "\t" + expense.Amount() + "\t" +
+                           (expense.IsOverExpensedMeal() ? "X" : " ");
             displayExpenses.Add(label);
         }
         return displayExpenses;
     }
 
     public int CalculateTotalExpenses() {
-        int total = 0;
-        foreach (Expense expense in expenses) {
-            total += expense.Amount();
-        }
-        return total;
+        return expenses.CalculateTotalExpenses();
     }
 
     public int CalculateMealExpenses() {
-        int mealExpenses = 0;
-        foreach (Expense expense in expenses) {
-            mealExpenses += expense.CalculateMealExpenses();
-        }
-        return mealExpenses;
+        return expenses.CalculateMealExpenses();
     }
 
     public void AddExpense(Expense firstExpense)

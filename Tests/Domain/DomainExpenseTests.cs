@@ -23,27 +23,27 @@ public class DomainExpenseTests
     {
         Expense expense = new Expense(ExpenseType.DINNER, 5001);
 
-        Assert.Equal("X", expense.IsOverExpensedMeal());
+        Assert.Equal(true, expense.IsOverExpensedMeal());
     }
     [Fact]
     public void DinnerExpenseCalculatesIfNotOverExpensed()
     {
         Expense expense = new Expense(ExpenseType.DINNER, 4950);
 
-        Assert.Equal(" ", expense.IsOverExpensedMeal());
+        Assert.Equal(false, expense.IsOverExpensedMeal());
     }
     [Fact]
     public void BreakfastExpenseCalculatesIfOverExpensed()
     {
         Expense expense = new Expense(ExpenseType.BREAKFAST, 1001);
 
-        Assert.Equal("X", expense.IsOverExpensedMeal());
+        Assert.Equal(true, expense.IsOverExpensedMeal());
     }
     [Fact]
     public void BreakfastExpenseCalculatesIfNotOverExpensed()
     {
         Expense expense = new Expense(ExpenseType.BREAKFAST, 1000);
 
-        Assert.Equal(" ", expense.IsOverExpensedMeal());
+        Assert.Equal(false, expense.IsOverExpensedMeal());
     }
 }

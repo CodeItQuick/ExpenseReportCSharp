@@ -10,6 +10,7 @@ but then the swift/kotlin app would be in a different codebase?
 5. We could also import in from a 3rd/2nd party application ExpenseReports, to be shown to the user here. How does our code change in these scenarios?
 6. "DomainServices" are actually just interfaces/ports. Should the Adapter ExpenseService go in that layer, or remain in the adapter layer and get "plugged into" out layers
 7. Blazor uses sockets, how would I test that through the client?
+8. **The out adapter is very interesting as there are Expense and ExpenseReport objects that map to a DB**
 
 
 # CodeItQuick Contribution to this Kata

@@ -1,5 +1,6 @@
 namespace Domain;
 
+// Value Object
 public enum ExpenseType
 {
     BREAKFAST,

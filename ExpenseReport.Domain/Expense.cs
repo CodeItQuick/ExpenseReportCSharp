@@ -1,5 +1,6 @@
 namespace Domain;
 
+// Value Object
 public class Expense
 {
     private readonly ExpenseType type;
@@ -17,19 +18,18 @@ public class Expense
         return 0;
     }
 
-    public String IsOverExpensedMeal() {
+    // Used Internally by domain
+    public bool IsOverExpensedMeal() {
         bool dinnerOverExpensed = type == Domain.ExpenseType.DINNER && amount > 5000;
         bool breakfastOverExpensed = type == Domain.ExpenseType.BREAKFAST && amount > 1000;
-        return dinnerOverExpensed || breakfastOverExpensed ? "X" : " ";
+        return dinnerOverExpensed || breakfastOverExpensed;
     }
-
-    public String? ExpenseType() {
-        return type.ToString();
-    }
+    // Used Internally by domain
     public ExpenseType ExpenseTypes() {
         return type;
     }
 
+    // Used Internally by domain
     public int Amount() {
         return amount;
     }
