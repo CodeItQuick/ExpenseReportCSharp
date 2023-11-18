@@ -27,6 +27,7 @@
     <ItemGroup>
       <ProjectReference Include="..\ExpenseReport.Adapter.ConsoleApp\ExpenseReport.Adapter.ConsoleApp.csproj" />
       <ProjectReference Include="..\ExpenseReport.Adapter.Infrastructure\ExpenseReport.Adapter.Infrastructure.csproj" />
+      <ProjectReference Include="..\ExpenseReport.Adapter.WebAPI\ExpenseReport.Adapter.WebAPI.csproj" />
       <ProjectReference Include="..\ExpenseReport.Adapter.WebApplication\ExpenseReport.Adapter.WebApplication.csproj" />
       <ProjectReference Include="..\ExpenseReport.Adapter.WebBlazorServerApp\ExpenseReport.Adapter.WebBlazorServerApp.csproj" />
     </ItemGroup>
