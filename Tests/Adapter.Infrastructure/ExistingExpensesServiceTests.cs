@@ -61,7 +61,15 @@ public class ExistingExpensesServiceTests
         var report = expensesService.CreateExpenseReport(DateTimeOffset.Now);
 
         var expenseReport = expensesService.AddExpenseToExpenseReport(
-            report.Id, new Domain.Expense(ExpenseType.DINNER, 100));
+            report.Id, new List<CreateExpenseRequest>()
+            {
+                new()
+                {
+                    type = ExpenseType.DINNER,
+                    amount = 100,
+                    expenseReportId = report.Id,
+                }
+            });
         
         Assert.Single(expenseReport.CalculateIndividualExpenses());
     }
@@ -84,7 +92,15 @@ public class ExistingExpensesServiceTests
         var expensesService = new ExpensesService(existingExpensesRepository);
         var expenseReport = expensesService.CreateExpenseReport(expenseReportDate);
 
-        var expense = expensesService.AddExpenseToExpenseReport(expenseReport.Id, new Domain.Expense(ExpenseType.BREAKFAST, 1234));
+        var expense = expensesService.AddExpenseToExpenseReport(expenseReport.Id, new List<CreateExpenseRequest>()
+        {
+            new()
+            {
+                type = ExpenseType.BREAKFAST,
+                amount = 1234,
+                expenseReportId = expenseReport.Id,
+            }
+        });
 
         Assert.Equal(expenseReport.Id, expense.Id);
     }
@@ -105,7 +121,15 @@ public class ExistingExpensesServiceTests
         var expenseReportDate = DateTimeOffset.Parse("2023-01-01");
         var expensesService = new ExpensesService(existingExpensesRepository);
         var expenseReport = expensesService.CreateExpenseReport(expenseReportDate);
-        expensesService.AddExpenseToExpenseReport(expenseReport.Id, new Domain.Expense(ExpenseType.BREAKFAST, 1234));
+        expensesService.AddExpenseToExpenseReport(expenseReport.Id, new List<CreateExpenseRequest>()
+        {
+            new()
+            {
+                type = ExpenseType.BREAKFAST,
+                amount = 1234,
+                expenseReportId = expenseReport.Id,
+            }
+        });
 
         var expense = expensesService.ListAllExpenseReports();
 

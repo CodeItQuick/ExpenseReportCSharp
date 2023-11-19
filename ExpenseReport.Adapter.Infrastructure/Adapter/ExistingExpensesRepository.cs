@@ -60,7 +60,8 @@ public class ExistingExpensesRepository : IExistingExpensesRepository
             entityEntry.Entity?.Id ?? 0);
     }
 
-    public Domain.ExpenseReport? UpdateAggregate(List<Expense> expenses, int expenseReportId)
+    public Domain.ExpenseReport? UpdateAggregate(List<Expense> expenses, int expenseReportId,
+        List<CreateExpenseRequest> createExpenseRequests)
     {
         var report = expensesDbContext
             .ExpenseReport

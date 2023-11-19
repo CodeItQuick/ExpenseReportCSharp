@@ -68,7 +68,15 @@ public class HomeController : Controller
     {
         var tryParse = ExpenseType.TryParse(expenseType, out ExpenseType expense);
         var expenseAdded = _expenseService.AddExpenseToExpenseReport(
-            reportId, new Expense(expense, expenseCost));
+            reportId, new List<CreateExpenseRequest>()
+            {
+                new()
+                {
+                    type = expense,
+                    amount = expenseCost,
+                    expenseReportId = reportId,
+                }
+            });
         var expenseReportList = _expenseService.ListAllExpenseReports();
 
         return View("Index", new ExpenseView()
@@ -85,7 +93,15 @@ public class HomeController : Controller
     {
         var tryParse = ExpenseType.TryParse(expenseType, out ExpenseType expense);
         var expenseAdded = _expenseService.AddExpenseToExpenseReport(
-            expenseReportId, new Expense(expense, expenseCost));
+            expenseReportId, new List<CreateExpenseRequest>()
+            {
+                new()
+                {
+                    type = expense,
+                    amount = expenseCost,
+                    expenseReportId = expenseReportId,
+                }
+            });
         var expenseReportList = _expenseService.ListAllExpenseReports();
 
         return View("Index", new ExpenseView()

@@ -44,13 +44,15 @@ public class ExpensesService : IExpenseService
         return addExpenseToReport;
     }
 
-    public Domain.ExpenseReport AddExpenseToExpenseReport(int expenseReportId, Expense expense)
+    public Domain.ExpenseReport AddExpenseToExpenseReport(
+        int expenseReportId,
+        List<CreateExpenseRequest> createExpenseRequest)
     {
         var expenses = new List<Expense>()
             {
-                new(expense.ExpenseTypes(), expense.Amount())
+                new(createExpenseRequest.First().type, createExpenseRequest.First().amount)
             };
-        var addExpenseToReport = expenseRepository.UpdateAggregate(expenses, expenseReportId);
+        var addExpenseToReport = expenseRepository.UpdateAggregate(expenses, createExpenseRequest.First().expenseReportId, createExpenseRequest);
         if (addExpenseToReport == null)
         {
             throw new Exception("expense report failed to save");
