@@ -1,6 +1,7 @@
  using Application.Adapter;
  using Application.Services;
  using Domain;
+ using ExpenseReport.ApplicationServices;
  using Microsoft.EntityFrameworkCore;
  using WebApplication1.Controllers;
  using ExpenseReport = Domain.ExpenseReport;
@@ -66,13 +67,13 @@ public class ExistingExpensesRepositoryTests
     public void CanCreateNewExpenseReportAggregate()
     {
         var expensesContext = TestDbContextFactory();
-        var expenses = new List<Expense>()
+        var expenses = new List<CreateExpenseRequest>()
         {
-            new(ExpenseType.DINNER, 100) 
+            new() { type = ExpenseType.DINNER, amount = 100 }
         };
         var existingExpensesRepository = new ExistingExpensesRepository(expensesContext, new RealDateProvider());
 
-        var addExpenseToReport = existingExpensesRepository.CreateAggregate(expenses, new RealDateProvider().CurrentDate());
+        var addExpenseToReport = existingExpensesRepository.CreateAggregate(new RealDateProvider().CurrentDate(), expenses);
 
         Assert.NotNull(addExpenseToReport);
     }

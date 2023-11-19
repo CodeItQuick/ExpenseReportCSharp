@@ -11,20 +11,6 @@ public class ExpensesService : IExpenseService
         expenseRepository = existingExpensesRepository;
     }
 
-    public Domain.ExpenseReport CreateExpense(Domain.Expense expense, DateTimeOffset expenseDate)
-    {
-        var expenseList = new List<Expense>()
-            {
-                expense
-            };
-        var addExpenseToReport = expenseRepository.CreateAggregate(expenseList, expenseDate);
-        if (addExpenseToReport == null)
-        {
-            throw new Exception("expense report failed to save");
-        }
-        return addExpenseToReport;
-    }
-
     public Domain.ExpenseReport? RetrieveExpenseReport(int id) {
         return expenseRepository.RetrieveById(id);
     }
@@ -36,7 +22,7 @@ public class ExpensesService : IExpenseService
     public Domain.ExpenseReport CreateExpenseReport(DateTimeOffset expenseReportDate)
     {
         
-        var addExpenseToReport = expenseRepository.CreateAggregate(new List<Expense>(), expenseReportDate);
+        var addExpenseToReport = expenseRepository.CreateAggregate(expenseReportDate, new List<CreateExpenseRequest>());
         if (addExpenseToReport == null)
         {
             throw new Exception("expense report failed to save");
@@ -52,7 +38,7 @@ public class ExpensesService : IExpenseService
             {
                 new(createExpenseRequest.First().type, createExpenseRequest.First().amount)
             };
-        var addExpenseToReport = expenseRepository.UpdateAggregate(expenses, createExpenseRequest.First().expenseReportId, createExpenseRequest);
+        var addExpenseToReport = expenseRepository.UpdateAggregate(createExpenseRequest);
         if (addExpenseToReport == null)
         {
             throw new Exception("expense report failed to save");

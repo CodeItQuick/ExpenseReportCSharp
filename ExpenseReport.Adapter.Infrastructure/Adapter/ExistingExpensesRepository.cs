@@ -36,14 +36,16 @@ public class ExistingExpensesRepository : IExistingExpensesRepository
             expenseReport.ExpenseReportDate, 
             expenseReport?.Id ?? 0);
     }
-
-    public Domain.ExpenseReport? CreateAggregate(List<Expense> expenseList, DateTimeOffset? expenseDate)
+    
+    // FIXME: Do I need expenseList?
+    public Domain.ExpenseReport? CreateAggregate(DateTimeOffset? expenseDate,
+        List<CreateExpenseRequest> createExpenseRequests) 
     {
         var expenseReport = new ExpenseReport()
         {
-            Expenses = expenseList
+            Expenses = createExpenseRequests
                 .Select(x => 
-                    new ExpenseDbo() { ExpenseType = x.ExpenseTypes(), Amount = x.Amount() })
+                    new ExpenseDbo() { ExpenseType = x.type, Amount = x.amount })
                 .ToList(),
             ExpenseReportDate = expenseDate ?? DateTimeOffset.Now
         };
@@ -52,31 +54,30 @@ public class ExistingExpensesRepository : IExistingExpensesRepository
         expensesDbContext.SaveChanges();
         expensesDbContext.ChangeTracker.Clear();
         return new Domain.ExpenseReport(
-            expenseList
+            createExpenseRequests
                 .Select(x => 
-                    new Domain.Expense(x.ExpenseTypes(), x.Amount()))
+                    new Domain.Expense(x.type, x.amount))
                 .ToList(), 
             entityEntry.Entity?.ExpenseReportDate ?? DateTimeOffset.Now, 
             entityEntry.Entity?.Id ?? 0);
     }
 
-    public Domain.ExpenseReport? UpdateAggregate(List<Expense> expenses, int expenseReportId,
-        List<CreateExpenseRequest> createExpenseRequests)
+    public Domain.ExpenseReport? UpdateAggregate(List<CreateExpenseRequest> createExpenseRequests)
     {
         var report = expensesDbContext
             .ExpenseReport
             .Include("Expenses")
-            .FirstOrDefault(x => x.Id == expenseReportId);
+            .SingleOrDefault(x => createExpenseRequests.Select(y => y.expenseReportId).Contains(x.Id));
         if (report?.Expenses != null && report.Expenses.Any())
         {
-            report.Expenses.AddRange(expenses.Select(x => 
-                    new ExpenseDbo() { ExpenseType = x.ExpenseTypes(), Amount = x.Amount() })
+            report.Expenses.AddRange(createExpenseRequests.Select(x => 
+                    new ExpenseDbo() { ExpenseType = x.type, Amount = x.amount })
                 .ToList());
         }
         else
         {
-            report.Expenses = expenses.Select(x => 
-                    new ExpenseDbo() { ExpenseType = x.ExpenseTypes(), Amount = x.Amount() })
+            report.Expenses = createExpenseRequests.Select(x => 
+                    new ExpenseDbo() { ExpenseType = x.type, Amount = x.amount })
                 .ToList();
         }
         expensesDbContext.ExpenseReport.Update(report);
