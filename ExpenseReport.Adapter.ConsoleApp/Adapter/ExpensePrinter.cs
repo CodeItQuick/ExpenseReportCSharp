@@ -1,5 +1,6 @@
 
 using Application.Adapter;
+using Domain;
 using ExpenseReport.ApplicationServices;
 
 namespace ExpenseReportCSharp.Adapter;
@@ -44,11 +45,19 @@ public class ExpensePrinter
         }
         else
         {
+            // FIXME: put this method somewhere
+            List<string> displayExpenses = new List<string>();
+            foreach (Expense expense in expenseReport.CalculateIndividualExpenses()) {
+                String label = expense.ExpenseTypes() + "\t" + expense.Amount() + "\t" +
+                               (expense.IsOverExpensedMeal() ? "X" : " ");
+                displayExpenses.Add(label);
+            }
+            // FIXME: put this method somewhere
             expenseView = new ExpenseView(
                 expenseReport.CalculateMealExpenses(),
                 expenseReport.CalculateTotalExpenses(),
                 dateProvider.CurrentDate(),
-                expenseReport.CalculateIndividualExpenses());
+                displayExpenses);
         }
         
         

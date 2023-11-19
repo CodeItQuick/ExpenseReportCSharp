@@ -1,8 +1,6 @@
- using Application.Services;
- using Domain;
- using ExpenseReportCSharp.Adapter;
+using Domain;
 
- namespace Tests;
+namespace Tests;
 
 public class DomainExpenseReportTests
 {
@@ -35,41 +33,6 @@ public class DomainExpenseReportTests
         var expenseReport = new Domain.ExpenseReport(expenseList, DateTimeOffset.Now, 1);
         
         Assert.Equal(new(), expenseReport.CalculateIndividualExpenses());
-    }
-    [Fact]
-    public void CanCalculateSingleIndividualExpenses()
-    {
-        var expenseList = new List<Expense>()
-        {
-            new(ExpenseType.BREAKFAST, 500)
-        };
-        var expenseReport = new Domain.ExpenseReport(expenseList, DateTimeOffset.Now, 1);
-        
-        Assert.Equal(new() { "BREAKFAST\t500\t " }, expenseReport.CalculateIndividualExpenses());
-    }
-    [Fact]
-    public void CanCalculateMultipleIndividualExpenses()
-    {
-        var expenseList = new List<Expense>()
-        {
-            new(ExpenseType.BREAKFAST, 500),
-            new(ExpenseType.DINNER, 500),
-        };
-        var expenseReport = new Domain.ExpenseReport(expenseList, DateTimeOffset.Now, 1);
-        
-        Assert.Equal(new() { "BREAKFAST\t500\t ", "DINNER\t500\t " }, expenseReport.CalculateIndividualExpenses());
-    }
-    [Fact]
-    public void CanCalculateOverExpensedIndividualExpenses()
-    {
-        var expenseList = new List<Expense>()
-        {
-            new(ExpenseType.BREAKFAST, 1001),
-            new(ExpenseType.DINNER, 5001),
-        };
-        var expenseReport = new Domain.ExpenseReport(expenseList, DateTimeOffset.Now, 1);
-        
-        Assert.Equal(new() { "BREAKFAST\t1001\tX", "DINNER\t5001\tX" }, expenseReport.CalculateIndividualExpenses());
     }
     [Fact]
     public void CanCalculateSingleMealExpense()

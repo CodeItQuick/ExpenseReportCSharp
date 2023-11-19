@@ -12,13 +12,13 @@ namespace Domain;
 // Behaviour inside the entities. But do we want this? Can just treat the code as immutable if we return primitives/value objects
 public class ExpenseReport
 {
-    private readonly ExpenseList expenses;
+    private readonly List<Expense> expenseList;
     private DateTimeOffset ExpenseReportDate { get; }
     public int Id { get; }
 
     public ExpenseReport(List<Expense>? expenses, DateTimeOffset expenseReportDate, int id)
     {
-        this.expenses = new ExpenseList(expenses ?? new List<Expense>(), id);
+        expenseList = expenses ?? new List<Expense>();
         ExpenseReportDate = expenseReportDate;
         Id = id;
     }
@@ -29,26 +29,30 @@ public class ExpenseReport
     }
 
     // Interesting Use-Case
-    public List<String> CalculateIndividualExpenses() {
-        List<string> displayExpenses = new List<string>();
-        foreach (Expense expense in expenses.RetrieveIndividualExpenses()) {
-            String label = expense.ExpenseTypes() + "\t" + expense.Amount() + "\t" +
-                           (expense.IsOverExpensedMeal() ? "X" : " ");
-            displayExpenses.Add(label);
-        }
-        return displayExpenses;
-    } 
-
-    public int CalculateTotalExpenses() {
-        return expenses.CalculateTotalExpenses();
+    public List<Expense> CalculateIndividualExpenses() {
+        return expenseList;
     }
 
-    public int CalculateMealExpenses() {
-        return expenses.CalculateMealExpenses();
+    public int CalculateTotalExpenses()
+    {
+        int total = 0;
+        foreach (Expense expense in expenseList) {
+            total += expense.Amount();
+        }
+        return total;
+    }
+
+    public int CalculateMealExpenses()
+    {
+        int mealExpenses = 0;
+        foreach (Expense expense in expenseList) {
+            mealExpenses += expense.CalculateMealExpenses();
+        }
+        return mealExpenses;
     }
 
     public void AddExpense(Expense firstExpense)
     {
-        expenses.Add(firstExpense);
+        expenseList.Add(firstExpense);
     }
 }

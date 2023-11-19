@@ -32,12 +32,20 @@ namespace ExpenseReport.Adapter.WebBlazorServerApp.Data
                     ExpenseReportIds = new List<int>()
                 });
             }
+            // FIXME: put this method somewhere - also this method is wrong
+            List<string> displayExpenses = new List<string>();
+            foreach (Expense expense in expenseReport.CalculateIndividualExpenses()) {
+                String label = expense.ExpenseTypes() + "\t" + expense.Amount() + "\t" +
+                               (expense.IsOverExpensedMeal() ? "X" : " ");
+                displayExpenses.Add(label);
+            }
+            // FIXME: put this method somewhere - also this method is wrong
             var expenseView = new ExpenseView() 
             {
                 MealExpenses = expenseReport.CalculateMealExpenses(),
                 ExpenseDate = expenseReport.RetrieveDate(),
                 TotalExpenses = expenseReport.CalculateTotalExpenses(),
-                IndividualExpenses = expenseReport.CalculateIndividualExpenses(),
+                IndividualExpenses = displayExpenses,
                 Id = expenseReport.Id,
                 ExpenseReportIds = expenseReportList.Select(x => x.Id).ToList()
             };
@@ -60,11 +68,19 @@ namespace ExpenseReport.Adapter.WebBlazorServerApp.Data
                 });
             var expenseReportList = _expenseService.ListAllExpenseReports();
 
+            // FIXME: put this method somewhere - also this method is wrong
+            List<string> displayExpenses = new List<string>();
+            foreach (Expense expensed in expenseAdded.CalculateIndividualExpenses()) {
+                String label = expensed.ExpenseTypes() + "\t" + expensed.Amount() + "\t" +
+                               (expensed.IsOverExpensedMeal() ? "X" : " ");
+                displayExpenses.Add(label);
+            }
+            // FIXME: put this method somewhere - also this method is wrong
             return Task.FromResult(new ExpenseView()
             {
                 MealExpenses = expenseAdded.CalculateMealExpenses(),
                 ExpenseDate = expenseAdded.RetrieveDate(),
-                IndividualExpenses = expenseAdded.CalculateIndividualExpenses(),
+                IndividualExpenses = displayExpenses,
                 TotalExpenses = expenseAdded.CalculateTotalExpenses(),
                 Id = expenseAdded.Id,
                 ExpenseReportIds = expenseReportList.Select(x => x.Id).ToList()
@@ -76,11 +92,19 @@ namespace ExpenseReport.Adapter.WebBlazorServerApp.Data
             var expenseAdded = _expenseService.CreateExpenseReport(expenseReportDate);
             var expenseReportList = _expenseService.ListAllExpenseReports();
 
+            // FIXME: put this method somewhere - also this method is wrong
+            List<string> displayExpenses = new List<string>();
+            foreach (Expense expensed in expenseAdded.CalculateIndividualExpenses()) {
+                String label = expensed.ExpenseTypes() + "\t" + expensed.Amount() + "\t" +
+                               (expensed.IsOverExpensedMeal() ? "X" : " ");
+                displayExpenses.Add(label);
+            }
+            // FIXME: put this method somewhere - also this method is wrong
             return Task.FromResult(new ExpenseView()
             {
                 MealExpenses = expenseAdded.CalculateMealExpenses(),
                 ExpenseDate = expenseAdded.RetrieveDate(),
-                IndividualExpenses = expenseAdded.CalculateIndividualExpenses(),
+                IndividualExpenses = displayExpenses,
                 TotalExpenses = expenseAdded.CalculateTotalExpenses(),
                 Id = expenseAdded.Id,
                 ExpenseReportIds = expenseReportList.Select(x => x.Id).ToList()
