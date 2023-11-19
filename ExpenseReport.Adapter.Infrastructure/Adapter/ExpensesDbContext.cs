@@ -1,15 +1,10 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
 
 namespace Application.Adapter;
 
-public sealed class ExpensesDbContext : DbContext
+public sealed class ExpensesDbContext : IdentityDbContext
 {
     public DbSet<ExpenseDbo> Expenses { get; set; }
     private readonly string _connectionString;
@@ -23,7 +18,7 @@ public sealed class ExpensesDbContext : DbContext
     {
         if (!optionsBuilder.IsConfigured)
         {
-            optionsBuilder.UseSqlite("Data Source=blog.db");
+            optionsBuilder.UseSqlite("Data Source=.\\..\\blog.db");
         }
     }
 }
@@ -33,7 +28,7 @@ public class ExpenseContextFactory : IDesignTimeDbContextFactory<ExpensesDbConte
     public ExpensesDbContext CreateDbContext(string[] args)
     {
         var optionsBuilder = new DbContextOptionsBuilder<ExpensesDbContext>();
-        optionsBuilder.UseSqlite("Data Source=blog.db");
+        optionsBuilder.UseSqlite("Data Source=.\\..\\blog.db");
 
         return new ExpensesDbContext(optionsBuilder.Options);
     }

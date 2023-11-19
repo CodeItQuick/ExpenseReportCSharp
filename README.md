@@ -1,5 +1,11 @@
 TODO:
 1. Make the console app more of an adapter with better test suite, non-acceptance-test-stuff
+2. Fix adapter conversion code as its wrong in some spots, should be abstracted to view somehow
+3. Add authentication for roles use case
+4. Add use case Accounting Clerk/Controller/CFO/Manager/Employee Roles
+5. Add use case list all reports + view
+6. Add use case sort/filter list of reports
+7. Add use case for showing manager all over-expensed items
 
 # Questions
 1. When is it better to return the domain object rather than a string? I would think when you don't own that code?
