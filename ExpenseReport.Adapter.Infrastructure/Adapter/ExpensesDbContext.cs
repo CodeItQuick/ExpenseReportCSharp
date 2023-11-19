@@ -11,7 +11,7 @@ namespace Application.Adapter;
 
 public sealed class ExpensesDbContext : DbContext
 {
-    public DbSet<Expense> Expenses { get; set; }
+    public DbSet<ExpenseDbo> Expenses { get; set; }
     private readonly string _connectionString;
     public DbSet<ExpenseReport?> ExpenseReport { get; set; }
     private string DbPath { get; set; }

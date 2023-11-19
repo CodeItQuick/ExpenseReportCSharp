@@ -1,9 +1,9 @@
  using Application.Adapter;
  using Application.Services;
  using Domain;
+ using ExpenseReport.ApplicationServices;
  using Microsoft.EntityFrameworkCore;
  using WebApplication1.Controllers;
- using Expense = Application.Adapter.Expense;
 
  namespace Tests;
 
@@ -32,7 +32,7 @@ public class ExistingExpensesServiceTests
     [Fact]
     public void CanViewEmptyExpenseList()
     {
-        IExistingExpensesRepository existingExpensesRepository = new FakeExistingRepository(new List<Expense>());
+        IExistingExpensesRepository existingExpensesRepository = new FakeExistingRepository(new List<ExpenseDbo>());
         var expensesService = new ExpensesService(existingExpensesRepository);
 
         var expenseReport = expensesService.RetrieveExpenseReport(1);
@@ -42,7 +42,7 @@ public class ExistingExpensesServiceTests
     [Fact]
     public void CanViewExpenseList()
     {
-        var expensesList = new List<Expense>()
+        var expensesList = new List<ExpenseDbo>()
         {
             new() { ExpenseType = ExpenseType.DINNER, Amount = 1000}
         };
@@ -58,9 +58,10 @@ public class ExistingExpensesServiceTests
     {
         IExistingExpensesRepository existingExpensesRepository = new FakeExistingRepository();
         var expensesService = new ExpensesService(existingExpensesRepository);
+        var report = expensesService.CreateExpenseReport(DateTimeOffset.Now);
 
-        var expenseReport = expensesService.CreateExpense(
-            new Domain.Expense(ExpenseType.DINNER, 100), DateTimeOffset.Parse("2023-11-09"));
+        var expenseReport = expensesService.AddExpenseToExpenseReport(
+            report.Id, new Domain.Expense(ExpenseType.DINNER, 100));
         
         Assert.Single(expenseReport.CalculateIndividualExpenses());
     }
@@ -83,7 +84,7 @@ public class ExistingExpensesServiceTests
         var expensesService = new ExpensesService(existingExpensesRepository);
         var expenseReport = expensesService.CreateExpenseReport(expenseReportDate);
 
-        var expense = expensesService.CreateExpense(expenseReport.Id, new Domain.Expense(ExpenseType.BREAKFAST, 1234));
+        var expense = expensesService.AddExpenseToExpenseReport(expenseReport.Id, new Domain.Expense(ExpenseType.BREAKFAST, 1234));
 
         Assert.Equal(expenseReport.Id, expense.Id);
     }
@@ -104,7 +105,7 @@ public class ExistingExpensesServiceTests
         var expenseReportDate = DateTimeOffset.Parse("2023-01-01");
         var expensesService = new ExpensesService(existingExpensesRepository);
         var expenseReport = expensesService.CreateExpenseReport(expenseReportDate);
-        expensesService.CreateExpense(expenseReport.Id, new Domain.Expense(ExpenseType.BREAKFAST, 1234));
+        expensesService.AddExpenseToExpenseReport(expenseReport.Id, new Domain.Expense(ExpenseType.BREAKFAST, 1234));
 
         var expense = expensesService.ListAllExpenseReports();
 

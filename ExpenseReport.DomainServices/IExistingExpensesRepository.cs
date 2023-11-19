@@ -1,4 +1,6 @@
 
+using Domain;
+
 namespace Application.Adapter;
 
 public interface IExistingExpensesRepository

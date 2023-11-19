@@ -5,14 +5,14 @@ public class ExpenseList
 {
     private readonly List<Expense> expenses;
     public int Id { get; }
-
-
+    
     public ExpenseList(List<Expense>? expenses, int id)
     {
         this.expenses = expenses ?? new List<Expense>();
         Id = id;
     }
     
+    // Interesting Use-Case
     public List<Expense> RetrieveIndividualExpenses() {
         return expenses;
     }

@@ -18,7 +18,7 @@ public class FakeAPIApplicationRepository : ExistingExpensesRepository
         expensesDbContext.SaveChanges();
         expensesDbContext.ChangeTracker.Clear();
     }
-    public FakeAPIApplicationRepository(List<Expense> expenses): base(new RealDateProvider())
+    public FakeAPIApplicationRepository(List<ExpenseDbo> expenses): base(new RealDateProvider())
     {
         var dbContextOptions = new DbContextOptionsBuilder<ExpensesDbContext>()
             .UseInMemoryDatabase($"testing_blog-blazor-{Guid.NewGuid()}")

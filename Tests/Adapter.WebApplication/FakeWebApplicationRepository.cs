@@ -19,7 +19,7 @@ public class FakeWebApplicationRepository : ExistingExpensesRepository
         expensesDbContext.SaveChanges();
         expensesDbContext.ChangeTracker.Clear();
     }
-    public FakeWebApplicationRepository(List<Expense> expenses): base(new RealDateProvider())
+    public FakeWebApplicationRepository(List<ExpenseDbo> expenses): base(new RealDateProvider())
     {
         var dbContextOptions = new DbContextOptionsBuilder<ExpensesDbContext>()
             .UseInMemoryDatabase($"testing_blog-application-{Guid.NewGuid()}")

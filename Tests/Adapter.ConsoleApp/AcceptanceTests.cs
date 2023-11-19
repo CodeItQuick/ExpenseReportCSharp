@@ -1,9 +1,9 @@
+using Application.Adapter;
 using Application.Services;
  using Domain;
  using ExpenseReport.ApplicationServices;
  using ExpenseReportCSharp.Adapter;
- using Expense = Application.Adapter.Expense;
- using ExpenseReport = Domain.ExpenseReport;
+using ExpenseReport = Domain.ExpenseReport;
 
  namespace Tests;
 
@@ -15,9 +15,9 @@ public class AcceptanceTests
         FakeSystemOutProvider systemOutProvider = new FakeSystemOutProvider();
         ExpensePrinter expensePrinter = new ExpensePrinter(
             new FakeDateProvider(DateTimeOffset.Parse("4/5/2023")), 
-            new List<Expense>(),
+            new List<ExpenseDbo>(),
             systemOutProvider,
-            new FakeExistingRepository(new List<Expense>()));
+            new FakeExistingRepository(new List<ExpenseDbo>()));
 
         expensePrinter.PrintExistingReport();
 
@@ -33,12 +33,12 @@ public class AcceptanceTests
     public void OneBreakfastExpenseReportShowsMealExpense()
     {
         FakeSystemOutProvider systemOutProvider = new FakeSystemOutProvider();
-        var expenses = new Expense() { ExpenseType = ExpenseType.BREAKFAST, Amount = 10};
+        var expenses = new ExpenseDbo() { ExpenseType = ExpenseType.BREAKFAST, Amount = 10};
         ExpensePrinter expensePrinter = new ExpensePrinter(
             new FakeDateProvider(DateTimeOffset.Parse("4/5/2023")),
             null,
             systemOutProvider,
-            new FakeExistingRepository(new List<Expense>()
+            new FakeExistingRepository(new List<ExpenseDbo>()
             {
                 expenses,
             }));
@@ -61,9 +61,9 @@ public class AcceptanceTests
         FakeSystemOutProvider systemOutProvider = new FakeSystemOutProvider();
         ExpensePrinter expensePrinter = new ExpensePrinter(
             new FakeDateProvider(DateTimeOffset.Parse("4/5/2023")),
-            new List<Expense>() ,
+            new List<ExpenseDbo>() ,
             systemOutProvider,
-            new FakeExistingRepository(new List<Expense>()
+            new FakeExistingRepository(new List<ExpenseDbo>()
             {
                 new() { ExpenseType = ExpenseType.DINNER, Amount = 10 }
             }));
@@ -83,12 +83,12 @@ public class AcceptanceTests
     public void OneCarRentalExpenseReportShowsMealExpense()
     {
         FakeSystemOutProvider systemOutProvider = new FakeSystemOutProvider();
-        var expenses = new Expense() { ExpenseType = ExpenseType.CAR_RENTAL, Amount = 10};
+        var expenses = new ExpenseDbo() { ExpenseType = ExpenseType.CAR_RENTAL, Amount = 10};
         ExpensePrinter expensePrinter = new ExpensePrinter(
             new FakeDateProvider(DateTimeOffset.Parse("4/5/2023")),
             null,
             systemOutProvider,
-            new FakeExistingRepository(new List<Expense>()
+            new FakeExistingRepository(new List<ExpenseDbo>()
             {
                 expenses,
             }));
@@ -110,9 +110,9 @@ public class AcceptanceTests
         FakeSystemOutProvider systemOutProvider = new FakeSystemOutProvider();
         ExpensePrinter expensePrinter = new ExpensePrinter(
             new FakeDateProvider(DateTimeOffset.Parse("4/5/2023")),
-            new List<Expense>(),
+            new List<ExpenseDbo>(),
             systemOutProvider,
-            new FakeExistingRepository(new List<Expense>()
+            new FakeExistingRepository(new List<ExpenseDbo>()
             {
                 new() { ExpenseType = ExpenseType.DINNER, Amount = 5010 },
             }));
@@ -136,7 +136,7 @@ public class AcceptanceTests
             new FakeDateProvider(DateTimeOffset.Parse("4/5/2023")),
             null,
             systemOutProvider,
-            new FakeExistingRepository(new List<Expense>()
+            new FakeExistingRepository(new List<ExpenseDbo>()
             {
                 new() { ExpenseType = ExpenseType.BREAKFAST, Amount = 1010, ExpenseReportId = 1}
             }));
@@ -158,9 +158,9 @@ public class AcceptanceTests
         FakeSystemOutProvider fakeSystemOutProvider = new FakeSystemOutProvider();
         ExpensePrinter expensePrinter = new ExpensePrinter(
             new FakeDateProvider(DateTimeOffset.Parse("4/5/2023")),
-            new List<Expense>(),
+            new List<ExpenseDbo>(),
             fakeSystemOutProvider,
-            new FakeExistingRepository(new List<Expense>()
+            new FakeExistingRepository(new List<ExpenseDbo>()
             {
                 new() { ExpenseType = ExpenseType.BREAKFAST, Amount = 500 },
                 new() { ExpenseType = ExpenseType.DINNER, Amount = 5010 },

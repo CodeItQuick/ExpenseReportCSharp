@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using Application.Adapter;
 using Application.Services;
+using ExpenseReport.ApplicationServices;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -16,7 +17,7 @@ public class ExistingExpensesControllerWithClaimsTests
     {
         _controller = new HomeController(
             new NullLogger<HomeController>(),
-            new ExpensesService(new FakeWebApplicationRepository(new List<Expense>())));
+            new ExpensesService(new FakeWebApplicationRepository(new List<ExpenseDbo>())));
         
         var claimsIdentity = new ClaimsIdentity(
             new List<Claim>() { new(ClaimTypes.Name, "test_username") },
@@ -48,16 +49,14 @@ public class ExistingExpensesControllerWithClaimsTests
     {
         var actionResult = _controller.ExpenseView(
             100,
-            "BREAKFAST",
-            DateTimeOffset.Parse("2023-11-09")) as ViewResult;
+            "BREAKFAST", 
+            1) as ViewResult;
 
         var indexResponseModel = (actionResult?.Model as ExpenseView);
         Assert.NotNull(actionResult);
         Assert.Equal(100, indexResponseModel.MealExpenses);
         Assert.Equal("BREAKFAST	100	 ", indexResponseModel.IndividualExpenses.First());
         Assert.Equal(100, indexResponseModel.TotalExpenses);
-        Assert.Equal(2, indexResponseModel.ExpenseReportIds.Count);
-        Assert.Equal(new List<int>() { 1, 2 }, indexResponseModel.ExpenseReportIds);
     }
 
     [Fact]

@@ -51,7 +51,7 @@ public class HomeApiController : Controller
         int expenseCost, string expenseType, int reportId = 0)
     {
         var tryParse = ExpenseType.TryParse(expenseType, out ExpenseType expense);
-        var expenseAdded = _expenseService.CreateExpense(reportId, new Expense(expense, expenseCost));
+        var expenseAdded = _expenseService.AddExpenseToExpenseReport(reportId, new Expense(expense, expenseCost));
         var expenseReportList = _expenseService.ListAllExpenseReports();
 
         return Ok(new ExpenseApiView()
@@ -68,7 +68,7 @@ public class HomeApiController : Controller
         int expenseCost, string expenseType, int expenseReportId)
     {
         var tryParse = ExpenseType.TryParse(expenseType, out ExpenseType expense);
-        var expenseAdded = _expenseService.CreateExpense(
+        var expenseAdded = _expenseService.AddExpenseToExpenseReport(
             expenseReportId, new Expense(expense, expenseCost));
         var expenseReportList = _expenseService.ListAllExpenseReports();
 

@@ -34,6 +34,11 @@ public class HomeController : Controller
                 ExpenseReportIds = new List<int>()
             });
         }
+        // List of Expense Reports
+        // Sort them
+        // Filter them
+        // Sum all the expense reports by manager
+        
         var expenseView = new ExpenseView() 
         {
             MealExpenses = expenseReport.CalculateMealExpenses(),
@@ -59,10 +64,11 @@ public class HomeController : Controller
 
     // Create
     public ActionResult ExpenseView(
-        int expenseCost, string expenseType, DateTimeOffset expenseDate, int reportId = 0)
+        int expenseCost, string expenseType, int reportId = 0)
     {
         var tryParse = ExpenseType.TryParse(expenseType, out ExpenseType expense);
-        var expenseAdded = _expenseService.CreateExpense(new Expense(expense, expenseCost), expenseDate);
+        var expenseAdded = _expenseService.AddExpenseToExpenseReport(
+            reportId, new Expense(expense, expenseCost));
         var expenseReportList = _expenseService.ListAllExpenseReports();
 
         return View("Index", new ExpenseView()
@@ -78,7 +84,7 @@ public class HomeController : Controller
         int expenseCost, string expenseType, int expenseReportId)
     {
         var tryParse = ExpenseType.TryParse(expenseType, out ExpenseType expense);
-        var expenseAdded = _expenseService.CreateExpense(
+        var expenseAdded = _expenseService.AddExpenseToExpenseReport(
             expenseReportId, new Expense(expense, expenseCost));
         var expenseReportList = _expenseService.ListAllExpenseReports();
 

@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using Application.Adapter;
 using ExpenseReport.Adapter.WebAPI.Controllers;
+using ExpenseReport.ApplicationServices;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -17,7 +18,7 @@ public class ExistingExpensesBlazorControllerWithClaimsTests
     {
         _controller = new HomeApiController(
             new NullLogger<HomeApiController>(),
-            new ExpensesService(new FakeWebApplicationRepository(new List<Expense>())));
+            new ExpensesService(new FakeWebApplicationRepository(new List<ExpenseDbo>())));
         
         var claimsIdentity = new ClaimsIdentity(
             new List<Claim>() { new(ClaimTypes.Name, "test_username") },

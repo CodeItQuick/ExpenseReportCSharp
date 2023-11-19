@@ -19,7 +19,7 @@ public class FakeExistingRepository : ExistingExpensesRepository
         expensesDbContext.SaveChanges();
         expensesDbContext.ChangeTracker.Clear();
     }
-    public FakeExistingRepository(List<Expense> expenses): base(new RealDateProvider())
+    public FakeExistingRepository(List<ExpenseDbo> expenses): base(new RealDateProvider())
     {
         var dbContextOptions = new DbContextOptionsBuilder<ExpensesDbContext>()
             .UseInMemoryDatabase($"testing_blog-infrastructure-{Guid.NewGuid()}")

@@ -1,5 +1,6 @@
 using Application.Adapter;
 using ExpenseReport.Adapter.WebBlazorServerApp.Data;
+using ExpenseReport.ApplicationServices;
 using Microsoft.Extensions.Logging.Abstractions;
 
 namespace Tests.Adapter.WebBlazorServerApp;
@@ -8,7 +9,7 @@ public class ExistingExpensesBlazorControllerWithClaimsTests
 {
     private readonly ExpenseReportAdapterService _controller = new(
         new NullLogger<ExpenseReportAdapterService>(),
-        new ExpensesService(new FakeBlazorApplicationRepository(new List<Expense>())));
+        new ExpensesService(new FakeBlazorApplicationRepository(new List<ExpenseDbo>())));
 
     [Fact]
     public void CanConstructDefaultExpenseServiceAndViewExpenses()

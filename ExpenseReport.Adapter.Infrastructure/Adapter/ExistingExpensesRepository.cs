@@ -41,7 +41,10 @@ public class ExistingExpensesRepository : IExistingExpensesRepository
     {
         var expenseReport = new ExpenseReport()
         {
-            Expenses = expenseList,
+            Expenses = expenseList
+                .Select(x => 
+                    new ExpenseDbo() { ExpenseType = x.ExpenseTypes(), Amount = x.Amount() })
+                .ToList(),
             ExpenseReportDate = expenseDate ?? DateTimeOffset.Now
         };
         var entityEntry = expensesDbContext.ExpenseReport.Add(
@@ -51,7 +54,7 @@ public class ExistingExpensesRepository : IExistingExpensesRepository
         return new Domain.ExpenseReport(
             expenseList
                 .Select(x => 
-                    new Domain.Expense(x.ExpenseType, x.Amount))
+                    new Domain.Expense(x.ExpenseTypes(), x.Amount()))
                 .ToList(), 
             entityEntry.Entity?.ExpenseReportDate ?? DateTimeOffset.Now, 
             entityEntry.Entity?.Id ?? 0);
@@ -65,11 +68,15 @@ public class ExistingExpensesRepository : IExistingExpensesRepository
             .FirstOrDefault(x => x.Id == expenseReportId);
         if (report?.Expenses != null && report.Expenses.Any())
         {
-            report.Expenses.AddRange(expenses);
+            report.Expenses.AddRange(expenses.Select(x => 
+                    new ExpenseDbo() { ExpenseType = x.ExpenseTypes(), Amount = x.Amount() })
+                .ToList());
         }
         else
         {
-            report.Expenses = expenses;
+            report.Expenses = expenses.Select(x => 
+                    new ExpenseDbo() { ExpenseType = x.ExpenseTypes(), Amount = x.Amount() })
+                .ToList();
         }
         expensesDbContext.ExpenseReport.Update(report);
         expensesDbContext.SaveChanges();

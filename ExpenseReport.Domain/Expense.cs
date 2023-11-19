@@ -1,10 +1,11 @@
 namespace Domain;
 
-// Value Object
+// Entity - has an id
 public class Expense
 {
     private readonly ExpenseType type;
     private readonly int amount;
+    // this should have an id
 
     public Expense(ExpenseType type, int amount) {
         this.type = type;

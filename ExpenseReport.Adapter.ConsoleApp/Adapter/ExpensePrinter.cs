@@ -12,7 +12,7 @@ public class ExpensePrinter
 
     public ExpensePrinter(
         IDateProvider dateProvider, 
-        List<Expense> expenseList, 
+        List<ExpenseDbo> expenseList, 
         SystemOutProvider systemOutProvider,
         IExistingExpensesRepository existingExpensesRepository) {
         this.dateProvider = dateProvider;

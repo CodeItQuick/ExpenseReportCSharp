@@ -48,7 +48,7 @@ namespace ExpenseReport.Adapter.WebBlazorServerApp.Data
             int expenseCost, string expenseType, int expenseReportId)
         {
             var tryParse = ExpenseType.TryParse(expenseType, out ExpenseType expense);
-            var expenseAdded = _expenseService.CreateExpense(
+            var expenseAdded = _expenseService.AddExpenseToExpenseReport(
                 expenseReportId, new Expense(expense, expenseCost));
             var expenseReportList = _expenseService.ListAllExpenseReports();
 

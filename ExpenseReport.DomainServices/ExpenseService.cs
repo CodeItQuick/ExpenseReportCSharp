@@ -1,6 +1,7 @@
-using ExpenseReport.ApplicationServices;
+using Application.Adapter;
+using Domain;
 
-namespace Application.Adapter;
+namespace ExpenseReport.ApplicationServices;
 
 public class ExpensesService : IExpenseService
 {
@@ -14,7 +15,7 @@ public class ExpensesService : IExpenseService
     {
         var expenseList = new List<Expense>()
             {
-                new() { ExpenseType = expense.ExpenseTypes(), Amount = expense.Amount()}
+                expense
             };
         var addExpenseToReport = expenseRepository.CreateAggregate(expenseList, expenseDate);
         if (addExpenseToReport == null)
@@ -43,17 +44,11 @@ public class ExpensesService : IExpenseService
         return addExpenseToReport;
     }
 
-    public Domain.ExpenseReport CreateExpense(int expenseReportId, Domain.Expense expense)
+    public Domain.ExpenseReport AddExpenseToExpenseReport(int expenseReportId, Expense expense)
     {
-        
         var expenses = new List<Expense>()
             {
-                new()
-                {
-                    ExpenseType = expense.ExpenseTypes(), 
-                    Amount = expense.Amount(), 
-                    ExpenseReportId = expenseReportId
-                } 
+                new(expense.ExpenseTypes(), expense.Amount())
             };
         var addExpenseToReport = expenseRepository.UpdateAggregate(expenses, expenseReportId);
         if (addExpenseToReport == null)

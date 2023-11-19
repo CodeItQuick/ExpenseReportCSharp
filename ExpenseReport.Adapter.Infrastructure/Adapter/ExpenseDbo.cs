@@ -4,7 +4,7 @@ using Domain;
 
 namespace Application.Adapter;
 
-public class Expense
+public class ExpenseDbo
 {
     [Key]
     public int Id { get; set; }
