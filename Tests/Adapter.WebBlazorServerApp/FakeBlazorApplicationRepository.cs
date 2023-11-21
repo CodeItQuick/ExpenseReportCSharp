@@ -6,7 +6,7 @@ namespace Tests.Adapter.WebBlazorServerApp;
 
 public class FakeBlazorApplicationRepository : ExistingExpensesRepository
 {
-    public FakeBlazorApplicationRepository(): base(new RealDateProvider())
+    public FakeBlazorApplicationRepository(): base()
     {
         var dbContextOptions = new DbContextOptionsBuilder<ExpensesDbContext>()
             .UseInMemoryDatabase($"testing_blog-blazor")
@@ -18,7 +18,7 @@ public class FakeBlazorApplicationRepository : ExistingExpensesRepository
         expensesDbContext.SaveChanges();
         expensesDbContext.ChangeTracker.Clear();
     }
-    public FakeBlazorApplicationRepository(List<ExpenseDbo> expenses): base(new RealDateProvider())
+    public FakeBlazorApplicationRepository(List<ExpenseDbo> expenses): base()
     {
         var dbContextOptions = new DbContextOptionsBuilder<ExpensesDbContext>()
             .UseInMemoryDatabase($"testing_blog-blazor-{Guid.NewGuid()}")
@@ -37,7 +37,7 @@ public class FakeBlazorApplicationRepository : ExistingExpensesRepository
         expensesDbContext.ChangeTracker.Clear();
     }
     // Used By The Outside Controller Tests - needs a single persistance for all api calls, additive changes/state persisted
-    public FakeBlazorApplicationRepository(IDateProvider dateProvider) : base(dateProvider)
+    public FakeBlazorApplicationRepository(IDateProvider dateProvider) : base()
     {
         var dbContextOptions = new DbContextOptionsBuilder<ExpensesDbContext>()
             .UseInMemoryDatabase($"testing_blog-blazor-3")
@@ -47,7 +47,7 @@ public class FakeBlazorApplicationRepository : ExistingExpensesRepository
     }
 
     public FakeBlazorApplicationRepository(ExpensesDbContext expensesDbContext, IDateProvider dateProvider) : 
-        base(expensesDbContext, dateProvider)
+        base(expensesDbContext)
     {
         this.expensesDbContext = expensesDbContext;
         expensesDbContext.Database.EnsureCreated();

@@ -8,7 +8,7 @@ public class ExistingExpensesRepository : IExistingExpensesRepository
 {
     protected ExpensesDbContext expensesDbContext;
 
-    public ExistingExpensesRepository(IDateProvider dateProvider)
+    public ExistingExpensesRepository()
     {
         var dbContextOptions = new DbContextOptionsBuilder<ExpensesDbContext>()
             .UseSqlite("Data Source=.\\..\\blog.db")
@@ -17,7 +17,7 @@ public class ExistingExpensesRepository : IExistingExpensesRepository
         expensesDbContext.Database.EnsureCreated();
     }
 
-    public ExistingExpensesRepository(ExpensesDbContext expensesDbContext, IDateProvider dateProvider)
+    public ExistingExpensesRepository(ExpensesDbContext expensesDbContext)
     {
         this.expensesDbContext = expensesDbContext;
     }
@@ -32,7 +32,7 @@ public class ExistingExpensesRepository : IExistingExpensesRepository
             return null;
         }
         return new Domain.ExpenseReport(
-            expenseReport.Expenses?.Select(x => new Domain.Expense(x.ExpenseType, x.Amount)).ToList(), 
+            expenseReport.Expenses?.Select(x => new Expense(x.ExpenseType, x.Amount)).ToList(), 
             expenseReport.ExpenseReportDate, 
             expenseReport?.Id ?? 0);
     }

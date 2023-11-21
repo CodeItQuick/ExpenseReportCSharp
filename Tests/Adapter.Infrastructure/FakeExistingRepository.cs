@@ -7,7 +7,7 @@ namespace Tests;
 
 public class FakeExistingRepository : ExistingExpensesRepository
 {
-    public FakeExistingRepository(): base(new RealDateProvider())
+    public FakeExistingRepository(): base()
     {
         var dbContextOptions = new DbContextOptionsBuilder<ExpensesDbContext>()
             .UseInMemoryDatabase($"testing_blog-infrastructure-1")
@@ -19,7 +19,7 @@ public class FakeExistingRepository : ExistingExpensesRepository
         expensesDbContext.SaveChanges();
         expensesDbContext.ChangeTracker.Clear();
     }
-    public FakeExistingRepository(List<ExpenseDbo> expenses): base(new RealDateProvider())
+    public FakeExistingRepository(List<ExpenseDbo> expenses): base()
     {
         var dbContextOptions = new DbContextOptionsBuilder<ExpensesDbContext>()
             .UseInMemoryDatabase($"testing_blog-infrastructure-{Guid.NewGuid()}")
@@ -38,7 +38,7 @@ public class FakeExistingRepository : ExistingExpensesRepository
         expensesDbContext.ChangeTracker.Clear();
     }
     // Used By The Outside Controller Tests - needs a single persistance for all api calls, additive changes/state persisted
-    public FakeExistingRepository(IDateProvider dateProvider) : base(dateProvider)
+    public FakeExistingRepository(IDateProvider dateProvider) : base()
     {
         var dbContextOptions = new DbContextOptionsBuilder<ExpensesDbContext>()
             .UseInMemoryDatabase($"testing_blog-infrastructure-3")
@@ -48,7 +48,7 @@ public class FakeExistingRepository : ExistingExpensesRepository
     }
 
     public FakeExistingRepository(ExpensesDbContext expensesDbContext, IDateProvider dateProvider) : 
-        base(expensesDbContext, dateProvider)
+        base(expensesDbContext)
     {
         this.expensesDbContext = expensesDbContext;
         expensesDbContext.Database.EnsureCreated();

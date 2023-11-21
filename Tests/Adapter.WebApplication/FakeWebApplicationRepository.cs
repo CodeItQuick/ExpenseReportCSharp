@@ -7,7 +7,7 @@ namespace Tests;
 
 public class FakeWebApplicationRepository : ExistingExpensesRepository
 {
-    public FakeWebApplicationRepository(): base(new RealDateProvider())
+    public FakeWebApplicationRepository(): base()
     {
         var dbContextOptions = new DbContextOptionsBuilder<ExpensesDbContext>()
             .UseInMemoryDatabase($"testing_blog-application-2")
@@ -19,7 +19,7 @@ public class FakeWebApplicationRepository : ExistingExpensesRepository
         expensesDbContext.SaveChanges();
         expensesDbContext.ChangeTracker.Clear();
     }
-    public FakeWebApplicationRepository(List<ExpenseDbo> expenses): base(new RealDateProvider())
+    public FakeWebApplicationRepository(List<ExpenseDbo> expenses): base()
     {
         var dbContextOptions = new DbContextOptionsBuilder<ExpensesDbContext>()
             .UseInMemoryDatabase($"testing_blog-application-{Guid.NewGuid()}")
@@ -38,7 +38,7 @@ public class FakeWebApplicationRepository : ExistingExpensesRepository
         expensesDbContext.ChangeTracker.Clear();
     }
     // Used By The Outside Controller Tests - needs a single persistance for all api calls, additive changes/state persisted
-    public FakeWebApplicationRepository(IDateProvider dateProvider) : base(dateProvider)
+    public FakeWebApplicationRepository(IDateProvider dateProvider) : base()
     {
         var dbContextOptions = new DbContextOptionsBuilder<ExpensesDbContext>()
             .UseInMemoryDatabase($"testing_blog-application-3")
@@ -48,7 +48,7 @@ public class FakeWebApplicationRepository : ExistingExpensesRepository
     }
 
     public FakeWebApplicationRepository(ExpensesDbContext expensesDbContext, IDateProvider dateProvider) : 
-        base(expensesDbContext, dateProvider)
+        base(expensesDbContext)
     {
         this.expensesDbContext = expensesDbContext;
         expensesDbContext.Database.EnsureCreated();

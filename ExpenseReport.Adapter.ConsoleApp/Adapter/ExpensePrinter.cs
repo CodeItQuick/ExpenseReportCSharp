@@ -24,7 +24,7 @@ public class ExpensePrinter
     private ExpensePrinter(IDateProvider dateProvider) {
         this.dateProvider = dateProvider;
         systemOutProvider = new SystemOutProvider();
-        expensesService = new ExpensesService(new ExistingExpensesRepository(new RealDateProvider()));
+        expensesService = new ExpensesService(new ExistingExpensesRepository());
     }
 
     public static ExpensePrinter Create() {
