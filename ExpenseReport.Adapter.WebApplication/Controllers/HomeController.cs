@@ -3,11 +3,13 @@ using System.Diagnostics;
 using Application.Services;
 using Domain;
 using ExpenseReport.ApplicationServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication1.Models;
 
 namespace WebApplication1.Controllers;
 
+[Authorize]
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
@@ -139,9 +141,9 @@ public class HomeController : Controller
         });
     }
 
-    public ViewResult CreateExpenseReport([Required] DateTimeOffset expenseReportDate)
+    public ViewResult CreateExpenseReport(DateTimeOffset? expenseReportDate)
     {
-        var expenseAdded = _expenseService.CreateExpenseReport(expenseReportDate);
+        var expenseAdded = _expenseService.CreateExpenseReport(expenseReportDate ?? DateTimeOffset.Now);
         var expenseReportList = _expenseService.ListAllExpenseReports();
 
         // FIXME: put this method somewhere - also this method is wrong

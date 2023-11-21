@@ -23,11 +23,14 @@ public class ExistingExpensesServiceTests
     [Fact]
     public void CanConstructDefaultExpenseServiceAndViewExpenses()
     {
-        var expensesService = new ExpensesService(new ExistingExpensesRepository(new RealDateProvider()));
+        var expensesService = new ExpensesService(new FakeExistingRepository(new List<ExpenseDbo>()));
 
         var viewExpenses = expensesService.RetrieveExpenseReport(1);
         
-        Assert.Null(viewExpenses);
+        Assert.Equal(1, viewExpenses.Id);
+        Assert.Equal(0, viewExpenses.CalculateMealExpenses());
+        Assert.Equal(0, viewExpenses.CalculateTotalExpenses());
+        Assert.NotNull(viewExpenses.RetrieveDate().ToString());
     }
     [Fact]
     public void CanViewEmptyExpenseList()
