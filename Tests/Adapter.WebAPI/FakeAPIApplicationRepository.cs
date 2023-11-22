@@ -2,7 +2,7 @@ using Application.Adapter;
 using ExpenseReport.ApplicationServices;
 using Microsoft.EntityFrameworkCore;
 
-namespace Tests.Adapter.WebBlazorServerApp;
+namespace Tests.Adapter.WebAPI;
 
 public class FakeAPIApplicationRepository : ExistingExpensesRepository
 {

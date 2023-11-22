@@ -1,12 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Domain;
+﻿using Domain;
 using ExpenseReport.ApplicationServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ExpenseReport.Adapter.WebAPI.Controllers;
 
 [ApiController]
 [Route("Home")]
+[Authorize]
 public class HomeApiController : Controller
 {
     private readonly ILogger<HomeApiController> _logger;

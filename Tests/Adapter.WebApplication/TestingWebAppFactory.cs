@@ -23,7 +23,7 @@ public class TestingWebAppFactory<T>: WebApplicationFactory<Program>
 
             services.AddDbContext<ExpensesDbContext>(options =>
             {
-                options.UseInMemoryDatabase("testing_blog-application-2");
+                options.UseInMemoryDatabase("testing_blog-application-3");
             });
             // antiforgery
             // services.AddScoped<IExistingExpensesRepository, FakeWebApplicationRepository>();

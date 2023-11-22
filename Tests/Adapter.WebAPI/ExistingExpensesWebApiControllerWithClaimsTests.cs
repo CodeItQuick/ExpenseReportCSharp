@@ -10,11 +10,11 @@ using ExpenseView = ExpenseReport.Adapter.WebBlazorServerApp.Data.ExpenseView;
 
 namespace Tests.Adapter.WebAPI;
 
-public class ExistingExpensesBlazorControllerWithClaimsTests
+public class ExistingExpensesWebApiControllerWithClaimsTests
 {
     private readonly HomeApiController _controller;
 
-    public ExistingExpensesBlazorControllerWithClaimsTests()
+    public ExistingExpensesWebApiControllerWithClaimsTests()
     {
         _controller = new HomeApiController(
             new NullLogger<HomeApiController>(),
