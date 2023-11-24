@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using Domain;
 using ExpenseReport.ApplicationServices;
 using Microsoft.AspNetCore.Authorization;
@@ -24,29 +23,14 @@ public class HomeController : Controller
     {
         Domain.ExpenseReport? expenseReport = _expenseService.RetrieveExpenseReport(id);
         var expenseReportList = _expenseService.ListAllExpenseReports();
-        if (expenseReport == null)
-        {
-            return View(new ExpenseView()
-            {
-                MealExpenses = 0,
-                ExpenseDate = DateTimeOffset.Now,
-                TotalExpenses = 0,
-                IndividualExpenses = new List<ExpenseDto>(),
-                ExpenseReportIds = new List<int>()
-            });
-        }
-        // List of Expense Reports
-        // Sort them
-        // Filter them
-        // Sum all the expense reports by manager
         
         var expenseView = new ExpenseView() 
         {
-            MealExpenses = expenseReport.CalculateMealExpenses(),
-            ExpenseDate = expenseReport.RetrieveDate(),
-            TotalExpenses = expenseReport.CalculateTotalExpenses(),
-            IndividualExpenses = Controllers.ExpenseView.CreateTransformedExpenses(expenseReport),
-            Id = expenseReport.Id,
+            MealExpenses = expenseReport?.CalculateMealExpenses() ?? 0,
+            ExpenseDate = expenseReport?.RetrieveDate() ?? DateTimeOffset.Now,
+            TotalExpenses = expenseReport?.CalculateTotalExpenses() ?? 0,
+            IndividualExpenses = expenseReport != null ? Controllers.ExpenseView.CreateTransformedExpenses(expenseReport) : new List<ExpenseDto>(),
+            Id = expenseReport?.Id ?? 0,
             ExpenseReportIds = expenseReportList.Select(x => x.Id).ToList()
         };
         return View(expenseView);
@@ -80,14 +64,6 @@ public class HomeController : Controller
             });
         var expenseReportList = _expenseService.ListAllExpenseReports();
 
-        // FIXME: put this method somewhere - also this method is wrong
-        List<string> displayExpenses = new List<string>();
-        foreach (Expense expensed in expenseAdded.CalculateIndividualExpenses()) {
-            String label = expensed.ExpenseTypes() + "\t" + expensed.Amount() + "\t" +
-                           (expensed.IsOverExpensedMeal() ? "X" : " ");
-            displayExpenses.Add(label);
-        }
-        // FIXME: put this method somewhere - also this method is wrong
         return View("Index", new ExpenseView()
         {
             MealExpenses = expenseAdded.CalculateMealExpenses(),
@@ -129,14 +105,6 @@ public class HomeController : Controller
         var expenseAdded = _expenseService.CreateExpenseReport(expenseReportDate ?? DateTimeOffset.Now);
         var expenseReportList = _expenseService.ListAllExpenseReports();
 
-        // FIXME: put this method somewhere - also this method is wrong
-        List<string> displayExpenses = new List<string>();
-        foreach (Expense expensed in expenseAdded.CalculateIndividualExpenses()) {
-            String label = expensed.ExpenseTypes() + "\t" + expensed.Amount() + "\t" +
-                           (expensed.IsOverExpensedMeal() ? "X" : " ");
-            displayExpenses.Add(label);
-        }
-        // FIXME: put this method somewhere - also this method is wrong
         return View("Index", new ExpenseView()
         {
             MealExpenses = expenseAdded.CalculateMealExpenses(),
