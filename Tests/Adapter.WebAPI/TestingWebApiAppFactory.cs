@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using System.Text;
 using Application.Adapter;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using Microsoft.IdentityModel.Tokens;
 using Tests.Adapter.WebAPI;
 using Tests.Adapter.WebApplication;
 
@@ -33,20 +35,36 @@ public class TestingWebApiAppFactory<T>: WebApplicationFactory<ApiProgram>
             // antiforgery
             services.AddScoped<IExistingExpensesRepository, FakeAPIApplicationRepository>();
             
+            // services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer();
+            // services.AddAuthorization(o =>
+            // {
+            //     o.AddPolicy("AllRegisteredUsers", policy => 
+            //         policy.RequireClaim(ClaimTypes.Role, "User"));
+            // });
+            //
             services.Configure<JwtBearerOptions>(
                 JwtBearerDefaults.AuthenticationScheme,
-                options =>
+                opt =>
                 {
-                    options.Configuration = new OpenIdConnectConfiguration
+                    opt.Audience = "api://local-unit-test";
+                    opt.RequireHttpsMetadata = false;
+                    opt.TokenValidationParameters = new TokenValidationParameters()
                     {
-                        Issuer = JwtTokenProvider.Issuer,
+                        ClockSkew = TokenValidationParameters.DefaultClockSkew,
+                        ValidateAudience = true,
+                        ValidateIssuer = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidAudience = JwtTokenProvider.Issuer,
+                        ValidIssuer = JwtTokenProvider.Issuer,
+                        IssuerSigningKey = JwtTokenProvider.SecurityKey
                     };
-                    // ValidIssuer and ValidAudience is not required, but it helps to define them as otherwise they can be overriden by for example the `user-jwts` tool which will cause the validation to fail
-                    options.TokenValidationParameters.ValidIssuer = JwtTokenProvider.Issuer;
-                    options.TokenValidationParameters.ValidAudience = JwtTokenProvider.Issuer;
-                    options.Configuration.SigningKeys.Add(JwtTokenProvider.SecurityKey);
                 }
             );
+            services.AddAuthorization(o =>
+            {
+                o.AddPolicy("AllRegisteredUsers", policy => policy.RequireClaim(ClaimTypes.Role, "User"));
+            });
+
             
             var sp = services.BuildServiceProvider();
             using (var scope = sp.CreateScope())

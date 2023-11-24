@@ -1,6 +1,5 @@
 using Application.Adapter;
-using Application.Services;
- using Domain;
+using Domain;
  using ExpenseReport.ApplicationServices;
  using ExpenseReportCSharp.Adapter;
 using ExpenseReport = Domain.ExpenseReport;

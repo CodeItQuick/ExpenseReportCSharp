@@ -1,6 +1,5 @@
 using System.Security.Claims;
 using Application.Adapter;
-using Application.Services;
 using ExpenseReport.ApplicationServices;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -39,7 +38,7 @@ public class ExistingExpensesControllerWithClaimsTests
         var indexResponseModel = (actionResult?.Model as ExpenseView);
         Assert.NotNull(actionResult);
         Assert.Equal(0, indexResponseModel.MealExpenses);
-        Assert.Equal(new List<string>(), indexResponseModel.IndividualExpenses);
+        Assert.Equal(0, indexResponseModel.IndividualExpenses.Count);
         Assert.Equal(0, indexResponseModel.TotalExpenses);
         Assert.Equal(1, indexResponseModel.ExpenseReportIds.Count);
     }
@@ -55,7 +54,9 @@ public class ExistingExpensesControllerWithClaimsTests
         var indexResponseModel = (actionResult?.Model as ExpenseView);
         Assert.NotNull(actionResult);
         Assert.Equal(100, indexResponseModel.MealExpenses);
-        Assert.Equal("BREAKFAST	100	 ", indexResponseModel.IndividualExpenses.First());
+        Assert.Equal("BREAKFAST", indexResponseModel.IndividualExpenses.First().ExpenseType);
+        Assert.Equal(100, indexResponseModel.IndividualExpenses.First().Amount);
+        Assert.Empty(indexResponseModel.IndividualExpenses.First().IsOverExpensedMeal);
         Assert.Equal(100, indexResponseModel.TotalExpenses);
     }
 
@@ -84,7 +85,9 @@ public class ExistingExpensesControllerWithClaimsTests
         var indexResponseModel = (actionResult?.Model as ExpenseView);
         Assert.NotNull(actionResult);
         Assert.Equal(100, indexResponseModel.MealExpenses);
-        Assert.Equal("BREAKFAST\t100\t ", indexResponseModel.IndividualExpenses.First());
+        Assert.Equal("BREAKFAST", indexResponseModel.IndividualExpenses.First().ExpenseType);
+        Assert.Equal(100, indexResponseModel.IndividualExpenses.First().Amount);
+        Assert.Empty(indexResponseModel.IndividualExpenses.First().IsOverExpensedMeal);
         Assert.Equal(100, indexResponseModel.TotalExpenses);
     }
 

@@ -21,28 +21,23 @@ public class ExistingExpensesWebApiControllerTests : IClassFixture<TestingWebApi
     [Fact]
     public async Task CanConstructDefaultExpenseServiceAndViewExpenses()
     { 
-        var token = JwtTokenProvider.JwtSecurityTokenHandler.WriteToken(
-            new JwtSecurityToken(
-                JwtTokenProvider.Issuer,
-                JwtTokenProvider.Issuer,
-                new List<Claim> { new(ClaimTypes.Role, "Operator"), },
-                expires: DateTime.Now.AddMinutes(30),
-                signingCredentials: JwtTokenProvider.SigningCredentials
-            )
-        );
-        var client = factory.CreateClient(new WebApplicationFactoryClientOptions
-        {
-            AllowAutoRedirect = false,
-        });
-        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+        var client = CreateClient(new(ClaimTypes.Role, "User"));
         var response = await client.GetAsync($"/Home");
 
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
     }
     [Fact]
+    public async Task ForbidsAccessFromNonUserType()
+    { 
+        var client = CreateClient(new(ClaimTypes.Role, "Not Valid User"));
+        var response = await client.GetAsync($"/Home");
+
+        Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
+    }
+    [Fact]
     public async Task CanCreateNewExpenseReport()
     {
-        var client = CreateClient();
+        var client = CreateClient(new(ClaimTypes.Role, "User"));
         var httpContent = new FormUrlEncodedContent(new Dictionary<string, string>()
         {
             ["expenseReportDate"] = DateTimeOffset.Parse("01/01/2023").ToString(),
@@ -58,7 +53,7 @@ public class ExistingExpensesWebApiControllerTests : IClassFixture<TestingWebApi
     [Fact]
     public async Task CanAddAnExpenseToANewExpenseReport()
     {
-        var client = CreateClient();
+        var client = CreateClient(new(ClaimTypes.Role, "User"));
         var dateTimeOffset = DateTimeOffset.Parse("09/07/2023");
         var createdExpense = await client.PostAsync($"/Home/CreateExpenseReport?expenseReportDate={dateTimeOffset.ToString()}", 
             new StringContent(""));
@@ -75,13 +70,13 @@ public class ExistingExpensesWebApiControllerTests : IClassFixture<TestingWebApi
         Assert.Equal(1001, data.TotalExpenses);
     }
 
-    private HttpClient CreateClient()
+    private HttpClient CreateClient(Claim claim)
     {
         var token = JwtTokenProvider.JwtSecurityTokenHandler.WriteToken(
             new JwtSecurityToken(
                 JwtTokenProvider.Issuer,
                 JwtTokenProvider.Issuer,
-                new List<Claim> { new(ClaimTypes.Role, "Operator"), },
+                new List<Claim> { claim, },
                 expires: DateTime.Now.AddMinutes(30),
                 signingCredentials: JwtTokenProvider.SigningCredentials
             )

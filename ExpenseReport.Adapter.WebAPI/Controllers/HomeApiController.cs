@@ -7,7 +7,7 @@ namespace ExpenseReport.Adapter.WebAPI.Controllers;
 
 [ApiController]
 [Route("Home")]
-[Authorize]
+[Authorize("AllRegisteredUsers")]
 public class HomeApiController : Controller
 {
     private readonly ILogger<HomeApiController> _logger;
