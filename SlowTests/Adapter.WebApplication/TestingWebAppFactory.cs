@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Tests.Adapter.WebApplication;
+namespace SlowTests.Adapter.WebApplication;
 
 public class TestingWebAppFactory<T>: WebApplicationFactory<Program>
 {

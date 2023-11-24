@@ -6,8 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging.Abstractions;
 using WebApplication1.Controllers;
 
-namespace Tests;
+namespace Tests.Adapter.WebApplication;
 
+[Collection("AdapterTests")]
 public class ExistingExpensesControllerWithClaimsTests
 {
     private readonly HomeController _controller;

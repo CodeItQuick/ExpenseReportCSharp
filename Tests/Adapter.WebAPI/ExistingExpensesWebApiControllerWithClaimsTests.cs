@@ -5,11 +5,10 @@ using ExpenseReport.ApplicationServices;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging.Abstractions;
-using Tests.Adapter.WebBlazorServerApp;
-using ExpenseView = ExpenseReport.Adapter.WebBlazorServerApp.Data.ExpenseView;
 
 namespace Tests.Adapter.WebAPI;
 
+[Collection("AdapterTests")]
 public class ExistingExpensesWebApiControllerWithClaimsTests
 {
     private readonly HomeApiController _controller;

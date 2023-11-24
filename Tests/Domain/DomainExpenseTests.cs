@@ -1,6 +1,6 @@
 using Domain;
 
-namespace Tests;
+namespace Tests.Domain;
 
 public class DomainExpenseTests
 {

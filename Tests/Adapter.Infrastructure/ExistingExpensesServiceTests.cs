@@ -1,10 +1,9 @@
- using Application.Adapter;
- using Domain;
- using ExpenseReport.ApplicationServices;
- using Microsoft.EntityFrameworkCore;
- using WebApplication1.Controllers;
+using Application.Adapter;
+using Domain;
+using ExpenseReport.ApplicationServices;
+using Microsoft.EntityFrameworkCore;
 
- namespace Tests;
+namespace Tests.Adapter.Infrastructure;
 
 public class ExistingExpensesServiceTests
 {

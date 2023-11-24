@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging.Abstractions;
 
 namespace Tests.Adapter.WebBlazorServerApp;
 
+[Collection("AdapterTests")]
 public class ExistingExpensesBlazorControllerWithClaimsTests
 {
     private readonly ExpenseReportAdapterService _controller = new(

@@ -4,6 +4,7 @@ using Tests.Adapter.WebApplication;
 
 namespace Tests.Adapter.WebBlazorServerApp;
 
+[Collection("AdapterTests")]
 public class ExistingExpensesBlazorControllerTests : IClassFixture<TestingBlazorWebAppFactory>
 {
     private TestingBlazorWebAppFactory factory;

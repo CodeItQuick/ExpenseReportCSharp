@@ -1,10 +1,8 @@
 using Application.Adapter;
 using Domain;
- using ExpenseReport.ApplicationServices;
- using ExpenseReportCSharp.Adapter;
-using ExpenseReport = Domain.ExpenseReport;
+using ExpenseReportCSharp.Adapter;
 
- namespace Tests;
+namespace Tests.Adapter.ConsoleApp;
 
 public class AcceptanceTests
 {

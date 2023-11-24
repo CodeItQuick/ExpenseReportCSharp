@@ -9,6 +9,7 @@ using Tests.Adapter.WebBlazorServerApp;
 
 namespace Tests.Adapter.WebAPI;
 
+[Collection("AdapterTests")]
 public class ExistingExpensesWebApiControllerTests : IClassFixture<TestingWebApiAppFactory<ApiProgram>>
 {
     private TestingWebApiAppFactory<ApiProgram> factory;
