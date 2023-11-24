@@ -24,32 +24,13 @@ public class HomeApiController : Controller
     {
         Domain.ExpenseReport? expenseReport = _expenseService.RetrieveExpenseReport(id);
         var expenseReportList = _expenseService.ListAllExpenseReports();
-        if (expenseReport == null)
-        {
-            return Ok(new ExpenseApiView()
-            {
-                MealExpenses = 0,
-                ExpenseDate = DateTimeOffset.Now,
-                TotalExpenses = 0,
-                IndividualExpenses = new List<string>(),
-                ExpenseReportIds = new List<int>()
-            });
-        }
-        // FIXME: put this method somewhere - also this method is wrong
-        List<string> displayExpenses = new List<string>();
-        foreach (Expense expensed in expenseReport.CalculateIndividualExpenses()) {
-            String label = expensed.ExpenseTypes() + "\t" + expensed.Amount() + "\t" +
-                           (expensed.IsOverExpensedMeal() ? "X" : " ");
-            displayExpenses.Add(label);
-        }
-        // FIXME: put this method somewhere - also this method is wrong
         var expenseView = new ExpenseApiView() 
         {
-            MealExpenses = expenseReport.CalculateMealExpenses(),
-            ExpenseDate = expenseReport.RetrieveDate(),
-            TotalExpenses = expenseReport.CalculateTotalExpenses(),
-            IndividualExpenses = displayExpenses,
-            Id = expenseReport.Id,
+            MealExpenses = expenseReport?.CalculateMealExpenses() ?? 0,
+            ExpenseDate = expenseReport?.RetrieveDate() ?? DateTimeOffset.Now,
+            TotalExpenses = expenseReport?.CalculateTotalExpenses() ?? 0,
+            IndividualExpenses = expenseReport != null ? ExpenseApiView.CreateTransformedExpenses(expenseReport) : new List<ExpenseDto>(),
+            Id = expenseReport?.Id ?? 0,
             ExpenseReportIds = expenseReportList.Select(x => x.Id).ToList()
         };
         return Ok(expenseView);
@@ -71,20 +52,12 @@ public class HomeApiController : Controller
                 }
             });
         var expenseReportList = _expenseService.ListAllExpenseReports();
-        // FIXME: put this method somewhere - also this method is wrong
-        List<string> displayExpenses = new List<string>();
-        foreach (Expense expensed in expenseAdded.CalculateIndividualExpenses()) {
-            String label = expensed.ExpenseTypes() + "\t" + expensed.Amount() + "\t" +
-                           (expensed.IsOverExpensedMeal() ? "X" : " ");
-            displayExpenses.Add(label);
-        }
-        // FIXME: put this method somewhere - also this method is wrong
 
         return Ok(new ExpenseApiView()
         {
             MealExpenses = expenseAdded.CalculateMealExpenses(),
             ExpenseDate = expenseAdded.RetrieveDate(),
-            IndividualExpenses = displayExpenses,
+            IndividualExpenses = ExpenseApiView.CreateTransformedExpenses(expenseAdded),
             TotalExpenses = expenseAdded.CalculateTotalExpenses(),
             ExpenseReportIds = expenseReportList.Select(x => x.Id).ToList()
         });
@@ -106,19 +79,11 @@ public class HomeApiController : Controller
             });
         var expenseReportList = _expenseService.ListAllExpenseReports();
 
-        // FIXME: put this method somewhere - also this method is wrong
-        List<string> displayExpenses = new List<string>();
-        foreach (Expense expensed in expenseAdded.CalculateIndividualExpenses()) {
-            String label = expensed.ExpenseTypes() + "\t" + expensed.Amount() + "\t" +
-                           (expensed.IsOverExpensedMeal() ? "X" : " ");
-            displayExpenses.Add(label);
-        }
-        // FIXME: put this method somewhere - also this method is wrong
         return Ok(new ExpenseApiView()
         {
             MealExpenses = expenseAdded.CalculateMealExpenses(),
             ExpenseDate = expenseAdded.RetrieveDate(),
-            IndividualExpenses = displayExpenses,
+            IndividualExpenses = ExpenseApiView.CreateTransformedExpenses(expenseAdded),
             TotalExpenses = expenseAdded.CalculateTotalExpenses(),
             Id = expenseAdded.Id,
             ExpenseReportIds = expenseReportList.Select(x => x.Id).ToList()
@@ -130,19 +95,11 @@ public class HomeApiController : Controller
         var expenseAdded = _expenseService.CreateExpenseReport(expenseReportDate);
         var expenseReportList = _expenseService.ListAllExpenseReports();
 
-        // FIXME: put this method somewhere - also this method is wrong
-        List<string> displayExpenses = new List<string>();
-        foreach (Expense expensed in expenseAdded.CalculateIndividualExpenses()) {
-            String label = expensed.ExpenseTypes() + "\t" + expensed.Amount() + "\t" +
-                           (expensed.IsOverExpensedMeal() ? "X" : " ");
-            displayExpenses.Add(label);
-        }
-        // FIXME: put this method somewhere - also this method is wrong
         return Ok(new ExpenseApiView()
         {
             MealExpenses = expenseAdded.CalculateMealExpenses(),
             ExpenseDate = expenseAdded.RetrieveDate(),
-            IndividualExpenses = displayExpenses,
+            IndividualExpenses = ExpenseApiView.CreateTransformedExpenses(expenseAdded),
             TotalExpenses = expenseAdded.CalculateTotalExpenses(),
             Id = expenseAdded.Id,
             ExpenseReportIds = expenseReportList.Select(x => x.Id).ToList()

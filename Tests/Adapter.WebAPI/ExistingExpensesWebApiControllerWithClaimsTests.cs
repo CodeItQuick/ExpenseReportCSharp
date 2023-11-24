@@ -39,13 +39,13 @@ public class ExistingExpensesWebApiControllerWithClaimsTests
         var responseModel = (controllerIndex as OkObjectResult).Value as ExpenseApiView;
         Assert.NotNull(responseModel);
         Assert.Equal(0, responseModel.MealExpenses);
-        Assert.Equal(new List<string>(), responseModel.IndividualExpenses);
+        Assert.Equal(new List<ExpenseDto>(), responseModel.IndividualExpenses);
         Assert.Equal(0, responseModel.TotalExpenses);
         Assert.Equal(1, responseModel.ExpenseReportIds.Count);
     }
 
     [Fact]
-    public void CanCreateANewExpense()
+    public void CanCreateNewExpense()
     {
         var expenseReport = (_controller.CreateExpenseReport(
             DateTimeOffset.Now) as OkObjectResult).Value as ExpenseApiView;
@@ -56,7 +56,9 @@ public class ExistingExpensesWebApiControllerWithClaimsTests
 
         Assert.NotNull(indexResponseModel);
         Assert.Equal(100, indexResponseModel.MealExpenses);
-        Assert.Equal("BREAKFAST	100	 ", indexResponseModel.IndividualExpenses.First());
+        Assert.Equal("BREAKFAST", indexResponseModel.IndividualExpenses.First().ExpenseType);
+        Assert.Equal("", indexResponseModel.IndividualExpenses.First().IsOverExpensedMeal);
+        Assert.Equal(100, indexResponseModel.IndividualExpenses.First().Amount);
         Assert.Equal(100, indexResponseModel.TotalExpenses);
         Assert.Equal(2, indexResponseModel.ExpenseReportIds.Count);
         Assert.Equal(new List<int>() { 1, 2 }, indexResponseModel.ExpenseReportIds);
