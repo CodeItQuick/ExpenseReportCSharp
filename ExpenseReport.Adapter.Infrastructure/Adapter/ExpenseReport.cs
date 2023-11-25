@@ -14,4 +14,5 @@ public sealed class ExpenseReport
     public DateTimeOffset ExpenseReportDate { get; set; }
     [ForeignKey("AspNetUsersId")]
     public string EmployeeId { get; set; }
+    public bool IsApproved { get; set; }
 }

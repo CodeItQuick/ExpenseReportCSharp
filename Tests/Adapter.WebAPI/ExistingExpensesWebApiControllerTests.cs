@@ -70,6 +70,26 @@ public class ExistingExpensesWebApiControllerTests : IClassFixture<TestingWebApi
         Assert.Equal(1001, data.MealExpenses);
         Assert.Equal(1001, data.TotalExpenses);
     }
+    [Fact]
+    public async Task EmployeeExpenseReportsAreNotApproved()
+    {
+        var client = CreateClient(new(ClaimTypes.Role, "User"));
+        var dateTimeOffset = DateTimeOffset.Parse("09/07/2023");
+        var createdExpense = await client.PostAsync($"/Home/CreateExpenseReport?expenseReportDate={dateTimeOffset.ToString()}", 
+            new StringContent(""));
+        var result = createdExpense.Content.ReadAsStringAsync().Result;
+        var createdData = JsonConvert.DeserializeObject<ExpenseApiView>(result);
+        var httpResponseMessage = await client.PostAsync(
+            $"/Home/ExpenseUpdateView?expenseCost=1001&expenseType=BREAKFAST&expenseReportId={createdData.Id}", 
+            new StringContent(""));
+
+        Assert.Equal(HttpStatusCode.OK, httpResponseMessage.StatusCode);
+        var data = JsonConvert.DeserializeObject<ExpenseApiView>(httpResponseMessage.Content.ReadAsStringAsync().Result);
+        Assert.Equal(dateTimeOffset.ToString(), data?.ExpenseDate.ToString());
+        Assert.Equal(1001, data?.MealExpenses);
+        Assert.Equal(1001, data?.TotalExpenses);
+        Assert.False(data?.IsApproved);
+    }
 
     private HttpClient CreateClient(Claim claim)
     {

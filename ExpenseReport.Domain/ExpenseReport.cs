@@ -7,12 +7,20 @@ public class ExpenseReport
     public int Id { get; }
     public string EmployeeId { get; set; }
 
-    public ExpenseReport(List<Expense>? expenses, DateTimeOffset expenseReportDate, int id, string expenseReportEmployeeId)
+    public bool Approved { get; set; }
+
+    public ExpenseReport(
+        List<Expense>? expenses, 
+        DateTimeOffset expenseReportDate, 
+        int id, 
+        string expenseReportEmployeeId, 
+        bool isApproved)
     {
         expenseList = expenses ?? new List<Expense>();
         ExpenseReportDate = expenseReportDate;
         Id = id;
         EmployeeId = expenseReportEmployeeId;
+        Approved = isApproved;
     }
 
     public DateTimeOffset RetrieveDate()
@@ -21,6 +29,7 @@ public class ExpenseReport
     }
 
     // Interesting Use-Case
+
     public List<Expense> CalculateIndividualExpenses() {
         return expenseList;
     }
@@ -46,5 +55,10 @@ public class ExpenseReport
     public void AddExpense(Expense firstExpense)
     {
         expenseList.Add(firstExpense);
+    }
+
+    public bool IsApproved()
+    {
+        return Approved;
     }
 }

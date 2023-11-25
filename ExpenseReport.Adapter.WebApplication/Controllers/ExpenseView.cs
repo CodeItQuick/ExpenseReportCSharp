@@ -17,6 +17,7 @@ public class ExpenseView
     public int Id { get; set; }
     public List<int>? ExpenseReportIds { get; set; }
     public string EmployeeId { get; set; }
+    public bool IsApproved { get; set; }
 
     public static List<ExpenseDto> CreateTransformedExpenses(Domain.ExpenseReport expenseAdded)
     {

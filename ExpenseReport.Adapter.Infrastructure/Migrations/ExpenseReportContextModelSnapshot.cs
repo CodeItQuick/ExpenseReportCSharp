@@ -52,6 +52,9 @@ namespace ExpenseReportCSharp.Migrations
                     b.Property<DateTimeOffset>("ExpenseReportDate")
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("IsApproved")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
 
                     b.ToTable("ExpenseReport");

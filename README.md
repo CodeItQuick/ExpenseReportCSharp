@@ -3,6 +3,7 @@ Implement Employee Role:
 2. An employee can add expenses to his expense reports **done**
 3. An employee can view his expense report **done**
 4. An employee has access to only his expense report list **done**
+5. An employee's expense report are not approved
 
 
 TODO:

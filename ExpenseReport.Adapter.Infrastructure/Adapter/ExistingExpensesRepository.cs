@@ -39,7 +39,8 @@ public class ExistingExpensesRepository : IExistingExpensesRepository
             expenseReport.Expenses?.Select(x => new Expense(x.ExpenseType, x.Amount)).ToList(), 
             expenseReport.ExpenseReportDate, 
             expenseReport?.Id ?? 0,
-            expenseReport?.EmployeeId ?? "");
+            expenseReport?.EmployeeId ?? "", 
+            expenseReport?.IsApproved ?? false);
     }
     
     // FIXME: Do I need expenseList?
@@ -66,7 +67,8 @@ public class ExistingExpensesRepository : IExistingExpensesRepository
                 .ToList(), 
             entityEntry.Entity?.ExpenseReportDate ?? DateTimeOffset.Now, 
             entityEntry.Entity?.Id ?? 0,
-            entityEntry.Entity?.EmployeeId ?? "");
+            entityEntry.Entity?.EmployeeId ?? "", 
+            entityEntry.Entity?.IsApproved ?? false);
     }
 
     public Domain.ExpenseReport? UpdateAggregate(List<CreateExpenseRequest> createExpenseRequests)
@@ -95,7 +97,8 @@ public class ExistingExpensesRepository : IExistingExpensesRepository
             report?.Expenses.Select(x => new Domain.Expense(x.ExpenseType, x.Amount)).ToList(), 
             report?.ExpenseReportDate ?? DateTimeOffset.Now, 
             report.Id,
-            report.EmployeeId);
+            report.EmployeeId, 
+            report?.IsApproved ?? false);
     }
 
     public List<Domain.ExpenseReport> ListAllExpenseReports(string userId)
@@ -108,7 +111,7 @@ public class ExistingExpensesRepository : IExistingExpensesRepository
                 x?.Expenses?.Select(x => new Domain.Expense(x.ExpenseType, x.Amount)).ToList() ?? new List<Domain.Expense>(), 
                 x?.ExpenseReportDate ?? DateTimeOffset.Now, 
                 x.Id,
-                x.EmployeeId
-            )).ToList();
+                x.EmployeeId, 
+                x?.IsApproved ?? false)).ToList();
     }
 }

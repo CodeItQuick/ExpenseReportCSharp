@@ -1,5 +1,5 @@
 ﻿<div class="text-center">
-    <p>Expenses @ViewData.Model.ExpenseDate - Report #@ViewData.Model.Id</p>
+    <p>Expenses @ViewData.Model.ExpenseDate - Report #@ViewData.Model.Id, @(ViewData.Model.IsApproved ? "Approved" : "Not Approved")</p>
     @foreach (var individualExpense in @ViewData.Model.IndividualExpenses)
     {
         <p>@individualExpense.ExpenseType @individualExpense.Amount @individualExpense.IsOverExpensedMeal</p>

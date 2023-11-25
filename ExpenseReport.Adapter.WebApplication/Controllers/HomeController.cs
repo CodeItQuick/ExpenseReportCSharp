@@ -41,7 +41,8 @@ public class HomeController : Controller
             IndividualExpenses = expenseReport != null ? Controllers.ExpenseView.CreateTransformedExpenses(expenseReport) : new List<ExpenseDto>(),
             Id = expenseReport?.Id ?? 0,
             ExpenseReportIds = expenseReportList.Select(x => x.Id).ToList(),
-            EmployeeId = expenseReport?.EmployeeId ?? ""
+            EmployeeId = expenseReport?.EmployeeId ?? "",
+            IsApproved = expenseReport?.IsApproved() ?? false
         };
         return View(expenseView);
     }
@@ -61,6 +62,11 @@ public class HomeController : Controller
     public ActionResult ExpenseView(
         int expenseCost, string expenseType, int reportId = 0)
     {
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (userId == null)
+        {
+            throw new ArgumentNullException(nameof(userId));
+        }
         var tryParse = ExpenseType.TryParse(expenseType, out ExpenseType expense);
         var expenseAdded = _expenseService.AddExpenseToExpenseReport(
             reportId, new List<CreateExpenseRequest>()
@@ -72,7 +78,7 @@ public class HomeController : Controller
                     expenseReportId = reportId,
                 }
             });
-        var expenseReportList = _expenseService.ListAllExpenseReports("abcd-1234");
+        var expenseReportList = _expenseService.ListAllExpenseReports(userId);
 
         return View("Index", new ExpenseView()
         {
@@ -80,7 +86,8 @@ public class HomeController : Controller
             ExpenseDate = expenseAdded.RetrieveDate(),
             IndividualExpenses = Controllers.ExpenseView.CreateTransformedExpenses(expenseAdded),
             TotalExpenses = expenseAdded.CalculateTotalExpenses(),
-            ExpenseReportIds = expenseReportList.Select(x => x.Id).ToList()
+            ExpenseReportIds = expenseReportList.Select(x => x.Id).ToList(),
+            IsApproved = expenseAdded?.IsApproved() ?? false
         });
     }
     public ActionResult ExpenseUpdateView(
@@ -111,16 +118,22 @@ public class HomeController : Controller
             IndividualExpenses = Controllers.ExpenseView.CreateTransformedExpenses(expenseAdded),
             TotalExpenses = expenseAdded.CalculateTotalExpenses(),
             Id = expenseAdded.Id,
-            ExpenseReportIds = expenseReportList.Select(x => x.Id).ToList()
+            ExpenseReportIds = expenseReportList.Select(x => x.Id).ToList(),
+            IsApproved = expenseAdded?.IsApproved() ?? false
         });
     }
 
     public ViewResult CreateExpenseReport(DateTimeOffset? expenseReportDate)
     {
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (userId == null)
+        {
+            throw new ArgumentNullException(nameof(userId));
+        }
         var expenseAdded = _expenseService.CreateExpenseReport(
             expenseReportDate ?? DateTimeOffset.Now, 
             User.FindFirst(ClaimTypes.NameIdentifier).Value);
-        var expenseReportList = _expenseService.ListAllExpenseReports("abcd-1234");
+        var expenseReportList = _expenseService.ListAllExpenseReports(userId);
 
         return View("Index", new ExpenseView()
         {
@@ -130,7 +143,8 @@ public class HomeController : Controller
             TotalExpenses = expenseAdded.CalculateTotalExpenses(),
             Id = expenseAdded.Id,
             EmployeeId = expenseAdded.EmployeeId,
-            ExpenseReportIds = expenseReportList.Select(x => x.Id).ToList()
+            ExpenseReportIds = expenseReportList.Select(x => x.Id).ToList(),
+            IsApproved = expenseAdded?.IsApproved() ?? false
         });
     }
 }

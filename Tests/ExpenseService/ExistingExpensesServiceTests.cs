@@ -119,11 +119,12 @@ public class ExistingExpensesServiceTests
             {
                 type = ExpenseType.BREAKFAST,
                 amount = 1234,
-                expenseReportId = expenseReport.Id,
+                expenseReportId = expenseReport.Id
             }
         });
 
         Assert.Equal(expenseReport.Id, expense.Id);
+        Assert.Equal(expenseReport.IsApproved(), false);
     }
     [Fact]
     public void CanRetrieveZeroExpenseReports()

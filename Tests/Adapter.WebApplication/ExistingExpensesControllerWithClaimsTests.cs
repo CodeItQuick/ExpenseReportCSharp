@@ -46,6 +46,7 @@ public class ExistingExpensesControllerWithClaimsTests
         Assert.Equal(0, indexResponseModel.IndividualExpenses.Count);
         Assert.Equal(0, indexResponseModel.TotalExpenses);
         Assert.Equal(1, indexResponseModel.ExpenseReportIds.Count);
+        Assert.Equal(false, indexResponseModel.IsApproved);
     }
 
     [Fact]

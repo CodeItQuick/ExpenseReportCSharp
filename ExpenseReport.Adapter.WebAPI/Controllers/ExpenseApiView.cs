@@ -17,7 +17,9 @@ public class ExpenseApiView
     public int Id { get; set; }
     [JsonProperty("expenseReportIds")]
     public List<int>? ExpenseReportIds { get; set; }
-    
+    [JsonProperty("isApproved")]
+    public bool IsApproved { get; set; }
+
     public static List<ExpenseDto> CreateTransformedExpenses(Domain.ExpenseReport expenseAdded)
     {
         List<ExpenseDto> transformedExpenses = new List<ExpenseDto>();
