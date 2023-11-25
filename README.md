@@ -1,20 +1,21 @@
 Implement Employee Role:
 1. An employee can submit his expense reports **done**
 2. An employee can add expenses to his expense reports **done**
-3. An employee can view his expense reports **needs to be done, can see his own expense reports**
+3. An employee can view his expense report **done**
+4. An employee has access to only his expense report list **done**
 
 
 TODO:
 1. Make the console app more of an adapter with better test suite, non-acceptance-test-stuff **differ**
 2. Fix adapter conversion code as its wrong in some spots, should be abstracted to view somehow
    1. Fix MVC **done**
-   2. Fix Blazor **differ**
+   2. Fix Blazor **differ, maybe delete altogether**
    3. Fix API **done**
    4. Fix Console **done**
 3. Add authentication for roles use case **Doing this**
    1. Implement authentication in WebApi and WebApplication **done**
    2. Implement Manager Role
-   3. Implement Employee Role **in progress**
+   3. Implement Employee Role **done**
 4. Add use case Accounting Clerk/Controller/CFO/Manager/Employee Roles
 5. Add use case list all reports + view
 6. Add use case sort/filter list of reports

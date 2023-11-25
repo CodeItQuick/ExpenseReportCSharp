@@ -131,7 +131,7 @@ public class ExistingExpensesServiceTests
         IExistingExpensesRepository existingExpensesRepository = new FakeExistingRepository();
         var expensesService = new ExpensesService(existingExpensesRepository);
 
-        var expense = expensesService.ListAllExpenseReports();
+        var expense = expensesService.ListAllExpenseReports("abcd-1234");
 
         Assert.Empty(expense);
     }
@@ -152,7 +152,29 @@ public class ExistingExpensesServiceTests
             }
         });
 
-        var expense = expensesService.ListAllExpenseReports();
+        var expense = expensesService.ListAllExpenseReports("abcd-1234");
+
+        Assert.Single(expense);
+    }
+    [Fact]
+    public void CanRetrieveOnlyCurrentUsersExpenseReports()
+    {
+        IExistingExpensesRepository existingExpensesRepository = new FakeExistingRepository();
+        var expenseReportDate = DateTimeOffset.Parse("2023-01-01");
+        var expensesService = new ExpensesService(existingExpensesRepository);
+        var expenseReport = expensesService.CreateExpenseReport(expenseReportDate, "abcd-1234");
+        var expenseReportTwo = expensesService.CreateExpenseReport(expenseReportDate, "1234-abcd");
+        expensesService.AddExpenseToExpenseReport(expenseReport.Id, new List<CreateExpenseRequest>()
+        {
+            new()
+            {
+                type = ExpenseType.BREAKFAST,
+                amount = 1234,
+                expenseReportId = expenseReport.Id,
+            }
+        });
+
+        var expense = expensesService.ListAllExpenseReports("abcd-1234");
 
         Assert.Single(expense);
     }
@@ -165,7 +187,7 @@ public class ExistingExpensesServiceTests
         expensesService.CreateExpenseReport(expenseReportDate, "abcd-1234");
         expensesService.CreateExpenseReport(expenseReportDate, "abcd-1234");
 
-        var expense = expensesService.ListAllExpenseReports();
+        var expense = expensesService.ListAllExpenseReports("abcd-1234");
 
         Assert.Equal(2, expense.Count);
     }

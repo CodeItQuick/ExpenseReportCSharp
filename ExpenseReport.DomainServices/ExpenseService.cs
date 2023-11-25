@@ -15,8 +15,8 @@ public class ExpensesService : IExpenseService
         return expenseRepository.RetrieveById(id, employeeId);
     }
 
-    public List<Domain.ExpenseReport> ListAllExpenseReports() {
-        return expenseRepository.ListAllExpenseReports();
+    public List<Domain.ExpenseReport> ListAllExpenseReports(string userId) {
+        return expenseRepository.ListAllExpenseReports(userId);
     }
 
     public Domain.ExpenseReport CreateExpenseReport(DateTimeOffset expenseReportDate, string employeeId)

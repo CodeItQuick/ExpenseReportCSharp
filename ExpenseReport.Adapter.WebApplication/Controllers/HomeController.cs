@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Diagnostics;
+using System.Security.Authentication;
 using System.Security.Claims;
 using Domain;
 using ExpenseReport.ApplicationServices;
@@ -30,7 +31,7 @@ public class HomeController : Controller
             throw new ArgumentNullException(nameof(userId));
         }
         Domain.ExpenseReport? expenseReport = _expenseService.RetrieveExpenseReport(id, userId);
-        var expenseReportList = _expenseService.ListAllExpenseReports();
+        var expenseReportList = _expenseService.ListAllExpenseReports(userId);
         
         var expenseView = new ExpenseView() 
         {
@@ -71,7 +72,7 @@ public class HomeController : Controller
                     expenseReportId = reportId,
                 }
             });
-        var expenseReportList = _expenseService.ListAllExpenseReports();
+        var expenseReportList = _expenseService.ListAllExpenseReports("abcd-1234");
 
         return View("Index", new ExpenseView()
         {
@@ -96,7 +97,12 @@ public class HomeController : Controller
                     expenseReportId = expenseReportId,
                 }
             });
-        var expenseReportList = _expenseService.ListAllExpenseReports();
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (userId == null)
+        {
+            throw new AuthenticationException("you are not logged in");
+        }
+        var expenseReportList = _expenseService.ListAllExpenseReports(userId);
 
         return View("Index", new ExpenseView()
         {
@@ -114,7 +120,7 @@ public class HomeController : Controller
         var expenseAdded = _expenseService.CreateExpenseReport(
             expenseReportDate ?? DateTimeOffset.Now, 
             User.FindFirst(ClaimTypes.NameIdentifier).Value);
-        var expenseReportList = _expenseService.ListAllExpenseReports();
+        var expenseReportList = _expenseService.ListAllExpenseReports("abcd-1234");
 
         return View("Index", new ExpenseView()
         {

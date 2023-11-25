@@ -20,7 +20,7 @@ namespace ExpenseReport.Adapter.WebBlazorServerApp.Data
         public Task<ExpenseView> OnGet(int id = 1)
         {
             Domain.ExpenseReport? expenseReport = _expenseService.RetrieveExpenseReport(id, "abcd-1234");
-            var expenseReportList = _expenseService.ListAllExpenseReports();
+            var expenseReportList = _expenseService.ListAllExpenseReports("abcd-1234");
             if (expenseReport == null)
             {
                 return Task.FromResult(new ExpenseView()
@@ -66,7 +66,7 @@ namespace ExpenseReport.Adapter.WebBlazorServerApp.Data
                         expenseReportId = expenseReportId,
                     }
                 });
-            var expenseReportList = _expenseService.ListAllExpenseReports();
+            var expenseReportList = _expenseService.ListAllExpenseReports("abcd-1234");
 
             // FIXME: put this method somewhere - also this method is wrong
             List<string> displayExpenses = new List<string>();
@@ -90,7 +90,7 @@ namespace ExpenseReport.Adapter.WebBlazorServerApp.Data
         public Task<ExpenseView> CreateExpenseReport([Required] DateTimeOffset expenseReportDate)
         {
             var expenseAdded = _expenseService.CreateExpenseReport(expenseReportDate, "abcd-1234");
-            var expenseReportList = _expenseService.ListAllExpenseReports();
+            var expenseReportList = _expenseService.ListAllExpenseReports("abcd-1234");
 
             // FIXME: put this method somewhere - also this method is wrong
             List<string> displayExpenses = new List<string>();

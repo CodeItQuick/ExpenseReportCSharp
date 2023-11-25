@@ -86,7 +86,7 @@ public class ExistingExpensesRepositoryTests
         expensesContext.ChangeTracker.Clear();
         var existingExpensesRepository = new ExistingExpensesRepository(expensesContext);
 
-        var addExpenseToReport = existingExpensesRepository.ListAllExpenseReports();
+        var addExpenseToReport = existingExpensesRepository.ListAllExpenseReports("abcd-1234");
 
         Assert.Empty(addExpenseToReport);
     }
@@ -108,7 +108,7 @@ public class ExistingExpensesRepositoryTests
         expensesContext.ChangeTracker.Clear();
         var existingExpensesRepository = new ExistingExpensesRepository(expensesContext);
 
-        var addExpenseToReport = existingExpensesRepository.ListAllExpenseReports();
+        var addExpenseToReport = existingExpensesRepository.ListAllExpenseReports("1234-abcd");
 
         Assert.Single(addExpenseToReport);
         Assert.Empty(addExpenseToReport.First().CalculateIndividualExpenses());
@@ -134,7 +134,7 @@ public class ExistingExpensesRepositoryTests
         expensesContext.ChangeTracker.Clear();
         var existingExpensesRepository = new ExistingExpensesRepository(expensesContext);
 
-        var addExpenseToReport = existingExpensesRepository.ListAllExpenseReports();
+        var addExpenseToReport = existingExpensesRepository.ListAllExpenseReports("1234-abcd");
 
         Assert.Single(addExpenseToReport);
         Assert.Single(addExpenseToReport.First().CalculateIndividualExpenses());

@@ -29,7 +29,7 @@ public class HomeApiController : Controller
             throw new ArgumentNullException(nameof(userId));
         }
         Domain.ExpenseReport? expenseReport = _expenseService.RetrieveExpenseReport(id, userId);
-        var expenseReportList = _expenseService.ListAllExpenseReports();
+        var expenseReportList = _expenseService.ListAllExpenseReports("abcd-1234");
         var expenseView = new ExpenseApiView() 
         {
             MealExpenses = expenseReport?.CalculateMealExpenses() ?? 0,
@@ -57,7 +57,7 @@ public class HomeApiController : Controller
                     expenseReportId = reportId,
                 }
             });
-        var expenseReportList = _expenseService.ListAllExpenseReports();
+        var expenseReportList = _expenseService.ListAllExpenseReports("abcd-1234");
 
         return Ok(new ExpenseApiView()
         {
@@ -83,7 +83,7 @@ public class HomeApiController : Controller
                     expenseReportId = expenseReportId,
                 }
             });
-        var expenseReportList = _expenseService.ListAllExpenseReports();
+        var expenseReportList = _expenseService.ListAllExpenseReports("abcd-1234");
 
         return Ok(new ExpenseApiView()
         {
@@ -100,7 +100,7 @@ public class HomeApiController : Controller
     {
         var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? throw new ArgumentNullException("no user id");
         var expenseAdded = _expenseService.CreateExpenseReport(expenseReportDate, userId);
-        var expenseReportList = _expenseService.ListAllExpenseReports();
+        var expenseReportList = _expenseService.ListAllExpenseReports("abcd-1234");
 
         return Ok(new ExpenseApiView()
         {

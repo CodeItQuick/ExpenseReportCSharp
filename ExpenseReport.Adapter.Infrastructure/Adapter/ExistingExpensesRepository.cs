@@ -98,9 +98,10 @@ public class ExistingExpensesRepository : IExistingExpensesRepository
             report.EmployeeId);
     }
 
-    public List<Domain.ExpenseReport> ListAllExpenseReports()
+    public List<Domain.ExpenseReport> ListAllExpenseReports(string userId)
     {
         return expensesDbContext.ExpenseReport
+            .Where(x => x.EmployeeId == userId)
             .Include("Expenses")
             .ToList()
             .Select(x => new Domain.ExpenseReport(
