@@ -20,7 +20,11 @@ public class ExistingExpensesControllerWithClaimsTests
             new ExpensesService(new FakeWebApplicationRepository(new List<ExpenseDbo>())));
         
         var claimsIdentity = new ClaimsIdentity(
-            new List<Claim>() { new(ClaimTypes.Name, "test_username") },
+            new List<Claim>()
+            {
+                new(ClaimTypes.Name, "test_username"),
+                new(ClaimTypes.NameIdentifier, "abcd-1234"),
+            },
             "TestAuthType");
         _controller.ControllerContext = new ControllerContext()
         {
@@ -64,11 +68,13 @@ public class ExistingExpensesControllerWithClaimsTests
     [Fact]
     public void CanCreateANewEmptyExpenseReport()
     {
-        var actionResult = _controller.CreateExpenseReport(DateTimeOffset.Parse("2023-11-09"));
+        var actionResult = _controller.CreateExpenseReport(
+            DateTimeOffset.Parse("2023-11-09"));
 
         var indexResponseModel = (actionResult?.Model as ExpenseView);
         Assert.NotNull(actionResult);
         Assert.Equal(0, indexResponseModel.MealExpenses);
+        Assert.Equal("abcd-1234", indexResponseModel.EmployeeId);
         Assert.False(indexResponseModel.IndividualExpenses.Any());
         Assert.Equal(0, indexResponseModel.TotalExpenses);
     }

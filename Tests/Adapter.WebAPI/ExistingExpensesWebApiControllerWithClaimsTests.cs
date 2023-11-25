@@ -20,7 +20,11 @@ public class ExistingExpensesWebApiControllerWithClaimsTests
             new ExpensesService(new FakeWebApplicationRepository(new List<ExpenseDbo>())));
         
         var claimsIdentity = new ClaimsIdentity(
-            new List<Claim>() { new(ClaimTypes.Name, "test_username") },
+            new List<Claim>()
+            {
+                new(ClaimTypes.Name, "test_username"), 
+                new(ClaimTypes.NameIdentifier, "abcd-1234")
+            },
             "TestAuthType");
         _controller.ControllerContext = new ControllerContext()
         {

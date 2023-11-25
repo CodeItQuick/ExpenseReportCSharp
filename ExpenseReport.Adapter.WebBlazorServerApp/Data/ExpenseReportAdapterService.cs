@@ -89,7 +89,7 @@ namespace ExpenseReport.Adapter.WebBlazorServerApp.Data
         // Needs an endpoint
         public Task<ExpenseView> CreateExpenseReport([Required] DateTimeOffset expenseReportDate)
         {
-            var expenseAdded = _expenseService.CreateExpenseReport(expenseReportDate);
+            var expenseAdded = _expenseService.CreateExpenseReport(expenseReportDate, "abcd-1234");
             var expenseReportList = _expenseService.ListAllExpenseReports();
 
             // FIXME: put this method somewhere - also this method is wrong

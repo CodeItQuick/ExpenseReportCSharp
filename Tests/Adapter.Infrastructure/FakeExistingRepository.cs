@@ -32,7 +32,8 @@ public class FakeExistingRepository : ExistingExpensesRepository
         expensesDbContext.ExpenseReport.Add(new Application.Adapter.ExpenseReport()
         {
             Expenses = expenses,
-            ExpenseReportDate = DateTimeOffset.Now
+            ExpenseReportDate = DateTimeOffset.Now,
+            EmployeeId = "abcd-1234"
         });
         expensesDbContext.SaveChanges();
         expensesDbContext.ChangeTracker.Clear();

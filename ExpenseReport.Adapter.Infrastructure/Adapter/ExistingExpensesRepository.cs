@@ -34,12 +34,13 @@ public class ExistingExpensesRepository : IExistingExpensesRepository
         return new Domain.ExpenseReport(
             expenseReport.Expenses?.Select(x => new Expense(x.ExpenseType, x.Amount)).ToList(), 
             expenseReport.ExpenseReportDate, 
-            expenseReport?.Id ?? 0);
+            expenseReport?.Id ?? 0,
+            expenseReport?.EmployeeId ?? "");
     }
     
     // FIXME: Do I need expenseList?
     public Domain.ExpenseReport? CreateAggregate(DateTimeOffset? expenseDate,
-        List<CreateExpenseRequest> createExpenseRequests) 
+        List<CreateExpenseRequest> createExpenseRequests, string employeeId) 
     {
         var expenseReport = new ExpenseReport()
         {
@@ -47,7 +48,8 @@ public class ExistingExpensesRepository : IExistingExpensesRepository
                 .Select(x => 
                     new ExpenseDbo() { ExpenseType = x.type, Amount = x.amount })
                 .ToList(),
-            ExpenseReportDate = expenseDate ?? DateTimeOffset.Now
+            ExpenseReportDate = expenseDate ?? DateTimeOffset.Now,
+            EmployeeId = employeeId
         };
         var entityEntry = expensesDbContext.ExpenseReport.Add(
             expenseReport);
@@ -59,7 +61,8 @@ public class ExistingExpensesRepository : IExistingExpensesRepository
                     new Domain.Expense(x.type, x.amount))
                 .ToList(), 
             entityEntry.Entity?.ExpenseReportDate ?? DateTimeOffset.Now, 
-            entityEntry.Entity?.Id ?? 0);
+            entityEntry.Entity?.Id ?? 0,
+            entityEntry.Entity?.EmployeeId ?? "");
     }
 
     public Domain.ExpenseReport? UpdateAggregate(List<CreateExpenseRequest> createExpenseRequests)
@@ -67,7 +70,9 @@ public class ExistingExpensesRepository : IExistingExpensesRepository
         var report = expensesDbContext
             .ExpenseReport
             .Include("Expenses")
-            .SingleOrDefault(x => createExpenseRequests.Select(y => y.expenseReportId).Contains(x.Id));
+            .SingleOrDefault(x => 
+                createExpenseRequests.Select(y => y.expenseReportId)
+                    .Contains(x.Id));
         if (report?.Expenses != null && report.Expenses.Any())
         {
             report.Expenses.AddRange(createExpenseRequests.Select(x => 
@@ -85,7 +90,8 @@ public class ExistingExpensesRepository : IExistingExpensesRepository
         return new Domain.ExpenseReport(
             report?.Expenses.Select(x => new Domain.Expense(x.ExpenseType, x.Amount)).ToList(), 
             report?.ExpenseReportDate ?? DateTimeOffset.Now, 
-            report.Id);
+            report.Id,
+            report.EmployeeId);
     }
 
     public List<Domain.ExpenseReport> ListAllExpenseReports()
@@ -96,7 +102,8 @@ public class ExistingExpensesRepository : IExistingExpensesRepository
             .Select(x => new Domain.ExpenseReport(
                 x?.Expenses?.Select(x => new Domain.Expense(x.ExpenseType, x.Amount)).ToList() ?? new List<Domain.Expense>(), 
                 x?.ExpenseReportDate ?? DateTimeOffset.Now, 
-                x.Id
+                x.Id,
+                x.EmployeeId
             )).ToList();
     }
 }

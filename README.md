@@ -1,14 +1,14 @@
 TODO:
-1. Make the console app more of an adapter with better test suite, non-acceptance-test-stuff
+1. Make the console app more of an adapter with better test suite, non-acceptance-test-stuff **differ**
 2. Fix adapter conversion code as its wrong in some spots, should be abstracted to view somehow
    1. Fix MVC **done**
-   2. Fix Blazor 
-   3. Fix API
+   2. Fix Blazor **differ**
+   3. Fix API **done**
    4. Fix Console **done**
-3. Add authentication for roles use case ** Doing this **
+3. Add authentication for roles use case **Doing this**
    1. Implement authentication in WebApi and WebApplication **done**
    2. Implement Manager Role
-   3. Implement Employee Role 
+   3. Implement Employee Role **in progress**
 4. Add use case Accounting Clerk/Controller/CFO/Manager/Employee Roles
 5. Add use case list all reports + view
 6. Add use case sort/filter list of reports

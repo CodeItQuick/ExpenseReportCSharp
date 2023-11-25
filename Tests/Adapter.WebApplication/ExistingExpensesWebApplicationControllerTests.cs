@@ -3,11 +3,11 @@ using Domain;
 
 namespace Tests.Adapter.WebApplication;
 
-public class ExistingExpensesControllerTests : IClassFixture<TestingWebAppFactory<Program>>
+public class ExistingExpensesWebApplicationControllerTests : IClassFixture<TestingWebAppFactory<Program>>
 {
     private TestingWebAppFactory<Program> factory;
 
-    public ExistingExpensesControllerTests(TestingWebAppFactory<Program> factory)
+    public ExistingExpensesWebApplicationControllerTests(TestingWebAppFactory<Program> factory)
     {
         this.factory = factory;
     }
@@ -30,7 +30,7 @@ public class ExistingExpensesControllerTests : IClassFixture<TestingWebAppFactor
         var postContent = new FormUrlEncodedContent(
             new Dictionary<string, string>
         {
-            { "expenseReportDate", reportTime.ToString() }
+            { "expenseReportDate", reportTime.ToString() },
         });
         var createdExpense = await client.PostAsync("/Home/CreateExpenseReport", postContent);
         var createdData = createdExpense.Content.ReadAsStringAsync().Result;

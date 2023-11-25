@@ -35,7 +35,10 @@ public class ExistingExpensesRepositoryTests
     public void CanRetrieveAFilledExpenseReport()
     {
         var expensesContext = TestDbContextFactory();
-        expensesContext.ExpenseReport.Add(new Application.Adapter.ExpenseReport());
+        expensesContext.ExpenseReport.Add(new Application.Adapter.ExpenseReport()
+        {
+            EmployeeId = "1234-abcd"
+        });
         expensesContext.SaveChanges();
         var existingExpensesRepository = new ExistingExpensesRepository(expensesContext);
 
@@ -49,7 +52,8 @@ public class ExistingExpensesRepositoryTests
         var expensesContext = TestDbContextFactory();
         expensesContext.ExpenseReport.Add(new Application.Adapter.ExpenseReport() {
            Expenses = new List<ExpenseDbo>() { new() {  ExpenseType = ExpenseType.DINNER, Amount = 100} },
-           ExpenseReportDate = new RealDateProvider().CurrentDate()
+           ExpenseReportDate = new RealDateProvider().CurrentDate(),
+           EmployeeId = "1234-abcd"
         });
         expensesContext.SaveChanges();
         var existingExpensesRepository = new ExistingExpensesRepository(expensesContext);
@@ -68,7 +72,7 @@ public class ExistingExpensesRepositoryTests
         };
         var existingExpensesRepository = new ExistingExpensesRepository(expensesContext);
 
-        var addExpenseToReport = existingExpensesRepository.CreateAggregate(new RealDateProvider().CurrentDate(), expenses);
+        var addExpenseToReport = existingExpensesRepository.CreateAggregate(new RealDateProvider().CurrentDate(), expenses, "abcd-1234");
 
         Assert.NotNull(addExpenseToReport);
     }
@@ -95,7 +99,8 @@ public class ExistingExpensesRepositoryTests
             new()
             {
                 Expenses = null,
-                ExpenseReportDate = DateTimeOffset.Now
+                ExpenseReportDate = DateTimeOffset.Now,
+                EmployeeId = "1234-abcd"
             }
         };
         expensesContext.ExpenseReport.AddRange(expenseReportAggregates);
@@ -120,7 +125,8 @@ public class ExistingExpensesRepositoryTests
                 {
                     new() { ExpenseType = ExpenseType.DINNER, Amount = 100}
                 },
-                ExpenseReportDate = DateTimeOffset.Now
+                ExpenseReportDate = DateTimeOffset.Now,
+                EmployeeId = "1234-abcd"
             }
         };
         expensesContext.ExpenseReport.AddRange(expenseReportAggregates);

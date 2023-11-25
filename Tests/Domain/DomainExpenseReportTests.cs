@@ -5,9 +5,9 @@ namespace Tests.Domain;
 public class DomainExpenseReportTests
 {
     [Fact]
-    public void CanAddAMealExpense()
+    public void CanAddMealExpense()
     {
-        var expenseReport = new global::Domain.ExpenseReport(new List<Expense>(), DateTimeOffset.Now, 1);
+        var expenseReport = new global::Domain.ExpenseReport(new List<Expense>(), DateTimeOffset.Now, 1, "abcd-1234");
         Expense firstExpense = new Expense(ExpenseType.BREAKFAST, 500);
 
         expenseReport.AddExpense(firstExpense);
@@ -15,9 +15,9 @@ public class DomainExpenseReportTests
         Assert.Equal(500, expenseReport.CalculateMealExpenses());
     }
     [Fact]
-    public void CanAddASecondExpense()
+    public void CanAddSecondExpense()
     {
-        var expenseReport = new global::Domain.ExpenseReport(new List<Expense>(), DateTimeOffset.Now, 1);
+        var expenseReport = new global::Domain.ExpenseReport(new List<Expense>(), DateTimeOffset.Now, 1, "abcd-1234");
         Expense firstExpense = new Expense(ExpenseType.BREAKFAST, 500);
         expenseReport.AddExpense(firstExpense);
 
@@ -30,7 +30,7 @@ public class DomainExpenseReportTests
     public void CanCalculateZeroIndividualExpenses()
     {
         var expenseList = new List<Expense>();
-        var expenseReport = new global::Domain.ExpenseReport(expenseList, DateTimeOffset.Now, 1);
+        var expenseReport = new global::Domain.ExpenseReport(expenseList, DateTimeOffset.Now, 1, "abcd-1234");
         
         Assert.Equal(new(), expenseReport.CalculateIndividualExpenses());
     }
@@ -41,7 +41,7 @@ public class DomainExpenseReportTests
         {
             new(ExpenseType.BREAKFAST, 300),
         };
-        var expenseReport = new global::Domain.ExpenseReport(expenseList, DateTimeOffset.Now, 1);
+        var expenseReport = new global::Domain.ExpenseReport(expenseList, DateTimeOffset.Now, 1, "abcd-1234");
         
         Assert.Equal(300, expenseReport.CalculateMealExpenses());
     }
@@ -53,7 +53,7 @@ public class DomainExpenseReportTests
             new(ExpenseType.BREAKFAST, 300),
             new(ExpenseType.DINNER, 400),
         };
-        var expenseReport = new global::Domain.ExpenseReport(expenseList, DateTimeOffset.Now, 1);
+        var expenseReport = new global::Domain.ExpenseReport(expenseList, DateTimeOffset.Now, 1, "abcd-1234");
         
         Assert.Equal(700, expenseReport.CalculateMealExpenses());
     }
@@ -64,7 +64,7 @@ public class DomainExpenseReportTests
         {
             new(ExpenseType.CAR_RENTAL, 300),
         };
-        var expenseReport = new global::Domain.ExpenseReport(expenseList, DateTimeOffset.Now, 1);
+        var expenseReport = new global::Domain.ExpenseReport(expenseList, DateTimeOffset.Now, 1, "abcd-1234");
         
         Assert.Equal(0, expenseReport.CalculateMealExpenses());
     }

@@ -1,4 +1,5 @@
-﻿using Domain;
+﻿using System.Security.Claims;
+using Domain;
 using ExpenseReport.ApplicationServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -92,7 +93,8 @@ public class HomeApiController : Controller
     [HttpPost("CreateExpenseReport")]
     public IActionResult CreateExpenseReport(DateTimeOffset expenseReportDate)
     {
-        var expenseAdded = _expenseService.CreateExpenseReport(expenseReportDate);
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? throw new ArgumentNullException("no user id");
+        var expenseAdded = _expenseService.CreateExpenseReport(expenseReportDate, userId);
         var expenseReportList = _expenseService.ListAllExpenseReports();
 
         return Ok(new ExpenseApiView()

@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Application.Adapter;
 using ExpenseReport.ApplicationServices;
 using Microsoft.AspNetCore.Identity;
@@ -14,6 +15,9 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddTransient(
+    provider => provider.GetRequiredService<IHttpContextAccessor>().HttpContext.User);
 builder.Services.AddTransient<IDateProvider, RealDateProvider>();
 builder.Services.AddTransient<IExistingExpensesRepository, ExistingExpensesRepository>();
 builder.Services.AddTransient<IExpenseService, ExpensesService>();

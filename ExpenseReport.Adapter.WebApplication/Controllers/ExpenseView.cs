@@ -16,6 +16,7 @@ public class ExpenseView
     [JsonProperty("id")]
     public int Id { get; set; }
     public List<int>? ExpenseReportIds { get; set; }
+    public string EmployeeId { get; set; }
 
     public static List<ExpenseDto> CreateTransformedExpenses(Domain.ExpenseReport expenseAdded)
     {

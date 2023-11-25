@@ -41,7 +41,7 @@ public class ExistingExpensesWebApiControllerTests : IClassFixture<TestingWebApi
         var client = CreateClient(new(ClaimTypes.Role, "User"));
         var httpContent = new FormUrlEncodedContent(new Dictionary<string, string>()
         {
-            ["expenseReportDate"] = DateTimeOffset.Parse("01/01/2023").ToString(),
+            ["expenseReportDate"] = DateTimeOffset.Parse("01/01/2023").ToString()
         });
 
         var httpResponseMessage = await client.PostAsync($"/Home/CreateExpenseReport", httpContent);
@@ -77,7 +77,7 @@ public class ExistingExpensesWebApiControllerTests : IClassFixture<TestingWebApi
             new JwtSecurityToken(
                 JwtTokenProvider.Issuer,
                 JwtTokenProvider.Issuer,
-                new List<Claim> { claim, },
+                new List<Claim> { claim, new(ClaimTypes.NameIdentifier, "abcd-1234") },
                 expires: DateTime.Now.AddMinutes(30),
                 signingCredentials: JwtTokenProvider.SigningCredentials
             )

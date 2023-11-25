@@ -55,11 +55,11 @@ public class ExistingExpensesServiceTests
         Assert.Single(expenseReport.CalculateIndividualExpenses());
     }
     [Fact]
-    public void CanCreateExpense()
+    public void EmployeeCanCreateExpense()
     {
         IExistingExpensesRepository existingExpensesRepository = new FakeExistingRepository();
         var expensesService = new ExpensesService(existingExpensesRepository);
-        var report = expensesService.CreateExpenseReport(DateTimeOffset.Now);
+        var report = expensesService.CreateExpenseReport(DateTimeOffset.Now, "abcd-1234");
 
         var expenseReport = expensesService.AddExpenseToExpenseReport(
             report.Id, new List<CreateExpenseRequest>()
@@ -81,7 +81,7 @@ public class ExistingExpensesServiceTests
         var expenseReportDate = DateTimeOffset.Parse("2023-01-01");
         var expensesService = new ExpensesService(existingExpensesRepository);
 
-        var expenseReport = expensesService.CreateExpenseReport(expenseReportDate);
+        var expenseReport = expensesService.CreateExpenseReport(expenseReportDate, "abcd-1234");
         
         Assert.Equal(expenseReportDate, expenseReport.RetrieveDate());
     }
@@ -91,7 +91,7 @@ public class ExistingExpensesServiceTests
         IExistingExpensesRepository existingExpensesRepository = new FakeExistingRepository();
         var expenseReportDate = DateTimeOffset.Parse("2023-01-01");
         var expensesService = new ExpensesService(existingExpensesRepository);
-        var expenseReport = expensesService.CreateExpenseReport(expenseReportDate);
+        var expenseReport = expensesService.CreateExpenseReport(expenseReportDate, "abcd-1234");
 
         var expense = expensesService.AddExpenseToExpenseReport(expenseReport.Id, new List<CreateExpenseRequest>()
         {
@@ -121,7 +121,7 @@ public class ExistingExpensesServiceTests
         IExistingExpensesRepository existingExpensesRepository = new FakeExistingRepository();
         var expenseReportDate = DateTimeOffset.Parse("2023-01-01");
         var expensesService = new ExpensesService(existingExpensesRepository);
-        var expenseReport = expensesService.CreateExpenseReport(expenseReportDate);
+        var expenseReport = expensesService.CreateExpenseReport(expenseReportDate, "abcd-1234");
         expensesService.AddExpenseToExpenseReport(expenseReport.Id, new List<CreateExpenseRequest>()
         {
             new()
@@ -142,8 +142,8 @@ public class ExistingExpensesServiceTests
         IExistingExpensesRepository existingExpensesRepository = new FakeExistingRepository();
         var expenseReportDate = DateTimeOffset.Parse("2023-01-01");
         var expensesService = new ExpensesService(existingExpensesRepository);
-        expensesService.CreateExpenseReport(expenseReportDate);
-        expensesService.CreateExpenseReport(expenseReportDate);
+        expensesService.CreateExpenseReport(expenseReportDate, "abcd-1234");
+        expensesService.CreateExpenseReport(expenseReportDate, "abcd-1234");
 
         var expense = expensesService.ListAllExpenseReports();
 

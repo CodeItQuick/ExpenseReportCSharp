@@ -45,6 +45,10 @@ namespace ExpenseReportCSharp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("EmployeeId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTimeOffset>("ExpenseReportDate")
                         .HasColumnType("TEXT");
 

@@ -19,11 +19,13 @@ public class ExpensesService : IExpenseService
         return expenseRepository.ListAllExpenseReports();
     }
 
-    public Domain.ExpenseReport CreateExpenseReport(DateTimeOffset expenseReportDate)
+    public Domain.ExpenseReport CreateExpenseReport(DateTimeOffset expenseReportDate, string employeeId)
     {
         
         var addExpenseToReport = expenseRepository.CreateAggregate(
-            expenseReportDate, new List<CreateExpenseRequest>());
+            expenseReportDate, 
+            new List<CreateExpenseRequest>(),
+            employeeId);
         if (addExpenseToReport == null)
         {
             throw new Exception("expense report failed to save");

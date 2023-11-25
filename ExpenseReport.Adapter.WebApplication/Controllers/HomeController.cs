@@ -1,7 +1,10 @@
-﻿using System.Diagnostics;
+﻿using System.Collections;
+using System.Diagnostics;
+using System.Security.Claims;
 using Domain;
 using ExpenseReport.ApplicationServices;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication1.Models;
 
@@ -31,7 +34,8 @@ public class HomeController : Controller
             TotalExpenses = expenseReport?.CalculateTotalExpenses() ?? 0,
             IndividualExpenses = expenseReport != null ? Controllers.ExpenseView.CreateTransformedExpenses(expenseReport) : new List<ExpenseDto>(),
             Id = expenseReport?.Id ?? 0,
-            ExpenseReportIds = expenseReportList.Select(x => x.Id).ToList()
+            ExpenseReportIds = expenseReportList.Select(x => x.Id).ToList(),
+            EmployeeId = expenseReport?.EmployeeId ?? ""
         };
         return View(expenseView);
     }
@@ -102,7 +106,9 @@ public class HomeController : Controller
 
     public ViewResult CreateExpenseReport(DateTimeOffset? expenseReportDate)
     {
-        var expenseAdded = _expenseService.CreateExpenseReport(expenseReportDate ?? DateTimeOffset.Now);
+        var expenseAdded = _expenseService.CreateExpenseReport(
+            expenseReportDate ?? DateTimeOffset.Now, 
+            User.FindFirst(ClaimTypes.NameIdentifier).Value);
         var expenseReportList = _expenseService.ListAllExpenseReports();
 
         return View("Index", new ExpenseView()
@@ -112,6 +118,7 @@ public class HomeController : Controller
             IndividualExpenses = Controllers.ExpenseView.CreateTransformedExpenses(expenseAdded),
             TotalExpenses = expenseAdded.CalculateTotalExpenses(),
             Id = expenseAdded.Id,
+            EmployeeId = expenseAdded.EmployeeId,
             ExpenseReportIds = expenseReportList.Select(x => x.Id).ToList()
         });
     }
