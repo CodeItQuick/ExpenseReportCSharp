@@ -24,7 +24,12 @@ public class HomeController : Controller
 
     public IActionResult Index(int id = 1)
     {
-        Domain.ExpenseReport? expenseReport = _expenseService.RetrieveExpenseReport(id);
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (userId == null)
+        {
+            throw new ArgumentNullException(nameof(userId));
+        }
+        Domain.ExpenseReport? expenseReport = _expenseService.RetrieveExpenseReport(id, userId);
         var expenseReportList = _expenseService.ListAllExpenseReports();
         
         var expenseView = new ExpenseView() 

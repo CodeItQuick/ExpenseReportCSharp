@@ -1,3 +1,4 @@
+using System.Security.Authentication;
 using Domain;
 using ExpenseReport.ApplicationServices;
 using Microsoft.EntityFrameworkCore;
@@ -22,15 +23,18 @@ public class ExistingExpensesRepository : IExistingExpensesRepository
         this.expensesDbContext = expensesDbContext;
     }
 
-    public Domain.ExpenseReport? RetrieveById(int id)
+    public Domain.ExpenseReport? RetrieveById(int id, string employeeId)
     {
         var expenseReport = expensesDbContext.ExpenseReport
+            .Where(x => x.EmployeeId == employeeId)
             .Include("Expenses")
             .FirstOrDefault(x => x.Id == id);
+
         if (expenseReport == null)
         {
             return null;
         }
+
         return new Domain.ExpenseReport(
             expenseReport.Expenses?.Select(x => new Expense(x.ExpenseType, x.Amount)).ToList(), 
             expenseReport.ExpenseReportDate, 

@@ -11,8 +11,8 @@ public class ExpensesService : IExpenseService
         expenseRepository = existingExpensesRepository;
     }
 
-    public Domain.ExpenseReport? RetrieveExpenseReport(int id) {
-        return expenseRepository.RetrieveById(id);
+    public Domain.ExpenseReport? RetrieveExpenseReport(int id, string employeeId) {
+        return expenseRepository.RetrieveById(id, employeeId);
     }
 
     public List<Domain.ExpenseReport> ListAllExpenseReports() {

@@ -1,3 +1,9 @@
+Implement Employee Role:
+1. An employee can submit his expense reports **done**
+2. An employee can add expenses to his expense reports **done**
+3. An employee can view his expense reports **needs to be done, can see his own expense reports**
+
+
 TODO:
 1. Make the console app more of an adapter with better test suite, non-acceptance-test-stuff **differ**
 2. Fix adapter conversion code as its wrong in some spots, should be abstracted to view somehow

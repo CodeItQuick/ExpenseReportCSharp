@@ -19,7 +19,7 @@ namespace ExpenseReport.Adapter.WebBlazorServerApp.Data
         }
         public Task<ExpenseView> OnGet(int id = 1)
         {
-            Domain.ExpenseReport? expenseReport = _expenseService.RetrieveExpenseReport(id);
+            Domain.ExpenseReport? expenseReport = _expenseService.RetrieveExpenseReport(id, "abcd-1234");
             var expenseReportList = _expenseService.ListAllExpenseReports();
             if (expenseReport == null)
             {

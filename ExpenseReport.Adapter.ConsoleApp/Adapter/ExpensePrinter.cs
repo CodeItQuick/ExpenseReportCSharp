@@ -32,7 +32,7 @@ public class ExpensePrinter
     }
 
     public void PrintExistingReport() {
-        var expenseReport = expensesService.RetrieveExpenseReport(1);
+        var expenseReport = expensesService.RetrieveExpenseReport(1, "abcd-1234");
 
         ExpenseView expenseView;
         if (expenseReport == null)

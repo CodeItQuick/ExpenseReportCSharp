@@ -23,7 +23,7 @@ public class ExistingExpensesServiceTests
     {
         var expensesService = new ExpensesService(new FakeExistingRepository(new List<ExpenseDbo>()));
 
-        var viewExpenses = expensesService.RetrieveExpenseReport(1);
+        var viewExpenses = expensesService.RetrieveExpenseReport(1, "abcd-1234");
         
         Assert.Equal(1, viewExpenses.Id);
         Assert.Equal(0, viewExpenses.CalculateMealExpenses());
@@ -36,7 +36,7 @@ public class ExistingExpensesServiceTests
         IExistingExpensesRepository existingExpensesRepository = new FakeExistingRepository(new List<ExpenseDbo>());
         var expensesService = new ExpensesService(existingExpensesRepository);
 
-        var expenseReport = expensesService.RetrieveExpenseReport(1);
+        var expenseReport = expensesService.RetrieveExpenseReport(1, "abcd-1234");
         
         Assert.Empty(expenseReport.CalculateIndividualExpenses());
     }
@@ -50,9 +50,29 @@ public class ExistingExpensesServiceTests
         IExistingExpensesRepository existingExpensesRepository = new FakeExistingRepository(expensesList);
         var expensesService = new ExpensesService(existingExpensesRepository);
 
-        var expenseReport = expensesService.RetrieveExpenseReport(1);
+        var expenseReport = expensesService.RetrieveExpenseReport(1, "abcd-1234");
         
         Assert.Single(expenseReport.CalculateIndividualExpenses());
+    }
+    [Fact]
+    public void EmployeeCanViewExpenseReports()
+    {
+        IExistingExpensesRepository existingExpensesRepository = new FakeExistingRepository();
+        var expensesService = new ExpensesService(existingExpensesRepository);
+        var report = expensesService.CreateExpenseReport(DateTimeOffset.Now, "abcd-1234");
+
+        var retrieveExpenseReport = expensesService.RetrieveExpenseReport(report.Id, "abcd-1234");
+        Assert.NotNull(retrieveExpenseReport?.Id);
+    }
+    [Fact]
+    public void EmployeeCanNotViewOtherUsersExpenseReports()
+    {
+        IExistingExpensesRepository existingExpensesRepository = new FakeExistingRepository();
+        var expensesService = new ExpensesService(existingExpensesRepository);
+        var report = expensesService.CreateExpenseReport(DateTimeOffset.Now, "1234-abcd");
+
+        var retrieveExpenseReport = expensesService.RetrieveExpenseReport(report.Id, "abcd-1234");
+        Assert.Null(retrieveExpenseReport);
     }
     [Fact]
     public void EmployeeCanCreateExpense()

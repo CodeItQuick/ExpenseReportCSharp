@@ -26,7 +26,7 @@ public class ExistingExpensesRepositoryTests
         var expensesContext = TestDbContextFactory();
         var existingExpensesRepository = new ExistingExpensesRepository(expensesContext);
 
-        var expenseReportAggregate = existingExpensesRepository.RetrieveById(1);
+        var expenseReportAggregate = existingExpensesRepository.RetrieveById(1, "1234-abcd");
         
         Assert.Null(expenseReportAggregate);
     }
@@ -42,7 +42,7 @@ public class ExistingExpensesRepositoryTests
         expensesContext.SaveChanges();
         var existingExpensesRepository = new ExistingExpensesRepository(expensesContext);
 
-        var expenseReportAggregate = existingExpensesRepository.RetrieveById(1);
+        var expenseReportAggregate = existingExpensesRepository.RetrieveById(1, "1234-abcd");
         
         Assert.NotNull(expenseReportAggregate);
     }
@@ -58,7 +58,7 @@ public class ExistingExpensesRepositoryTests
         expensesContext.SaveChanges();
         var existingExpensesRepository = new ExistingExpensesRepository(expensesContext);
 
-        var expenseReportAggregate = existingExpensesRepository.RetrieveById(1);
+        var expenseReportAggregate = existingExpensesRepository.RetrieveById(1, "1234-abcd");
         
         Assert.Single(expenseReportAggregate.CalculateIndividualExpenses());
     }
