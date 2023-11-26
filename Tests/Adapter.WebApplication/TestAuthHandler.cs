@@ -19,7 +19,8 @@ public class TestAuthHandler : AuthenticationHandler<AuthenticationSchemeOptions
         var claims = new[]
         {
             new Claim(ClaimTypes.Name, "Test user"), 
-            new Claim(ClaimTypes.NameIdentifier, "abcd-1234")
+            new Claim(ClaimTypes.NameIdentifier, "abcd-1234"),
+            new Claim(ClaimTypes.Role, "User"),
         };
         var identity = new ClaimsIdentity(claims, "Test");
         var principal = new ClaimsPrincipal(identity);

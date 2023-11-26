@@ -14,6 +14,10 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
     .AddEntityFrameworkStores<ExpensesDbContext>();
 
 // Add services to the container.
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("Employee", policy => policy.RequireClaim(ClaimTypes.Role, "User"));
+});
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddTransient(

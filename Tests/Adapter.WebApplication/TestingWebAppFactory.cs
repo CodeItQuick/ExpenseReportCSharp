@@ -35,7 +35,7 @@ public class TestingWebAppFactory<T>: WebApplicationFactory<Program>
             
             services.AddAuthentication(defaultScheme: "TestScheme")
                 .AddScheme<AuthenticationSchemeOptions, TestAuthHandler>(
-                    "TestScheme", options => { });
+                    "TestScheme", options => {  });
             
             var sp = services.BuildServiceProvider();
             using (var scope = sp.CreateScope())

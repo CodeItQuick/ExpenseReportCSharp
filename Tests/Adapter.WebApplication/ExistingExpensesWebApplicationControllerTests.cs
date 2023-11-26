@@ -1,4 +1,6 @@
 using System.Net;
+using System.Net.Http.Headers;
+using System.Security.Claims;
 using Domain;
 
 namespace Tests.Adapter.WebApplication;
@@ -25,7 +27,7 @@ public class ExistingExpensesWebApplicationControllerTests : IClassFixture<Testi
     public async Task CanAddAnExpenseToNewExpenseReport()
     {
         var client = factory.CreateClient();
-
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("TestScheme");
         var reportTime = DateTimeOffset.Parse("07/07/2023");
         var postContent = new FormUrlEncodedContent(
             new Dictionary<string, string>
